@@ -166,35 +166,31 @@ class AutoOrientImageEffect extends ConfigurableImageEffectBase implements Conta
    * {@inheritdoc}
    */
   public function transformDimensions(array &$dimensions, $uri) {
+    // Test to see if EXIF is supported by the image format.
+    $mime_type = $this->mimeTypeGuesser->guess($uri);
+    if (!in_array($mime_type, ['image/jpeg', 'image/tiff'])) {
+      // Not an EXIF enabled image, return.
+      return;
+    }
     if ($dimensions['width'] && $dimensions['height'] && $this->configuration['scan_exif']) {
       // Both dimensions in input, and effect is configured to check the
-      // the input file. Check if the file MIME type is one that can have
-      // EXIF data, read EXIF data, and determine image orientation.
-      $mime_type = $this->mimeTypeGuesser->guess($uri);
-      if (in_array($mime_type, ['image/jpeg', 'image/tiff'])) {
-        if ($file_path = $this->fileSystem->realpath($uri)) {
-          if (!extension_loaded('exif')) {
-            // Cannot read EXIF data without the PHP EXIF extension. Set both
-            // dimensions to NULL and return.
-            $dimensions['width'] = $dimensions['height'] = NULL;
-            return;
+      // the input file. Read EXIF data, and determine image orientation.
+      if (($file_path = $this->fileSystem->realpath($uri)) && function_exists('exif_read_data')) {
+        if ($exif_data = @exif_read_data($file_path)) {
+          $orientation = isset($exif_data['Orientation']) ? $exif_data['Orientation'] : NULL;
+          if (in_array($orientation, [5, 6, 7, 8])) {
+            $tmp = $dimensions['width'];
+            $dimensions['width'] = $dimensions['height'];
+            $dimensions['height'] = $tmp;
           }
-          if ($exif_data = @exif_read_data($file_path)) {
-            $orientation = isset($exif_data['Orientation']) ? $exif_data['Orientation'] : NULL;
-            if (in_array($orientation, [5, 6, 7, 8])) {
-              $tmp = $dimensions['width'];
-              $dimensions['width'] = $dimensions['height'];
-              $dimensions['height'] = $tmp;
-            }
-          }
+          return;
         }
       }
     }
-    else {
-      // Either no full dimensions in input, or effect is configured to
-      // skip checking the input file. Set both dimensions to NULL.
-      $dimensions['width'] = $dimensions['height'] = NULL;
-    }
+    // Either no full dimensions in input, or effect is configured to skip
+    // checking the input file, or EXIF extension is missing. Set both
+    // dimensions to NULL.
+    $dimensions['width'] = $dimensions['height'] = NULL;
   }
 
 }

@@ -14,7 +14,7 @@ use Drupal\simpletest\WebTestBase;
  */
 abstract class ImageEffectsTestBase extends WebTestBase {
 
-  public static $modules = ['image', 'image_effects'];
+  public static $modules = ['image', 'image_effects', 'simpletest'];
 
   /**
    * {@inheritdoc}

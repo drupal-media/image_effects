@@ -16,8 +16,6 @@ use Drupal\image\Entity\ImageStyle;
  */
 class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
-  public static $modules = array('image_effects');
-
   /**
    * Auto Orientation effect test.
    */
@@ -33,35 +31,73 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     ];
     $this->addEffectToTestStyle($effect);
 
-    // Get expected URIs.
-    $test_file = drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
+    // Add a scale effect too.
+    $effect = [
+      'id' => 'image_scale',
+      'data' => [
+        'width' => 200,
+        'upscale' => TRUE,
+      ],
+    ];
+    $this->addEffectToTestStyle($effect);
 
-    // Test source image dimensions..
-    $image = $image_factory->get($original_uri);
-    $this->assertEqual($image->getWidth(), 640);
-    $this->assertEqual($image->getHeight(), 480);
+    $test_data = [
+      // Test an image with EXIF data.
+      [
+        'test_file' => drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg',
+        'original_width' => 640,
+        'original_height' => 480,
+        'derivative_width' => 200,
+        'derivative_height' => 267,
+      ],
+      // Test an image without EXIF data.
+      [
+        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-test.jpg',
+        'original_width' => 40,
+        'original_height' => 20,
+        'derivative_width' => 200,
+        'derivative_height' => 100,
+      ],
+      // Test a non-EXIF image.
+      [
+        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-1.png',
+        'original_width' => 360,
+        'original_height' => 240,
+        'derivative_width' => 200,
+        'derivative_height' => 133,
+      ],
+    ];
 
-    // Load Image Style and get expected derivative URL.
-    $image_style = ImageStyle::load('image_effects_test');
-    $url = $image_style->buildUrl($original_uri);
+    foreach ($test_data as $data) {
+      // Get expected URIs.
+      $test_file = drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg';
+      $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
+      $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
 
-    // Check that ::transformDimensions returns expected dimensions.
-    $variables = array(
-      '#theme' => 'image_style',
-      '#style_name' => 'image_effects_test',
-      '#uri' => $original_uri,
-      '#width' => $image->getWidth(),
-      '#height' => $image->getHeight(),
-    );
-    $this->assertEqual($this->getImageTag($variables), '<img src="' . $url . '" width="480" height="640" alt="" class="image-style-image-effects-test" />');
+      // Test source image dimensions.
+      $image = $image_factory->get($original_uri);
+      $this->assertEqual($data['original_width'], $image->getWidth());
+      $this->assertEqual($data['original_height'], $image->getHeight());
 
-    // Check that ::applyEffect generates image with expected dimensions.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri);
-    $this->assertEqual($image->getWidth(), 480);
-    $this->assertEqual($image->getHeight(), 640);
+      // Load Image Style and get expected derivative URL.
+      $image_style = ImageStyle::load('image_effects_test');
+      $url = $image_style->buildUrl($original_uri);
+
+      // Check that ::transformDimensions returns expected dimensions.
+      $variables = array(
+        '#theme' => 'image_style',
+        '#style_name' => 'image_effects_test',
+        '#uri' => $original_uri,
+        '#width' => $image->getWidth(),
+        '#height' => $image->getHeight(),
+      );
+      $this->assertEqual('<img src="' . $url . '" width="' . $data['derivative_width'] . '" height="' . $data['derivative_height'] . '" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
+
+      // Check that ::applyEffect generates image with expected dimensions.
+      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
+      $image = $image_factory->get($generated_uri);
+      $this->assertEqual($data['derivative_width'], $image->getWidth());
+      $this->assertEqual($data['derivative_height'], $image->getHeight());
+    }
   }
-
 }
