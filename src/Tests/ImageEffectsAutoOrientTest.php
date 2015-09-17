@@ -42,7 +42,7 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     $this->addEffectToTestStyle($effect);
 
     $test_data = [
-      // Test an image with EXIF data.
+      // Test a JPEG image with EXIF data.
       [
         'test_file' => drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg',
         'original_width' => 640,
@@ -50,7 +50,7 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
         'derivative_width' => 200,
         'derivative_height' => 267,
       ],
-      // Test an image without EXIF data.
+      // Test a JPEG image without EXIF data.
       [
         'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-test.jpg',
         'original_width' => 40,
