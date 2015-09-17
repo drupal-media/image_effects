@@ -1,0 +1,13 @@
+# image_effects module schema
+
+image.effect.image_effects_auto_orient:
+  type: mapping
+  label: 'Automatically correct orientation'
+  mapping:
+    scan_exif:
+      type: boolean
+      label: 'Scan EXIF data when calculating styled image dimensions'
+
+# The strip metadata effect has no settings.
+image.effect.image_effects_strip_metadata:
+  type: sequence
