@@ -1,5 +1,36 @@
 # image_effects module schema
 
+# Schema for module settings.
+
+image_effects.settings:
+  type: config_object
+  label: 'Image Effects settings'
+  mapping:
+    color_selector:
+      type: mapping
+      label: 'Color selector plugin'
+      mapping:
+        plugin_id:
+          type: text
+          label: 'Selected plugin id'
+        plugin_settings:
+          type: sequence
+          label: 'Plugin settings'
+          sequence:
+            type: image_effects.plugin.color_selector.[%key]
+
+# Schema for image_effects plugins settings.
+
+image_effects.plugin.color_selector.*:
+  type: mapping
+  label: 'Color selector plugin settings'
+
+image_effects.plugin.color_selector.html_color:
+  type: mapping
+  label: 'HTML color element'
+
+# Image effects settings
+
 image.effect.image_effects_auto_orient:
   type: mapping
   label: 'Automatically correct orientation'

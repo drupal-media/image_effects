@@ -1,0 +1,9 @@
+# Libraries are defined in alphabetical order.
+
+image_effects.html_color_selector:
+  version: VERSION
+  js:
+    js/image_effects.html_color_selector.js: {}
+  css:
+    component:
+      css/image_effects.html_color_selector.css: {}
