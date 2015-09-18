@@ -7,6 +7,7 @@
 
 namespace Drupal\image_effects\Plugin;
 
+use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -91,7 +92,7 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
   public function getPluginOptions() {
     $options = array();
     foreach ($this->getAvailablePlugins() as $plugin) {
-      $options[$plugin['id']] = '<b>' . $plugin['short_title'] . '</b> - ' . $plugin['help'];
+      $options[$plugin['id']] = SafeMarkup::format('<b>@title</b> - @description', ['@title' => $plugin['short_title'], '@description' => $plugin['help']]);
     }
     return $options;
   }

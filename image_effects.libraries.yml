@@ -1,5 +1,15 @@
 # Libraries are defined in alphabetical order.
 
+image_effects.farbtastic_color_selector:
+  version: VERSION
+  js:
+    js/image_effects.farbtastic_color_selector.js: {}
+  css:
+    component:
+      css/image_effects.farbtastic_color_selector.css: {}
+  dependencies:
+    - core/jquery.farbtastic
+
 image_effects.html_color_selector:
   version: VERSION
   js:

@@ -3,3 +3,6 @@ core: 8.x
 name: Image Effects
 description: 'Provides effects and operations for the Image API.'
 package: Media
+configure: image_effects.settings
+dependencies:
+ - image
