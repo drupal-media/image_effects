@@ -30,7 +30,7 @@ class Farbtastic extends ImageEffectsPluginBase {
       '#title' => isset($options['#title']) ? $options['#title'] : $this->t('Color'),
       '#description' => isset($options['#description']) ? $options['#description'] : NULL,
       '#default_value' => $options['#default_value'],
-      '#field_suffix' => '<div class="farbtastic-colorpicker" style="float:right;"></div>',
+      '#field_suffix' => '<div class="farbtastic-colorpicker"></div>',
       '#maxlength' => 7,
       '#size' => 7,
       '#wrapper_attributes' => ['class' => ['image-effects-farbtastic-color-selector']],
