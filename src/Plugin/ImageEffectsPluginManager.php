@@ -30,16 +30,18 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
    * {@inheritdoc}
    *
    * @param string $type
-   *   The plugin type, for example Font.
+   *   The plugin type, for example 'color_selector'.
+   * @param string $path
+   *   The plugin path for discovery, for example 'ColorSelector'.
    */
-  public function __construct($type, \Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory) {
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, $type, $path, ConfigFactoryInterface $config_factory) {
     $this->config = $config_factory->get('image_effects.settings');
-    parent::__construct("Plugin/image_effects/$type", $namespaces, $module_handler);
-    $this->alterInfo('image_effects_' . $type . '_plugin_info');
-    $this->setCacheBackend($cache_backend, 'image_effects_' . $type . '_plugins');
-    $this->defaults += array(
+    parent::__construct("Plugin/image_effects/{$path}", $namespaces, $module_handler);
+    $this->alterInfo("image_effects_{$type}_plugin_info");
+    $this->setCacheBackend($cache_backend, "image_effects_{$type}_plugins");
+    $this->defaults += [
       'plugin_type' => $type,
-    );
+    ];
   }
 
   public function getType() {
@@ -56,13 +58,7 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
       $plugin_id = NULL;
     }
 
-    // Return plugin instance or base image_effects plugin if not available.
-    if ($plugin_id) {
-      return $this->createInstance($plugin_id, array('plugin_type' => $this->getType()));
-    }
-    else {
-      return $this->createInstance('image_effects', array('plugin_type' => $this->getType()));
-    }
+    return $this->createInstance($plugin_id, array('plugin_type' => $this->getType()));
   }
 
   /**

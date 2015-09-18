@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\image_effects\Plugin\image_effects\color_selector\Farbtastic.
+ * Contains \Drupal\image_effects\Plugin\image_effects\ColorSelector\Farbtastic.
  */
 
-namespace Drupal\image_effects\Plugin\image_effects\color_selector;
+namespace Drupal\image_effects\Plugin\image_effects\ColorSelector;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\image_effects\Plugin\ImageEffectsPluginBase;
