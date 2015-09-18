@@ -29,6 +29,10 @@ image_effects.plugin.color_selector.html_color:
   type: mapping
   label: 'HTML color element'
 
+image_effects.plugin.color_selector.farbtastic:
+  type: mapping
+  label: 'Farbtastic color picker'
+
 # Image effects settings
 
 image.effect.image_effects_auto_orient:
