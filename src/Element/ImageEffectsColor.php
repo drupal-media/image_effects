@@ -89,11 +89,14 @@ class ImageEffectsColor extends FormElement {
    */
   public static function processImageEffectsColor(&$element, FormStateInterface $form_state, &$complete_form) {
     // Make sure element properties are set.
-    $element['#allow_null'] = isset($element['#allow_null']) ? $element['#allow_null'] : FALSE;
-    $element['#allow_opacity'] = isset($element['#allow_opacity']) ? $element['#allow_opacity'] : FALSE;
-    $element['#description'] = isset($element['#description']) ? $element['#description'] : NULL;
-    $element['#states'] = isset($element['#states']) ? $element['#states'] : NULL;
-    $element['#checkbox_title'] = isset($element['#checkbox_title']) ? $element['#checkbox_title'] : t('Transparent');
+    $element += [
+      '#allow_null' => FALSE,
+      '#allow_opacity' => FALSE,
+      '#description' => NULL,
+      '#states' => NULL,
+      '#title' => t('Color'),
+      '#checkbox_title' => t('Transparent'),
+    ];
 
     // In case default value is transparent, set hex and opacity to default
     // values (white, fully opaque) so that if transparency is unchecked,
@@ -150,7 +153,9 @@ class ImageEffectsColor extends FormElement {
     }
     else {
       // No transparency or opacity, straight color field.
-      $element['hex'] = $colorPlugin->selectionElement(array('#default_value' => $hex));
+      $options = $element;
+      $options['#default_value'] = $hex;
+      $element['hex'] = $colorPlugin->selectionElement($options);
     }
 
     unset(
