@@ -14,7 +14,14 @@ use Drupal\simpletest\WebTestBase;
  */
 abstract class ImageEffectsTestBase extends WebTestBase {
 
-  public static $modules = ['image', 'image_effects', 'simpletest'];
+  public static $modules = ['image', 'image_effects', 'imagemagick', 'simpletest'];
+
+  /**
+   * Toolkits to be tested.
+   *
+   * @var array
+   */
+  protected $toolkits = [];
 
   /**
    * {@inheritdoc}
@@ -75,6 +82,39 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    */
   protected function getImageTag($variables) {
     return str_replace("\n", NULL, \Drupal::service('renderer')->renderRoot($variables));
+  }
+
+  /**
+   * Executes a test method on requested toolkits.
+   */
+  protected function executeTestOnToolkits($method) {
+    foreach ($this->toolkits as $toolkit_id) {
+      // Change the toolkit.
+      \Drupal::configFactory()->getEditable('system.image')
+        ->set('toolkit', $toolkit_id)
+        ->save();
+      $this->container->get('image.factory')->setToolkitId($toolkit_id);
+
+      // Manage toolkit specific configuration.
+      switch ($toolkit_id) {
+        case 'gd':
+          call_user_func($method);
+          break;
+
+        case 'imagemagick':
+          \Drupal::configFactory()->getEditable('imagemagick.settings')
+            ->set('debug', TRUE)
+            ->save();
+          // The test can only be executed if the ImageMagick 'convert' is
+          // available on the shell path.
+          $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
+          if (empty($status['errors'])) {
+            call_user_func($method);
+          }
+          break;
+
+      }
+    }
   }
 
 }

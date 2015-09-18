@@ -17,11 +17,17 @@ use Drupal\image\Entity\ImageStyle;
 class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+    $this->toolkits = ['gd', 'imagemagick'];
+  }
+
+  /**
    * Auto Orientation effect test.
    */
   public function testAutoOrientEffect() {
-    $image_factory = $this->container->get('image.factory');
-
     // Add Auto Orient effect to the test image style.
     $effect = [
       'id' => 'image_effects_auto_orient',
@@ -41,6 +47,15 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     ];
     $this->addEffectToTestStyle($effect);
 
+    // Test operations on toolkits.
+    $this->executeTestOnToolkits([$this, 'doTestAutoOrientOperations']);
+  }
+
+  /**
+   * Auto Orientation operations test.
+   */
+  public function doTestAutoOrientOperations() {
+    $image_factory = $this->container->get('image.factory');
     $test_data = [
       // Test a JPEG image with EXIF data.
       [
