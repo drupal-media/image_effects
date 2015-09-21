@@ -8,6 +8,7 @@
 namespace Drupal\image_effects\Tests;
 
 use Drupal\Core\Image\ImageInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\simpletest\WebTestBase;
 
 /**
@@ -30,9 +31,10 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   protected $green       = array(0, 255, 0, 0);
   protected $blue        = array(0, 0, 255, 0);
   protected $yellow      = array(255, 255, 0, 0);
+  protected $fuchsia     = array(255, 0, 255, 0);
+  protected $cyan        = array(0, 255, 255, 0);
   protected $white       = array(255, 255, 255, 0);
   protected $transparent = array(0, 0, 0, 127);
-  protected $fuchsia     = array(255, 0, 255, 0);
 
   /**
    * {@inheritdoc}
@@ -67,10 +69,17 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *   - id: the image effect plugin
    *   - data: an array of fields for the image effect edit form, with
    *     their values.
+   *
+   * @return string
+   *   The UUID of the newly added effect.
    */
   protected function addEffectToTestStyle($effect) {
     $style_name = 'image_effects_test';
     $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
+
+    // Get image style prior to adding a new effect.
+    $image_style_pre = ImageStyle::load($style_name);
+
     // Add the effect.
     $this->drupalPostForm($style_path, array('new' => $effect['id']), t('Add'));
     if (!empty($effect['data'])) {
@@ -80,6 +89,27 @@ abstract class ImageEffectsTestBase extends WebTestBase {
       }
       $this->drupalPostForm(NULL, $effect_edit, t('Add effect'));
     }
+
+    // Get UUID of newly added effect.
+    $image_style_post = ImageStyle::load($style_name);
+    foreach ($image_style_post->getEffects() as $uuid => $effect) {
+      if (!$image_style_pre->getEffects()->has($uuid)) {
+        return $uuid;
+      }
+    }
+    return NULL;
+  }
+
+  /**
+   * Remove an image effect from the image test style.
+   *
+   * @param string $uuid
+   *   The UUID of the effect to remove.
+   */
+  protected function removeEffectFromTestStyle($uuid) {
+    $style_name = 'image_effects_test';
+    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
+    $this->drupalPostForm($style_path . '/effects/' . $uuid . '/delete', [], t('Delete'));
   }
 
   /**
