@@ -37,10 +37,29 @@ class ColorShiftImageEffect extends ConfigurableImageEffectBase implements Conta
   public function defaultConfiguration() {
     return [
       'RGB' => '#FF0000',
-    ];
+    ] + parent::defaultConfiguration();
   }
 
-  // @todo summary
+  /**
+   * {@inheritdoc}
+   */
+  public function getSummary() {
+    $data = $this->configuration;
+    if ($data['RGB']) {
+      $data['color_info'] = [
+        '#theme' => 'image_effects_color_detail',
+        '#color' => $data['RGB'],
+        '#border' => TRUE,
+        '#border_color' => 'matchLuma',
+      ];
+    }
+
+    return [
+      '#theme' => 'image_effects_color_shift_summary',
+      '#data' => $data,
+    ] + parent::getSummary();
+  }
+
 
   /**
    * {@inheritdoc}

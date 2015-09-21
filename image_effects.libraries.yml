@@ -1,5 +1,11 @@
 # Libraries are defined in alphabetical order.
 
+image_effects.admin.ui:
+  version: VERSION
+  css:
+    component:
+      css/image_effects.admin.ui.css: {}
+
 image_effects.farbtastic_color_selector:
   version: VERSION
   js:

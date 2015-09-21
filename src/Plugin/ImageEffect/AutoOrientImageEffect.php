@@ -106,8 +106,8 @@ class AutoOrientImageEffect extends ConfigurableImageEffectBase implements Conta
       '#type'  => 'details',
       '#title' => $this->t('Information'),
     ];
-    $form['info']['help'] = array(
-      '#markup' => "<p>Certain cameras can embed <em>orientation</em> information into image
+    $form['info']['help'] = [
+      '#markup' => $this->t("<p>Certain cameras can embed <em>orientation</em> information into image
         files when they save them. This information is embedded in an EXIF tag
         and can be used to rotate images to their correct position for display.
         <em>Not all cameras or images contain this information.</em>
@@ -129,8 +129,8 @@ class AutoOrientImageEffect extends ConfigurableImageEffectBase implements Conta
         <li>8 = Rotate 270 CW</li>
         </ul>
         <p>Wikipedia: <a href='https://en.wikipedia.org/wiki/Exchangeable_image_file_format'>Exchangeable image file format</a></p>
-      ",
-    );
+      "),
+    ];
 
     $form['scan_exif'] = [
       '#type' => 'checkbox',

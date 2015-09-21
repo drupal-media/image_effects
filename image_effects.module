@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Provides effects and operations for the Image API.
+ */
+
+use Drupal\Component\Utility\Unicode;
+use Drupal\image_effects\Component\ColorUtility;
+
+/**
+ * Implements hook_theme().
+ */
+function image_effects_theme() {
+  return [
+    // Render a color information box and string.
+    'image_effects_color_detail' => [
+      'variables' => [
+        'color' => '#000000',
+        'border' => FALSE,
+        'border_color' => '#000000',
+      ],
+    ],
+    // Textimage text image effect - summary.
+    'image_effects_color_shift_summary' => [
+      'variables' => ['data' => NULL],
+    ],
+  ];
+}
+
+/**
+ * Prepares variables to get a color info.
+ *
+ * Default template: image-effects-color-detail.html.twig.
+ */
+function image_effects_preprocess_image_effects_color_detail(&$variables) {
+  $variables['#attached']['library'][] = 'image_effects/image_effects.admin.ui';
+  if ($variables['color']) {
+    if ($variables['border']) {
+      if ($variables['border_color'] == 'matchLuma') {
+        $variables['border_color'] = ColorUtility::matchLuma($variables['color']);
+      }
+      else {
+        $variables['border_color'] = Unicode::substr($variables['border_color'], 0, 7);
+      }
+    }
+    $variables['color_opacity'] = ColorUtility::rgbaToOpacity($variables['color']);
+    $variables['color'] = Unicode::substr($variables['color'], 0, 7);
+  }
+}
