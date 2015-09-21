@@ -7,6 +7,7 @@
 
 namespace Drupal\image_effects\Tests;
 
+use Drupal\Core\Image\ImageInterface;
 use Drupal\simpletest\WebTestBase;
 
 /**
@@ -22,6 +23,16 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    * @var array
    */
   protected $toolkits = [];
+
+  // Colors that are used in testing.
+  protected $black       = array(0, 0, 0, 0);
+  protected $red         = array(255, 0, 0, 0);
+  protected $green       = array(0, 255, 0, 0);
+  protected $blue        = array(0, 0, 255, 0);
+  protected $yellow      = array(255, 255, 0, 0);
+  protected $white       = array(255, 255, 255, 0);
+  protected $transparent = array(0, 0, 0, 127);
+  protected $fuchsia     = array(255, 0, 255, 0);
 
   /**
    * {@inheritdoc}
@@ -115,6 +126,39 @@ abstract class ImageEffectsTestBase extends WebTestBase {
 
       }
     }
+  }
+
+  /**
+   * Function to compare two colors by RGBa.
+   */
+  protected function colorsAreEqual($color_a, $color_b) {
+    // Fully transparent pixels are equal, regardless of RGB.
+    if ($color_a[3] == 127 && $color_b[3] == 127) {
+      return TRUE;
+    }
+
+    foreach ($color_a as $key => $value) {
+      if ($color_b[$key] != $value) {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Function for finding a pixel's RGBa values.
+   */
+  protected function getPixelColor(ImageInterface $image, $x, $y) {
+    $toolkit = $image->getToolkit();
+    $color_index = imagecolorat($toolkit->getResource(), $x, $y);
+
+    $transparent_index = imagecolortransparent($toolkit->getResource());
+    if ($color_index == $transparent_index) {
+      return array(0, 0, 0, 127);
+    }
+
+    return array_values(imagecolorsforindex($toolkit->getResource(), $color_index));
   }
 
 }

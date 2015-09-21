@@ -29,6 +29,8 @@ class Colorshift extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function execute(array $arguments) {
+    // @todo this gives different results than the GD equivalent operation.
+    // Find a suitable argument for ImageMagick to be consitsent with GD.
     $this->getToolkit()->addArgument("-fill " . $this->getToolkit()->escapeShellArg($arguments['RGB']) . " -colorize 50%");
     return TRUE;
   }

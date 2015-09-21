@@ -11,7 +11,7 @@ image_effects.settings:
       label: 'Color selector plugin'
       mapping:
         plugin_id:
-          type: text
+          type: string
           label: 'Selected plugin id'
         plugin_settings:
           type: sequence
@@ -42,6 +42,14 @@ image.effect.image_effects_auto_orient:
     scan_exif:
       type: boolean
       label: 'Scan EXIF data when calculating styled image dimensions'
+
+image.effect.image_effects_color_shift:
+  type: mapping
+  label: 'Shift image colors'
+  mapping:
+    RGB:
+      type: string
+      label: 'RGB color shift'
 
 # The strip metadata effect has no settings.
 image.effect.image_effects_strip_metadata:

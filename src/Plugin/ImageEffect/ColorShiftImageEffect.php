@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  * @ImageEffect(
  *   id = "image_effects_color_shift",
  *   label = @Translation("Color Shift"),
- *   description = @Translation("Adjust image colors.")
+ *   description = @Translation("Shift image colors.")
  * )
  */
 class ColorShiftImageEffect extends ConfigurableImageEffectBase implements ContainerFactoryPluginInterface {

@@ -85,7 +85,6 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
     foreach ($test_data as $data) {
       // Get expected URIs.
-      $test_file = drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg';
       $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
       $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
 
