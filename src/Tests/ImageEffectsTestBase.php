@@ -152,6 +152,9 @@ abstract class ImageEffectsTestBase extends WebTestBase {
           if (empty($status['errors'])) {
             call_user_func($method);
           }
+          else {
+            debug('Tests for the Imagemagick toolkit cannot run because the \'convert\' executable is not available on the shell path.');
+          }
           break;
 
       }
