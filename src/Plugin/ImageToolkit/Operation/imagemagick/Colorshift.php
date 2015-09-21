@@ -7,6 +7,7 @@
 
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick;
 
+use Drupal\image_effects\Plugin\ImageToolkit\Operation\ColorshiftTrait;
 use Drupal\imagemagick\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickImageToolkitOperationBase;
 
 /**
@@ -22,18 +23,7 @@ use Drupal\imagemagick\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickImag
  */
 class Colorshift extends ImagemagickImageToolkitOperationBase {
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function arguments() {
-    return [
-      'RGB' => [
-        'description' => 'The RGB of the color shift.',
-      ],
-    ];
-  }
-
-  // @todo validate arguments
+  use ColorshiftTrait;
 
   /**
    * {@inheritdoc}
