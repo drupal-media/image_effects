@@ -13,6 +13,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Plugin manager for image_effects plugins.
@@ -31,10 +32,9 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
    *
    * @param string $type
    *   The plugin type, for example 'color_selector'.
-   * @param string $path
-   *   The plugin path for discovery, for example 'ColorSelector'.
    */
-  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, $type, $path, ConfigFactoryInterface $config_factory) {
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, $type, ConfigFactoryInterface $config_factory) {
+    $path = Container::camelize($type);
     $this->config = $config_factory->get('image_effects.settings');
     parent::__construct("Plugin/image_effects/{$path}", $namespaces, $module_handler);
     $this->alterInfo("image_effects_{$type}_plugin_info");

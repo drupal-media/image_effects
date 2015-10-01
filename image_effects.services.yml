@@ -5,4 +5,4 @@ services:
   plugin.manager.image_effects.color_selector:
     class: Drupal\image_effects\Plugin\ImageEffectsPluginManager
     parent: default_plugin_manager
-    arguments: ['color_selector', 'ColorSelector', '@config.factory']
+    arguments: ['color_selector', '@config.factory']
