@@ -140,34 +140,45 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   }
 
   /**
+   * Change toolkit.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   */
+  protected function changeToolkit($toolkit_id) {
+    \Drupal::configFactory()->getEditable('system.image')
+      ->set('toolkit', $toolkit_id)
+      ->save();
+    $this->container->get('image.factory')->setToolkitId($toolkit_id);
+  }
+
+  /**
    * Executes a test method on requested toolkits.
    */
   protected function executeTestOnToolkits($method) {
     foreach ($this->toolkits as $toolkit_id) {
-      // Change the toolkit.
-      \Drupal::configFactory()->getEditable('system.image')
-        ->set('toolkit', $toolkit_id)
-        ->save();
-      $this->container->get('image.factory')->setToolkitId($toolkit_id);
-
       // Manage toolkit specific configuration.
       switch ($toolkit_id) {
         case 'gd':
+          $this->changeToolkit($toolkit_id);
           call_user_func($method);
           break;
 
         case 'imagemagick':
-          \Drupal::configFactory()->getEditable('imagemagick.settings')
-            ->set('debug', TRUE)
-            ->save();
-          // The test can only be executed if the ImageMagick 'convert' is
-          // available on the shell path.
-          $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
-          if (empty($status['errors'])) {
-            call_user_func($method);
-          }
-          else {
-            debug('Tests for the Imagemagick toolkit cannot run because the \'convert\' executable is not available on the shell path.');
+          if ($this->container->get('module_handler')->moduleExists('imagemagick')) {
+            $this->changeToolkit($toolkit_id);
+            \Drupal::configFactory()->getEditable('imagemagick.settings')
+              ->set('debug', TRUE)
+              ->save();
+            // The test can only be executed if the ImageMagick 'convert' is
+            // available on the shell path.
+            $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
+            if (empty($status['errors'])) {
+              call_user_func($method);
+            }
+            else {
+              debug('Tests for the Imagemagick toolkit cannot run because the \'convert\' executable is not available on the shell path.');
+            }
           }
           break;
 
