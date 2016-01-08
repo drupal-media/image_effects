@@ -1,0 +1,6 @@
+name: 'Image Effects test module'
+type: module
+description: 'Provides implementations for testing Image Effects module functionality.'
+package: Testing
+version: VERSION
+core: 8.x

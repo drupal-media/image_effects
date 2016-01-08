@@ -38,6 +38,13 @@ class SettingsForm extends ConfigFormBase {
   protected $colorManager;
 
   /**
+   * The image selector plugin manager.
+   *
+   * @var \Drupal\image_effects\Plugin\ImageEffectsPluginManager
+   */
+  protected $imageManager;
+
+  /**
    * Constructs the class for image_effects settings form.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -46,10 +53,13 @@ class SettingsForm extends ConfigFormBase {
    *   The stream wrapper manager.
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $color_plugin_manager
    *   The color selector plugin manager.
+   * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $image_plugin_manager
+   *   The image selector plugin manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, StreamWrapperManager $stream_wrapper_manager, ImageEffectsPluginManager $color_plugin_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, StreamWrapperManager $stream_wrapper_manager, ImageEffectsPluginManager $color_plugin_manager, ImageEffectsPluginManager $image_plugin_manager) {
     parent::__construct($config_factory);
     $this->colorManager = $color_plugin_manager;
+    $this->imageManager = $image_plugin_manager;
     $this->streamWrapperManager = $stream_wrapper_manager;
   }
 
@@ -60,7 +70,8 @@ class SettingsForm extends ConfigFormBase {
     return new static(
       $container->get('config.factory'),
       $container->get('stream_wrapper_manager'),
-      $container->get('plugin.manager.image_effects.color_selector')
+      $container->get('plugin.manager.image_effects.color_selector'),
+      $container->get('plugin.manager.image_effects.image_selector')
     );
   }
 
@@ -92,6 +103,13 @@ class SettingsForm extends ConfigFormBase {
     $color_plugin = $this->colorManager->getPlugin($color_plugin_id);
     if ($ajaxing && $form_state->hasValue(['settings', 'color_selector', 'plugin_settings'])) {
       $color_plugin->setConfiguration($form_state->getValue(['settings', 'color_selector', 'plugin_settings']));
+    }
+
+    // Image selector plugin.
+    $image_plugin_id = $ajaxing ? $form_state->getValue(['settings', 'image_selector', 'plugin_id']) : $config->get('image_selector.plugin_id');
+    $image_plugin = $this->imageManager->getPlugin($image_plugin_id);
+    if ($ajaxing && $form_state->hasValue(['settings', 'image_selector', 'plugin_settings'])) {
+      $image_plugin->setConfiguration($form_state->getValue(['settings', 'image_selector', 'plugin_settings']));
     }
 
     // AJAX messages
@@ -130,6 +148,22 @@ class SettingsForm extends ConfigFormBase {
     );
     $form['settings']['color_selector']['plugin_settings'] = $color_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
 
+    // Image selector.
+    $form['settings']['image_selector'] = array(
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => $this->t('Image selector'),
+      '#tree' => TRUE,
+    );
+    $form['settings']['image_selector']['plugin_id'] = array(
+      '#type'    => 'radios',
+      '#options' => $this->imageManager->getPluginOptions(),
+      '#default_value' => $image_plugin->getPluginId(),
+      '#required'    => TRUE,
+      '#ajax'  => $ajax_settings,
+    );
+    $form['settings']['image_selector']['plugin_settings'] = $image_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -153,6 +187,15 @@ class SettingsForm extends ConfigFormBase {
     $config
       ->set('color_selector.plugin_id', $color_plugin->getPluginId())
       ->set('color_selector.plugin_settings.' . $color_plugin->getPluginId(), $color_plugin->getConfiguration());
+
+    // Image plugin.
+    $image_plugin = $this->imageManager->getPlugin($form_state->getValue(['settings', 'image_selector', 'plugin_id']));
+    if ($form_state->hasValue(['settings', 'image_selector', 'plugin_settings'])) {
+      $image_plugin->setConfiguration($form_state->getValue(['settings', 'image_selector', 'plugin_settings']));
+    }
+    $config
+      ->set('image_selector.plugin_id', $image_plugin->getPluginId())
+      ->set('image_selector.plugin_settings.' . $image_plugin->getPluginId(), $image_plugin->getConfiguration());
 
     $config->save();
     parent::submitForm($form, $form_state);

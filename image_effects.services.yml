@@ -6,3 +6,7 @@ services:
     class: Drupal\image_effects\Plugin\ImageEffectsPluginManager
     parent: default_plugin_manager
     arguments: ['color_selector', '@config.factory']
+  plugin.manager.image_effects.image_selector:
+    class: Drupal\image_effects\Plugin\ImageEffectsPluginManager
+    parent: default_plugin_manager
+    arguments: ['image_selector', '@config.factory']

@@ -18,6 +18,18 @@ image_effects.settings:
           label: 'Plugin settings'
           sequence:
             type: image_effects.plugin.color_selector.[%key]
+    image_selector:
+      type: mapping
+      label: 'Image selector plugin'
+      mapping:
+        plugin_id:
+          type: string
+          label: 'Selected plugin id'
+        plugin_settings:
+          type: sequence
+          label: 'Plugins settings'
+          sequence:
+            type: image_effects.plugin.image_selector.[%key]
 
 # Schema for image_effects plugins settings.
 
@@ -32,6 +44,22 @@ image_effects.plugin.color_selector.html_color:
 image_effects.plugin.color_selector.farbtastic:
   type: mapping
   label: 'Farbtastic color picker'
+
+image_effects.plugin.image_selector.*:
+  type: mapping
+  label: 'Image selector plugin settings'
+
+image_effects.plugin.image_selector.basic:
+  type: mapping
+  label: 'Basic'
+
+image_effects.plugin.image_selector.dropdown:
+  type: mapping
+  label: 'Dropdown'
+  mapping:
+    path:
+      type: string
+      label: 'Path where image files can be found'
 
 # Image effects settings
 
