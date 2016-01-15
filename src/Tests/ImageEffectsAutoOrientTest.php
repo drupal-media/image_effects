@@ -95,7 +95,7 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
       // Load Image Style and get expected derivative URL.
       $image_style = ImageStyle::load('image_effects_test');
-      $url = $image_style->buildUrl($original_uri);
+      $url = file_url_transform_relative($image_style->buildUrl($original_uri));
 
       // Check that ::transformDimensions returns expected dimensions.
       $variables = array(
