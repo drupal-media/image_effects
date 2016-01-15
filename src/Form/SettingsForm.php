@@ -45,6 +45,13 @@ class SettingsForm extends ConfigFormBase {
   protected $imageManager;
 
   /**
+   * The font selector plugin manager.
+   *
+   * @var \Drupal\image_effects\Plugin\ImageEffectsPluginManager
+   */
+  protected $fontManager;
+
+  /**
    * Constructs the class for image_effects settings form.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -55,12 +62,15 @@ class SettingsForm extends ConfigFormBase {
    *   The color selector plugin manager.
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $image_plugin_manager
    *   The image selector plugin manager.
+   * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $font_plugin_manager
+   *   The font selector plugin manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, StreamWrapperManager $stream_wrapper_manager, ImageEffectsPluginManager $color_plugin_manager, ImageEffectsPluginManager $image_plugin_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, StreamWrapperManager $stream_wrapper_manager, ImageEffectsPluginManager $color_plugin_manager, ImageEffectsPluginManager $image_plugin_manager, ImageEffectsPluginManager $font_plugin_manager) {
     parent::__construct($config_factory);
+    $this->streamWrapperManager = $stream_wrapper_manager;
     $this->colorManager = $color_plugin_manager;
     $this->imageManager = $image_plugin_manager;
-    $this->streamWrapperManager = $stream_wrapper_manager;
+    $this->fontManager = $font_plugin_manager;
   }
 
   /**
@@ -71,7 +81,8 @@ class SettingsForm extends ConfigFormBase {
       $container->get('config.factory'),
       $container->get('stream_wrapper_manager'),
       $container->get('plugin.manager.image_effects.color_selector'),
-      $container->get('plugin.manager.image_effects.image_selector')
+      $container->get('plugin.manager.image_effects.image_selector'),
+      $container->get('plugin.manager.image_effects.font_selector')
     );
   }
 
@@ -110,6 +121,13 @@ class SettingsForm extends ConfigFormBase {
     $image_plugin = $this->imageManager->getPlugin($image_plugin_id);
     if ($ajaxing && $form_state->hasValue(['settings', 'image_selector', 'plugin_settings'])) {
       $image_plugin->setConfiguration($form_state->getValue(['settings', 'image_selector', 'plugin_settings']));
+    }
+
+    // Font selector plugin.
+    $font_plugin_id = $ajaxing ? $form_state->getValue(['settings', 'font_selector', 'plugin_id']) : $config->get('font_selector.plugin_id');
+    $font_plugin = $this->fontManager->getPlugin($font_plugin_id);
+    if ($ajaxing && $form_state->hasValue(['settings', 'font_selector', 'plugin_settings'])) {
+      $font_plugin->setConfiguration($form_state->getValue(['settings', 'font_selector', 'plugin_settings']));
     }
 
     // AJAX messages
@@ -164,6 +182,22 @@ class SettingsForm extends ConfigFormBase {
     );
     $form['settings']['image_selector']['plugin_settings'] = $image_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
 
+    // Font selector.
+    $form['settings']['font_selector'] = array(
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => $this->t('Font selector'),
+      '#tree' => TRUE,
+    );
+    $form['settings']['font_selector']['plugin_id'] = array(
+      '#type'    => 'radios',
+      '#options' => $this->fontManager->getPluginOptions(),
+      '#default_value' => $font_plugin->getPluginId(),
+      '#required'    => TRUE,
+      '#ajax'  => $ajax_settings,
+    );
+    $form['settings']['font_selector']['plugin_settings'] = $font_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -196,6 +230,15 @@ class SettingsForm extends ConfigFormBase {
     $config
       ->set('image_selector.plugin_id', $image_plugin->getPluginId())
       ->set('image_selector.plugin_settings.' . $image_plugin->getPluginId(), $image_plugin->getConfiguration());
+
+    // Font plugin.
+    $font_plugin = $this->fontManager->getPlugin($form_state->getValue(['settings', 'font_selector', 'plugin_id']));
+    if ($form_state->hasValue(['settings', 'font_selector', 'plugin_settings'])) {
+      $font_plugin->setConfiguration($form_state->getValue(['settings', 'font_selector', 'plugin_settings']));
+    }
+    $config
+      ->set('font_selector.plugin_id', $font_plugin->getPluginId())
+      ->set('font_selector.plugin_settings.' . $font_plugin->getPluginId(), $font_plugin->getConfiguration());
 
     $config->save();
     parent::submitForm($form, $form_state);

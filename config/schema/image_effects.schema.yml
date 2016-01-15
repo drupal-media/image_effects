@@ -30,6 +30,18 @@ image_effects.settings:
           label: 'Plugins settings'
           sequence:
             type: image_effects.plugin.image_selector.[%key]
+    font_selector:
+      type: mapping
+      label: 'Font selector plugin'
+      mapping:
+        plugin_id:
+          type: string
+          label: 'Selected plugin id'
+        plugin_settings:
+          type: sequence
+          label: 'Plugins settings'
+          sequence:
+            type: image_effects.plugin.font_selector.[%key]
 
 # Schema for image_effects plugins settings.
 
@@ -60,6 +72,22 @@ image_effects.plugin.image_selector.dropdown:
     path:
       type: string
       label: 'Path where image files can be found'
+
+image_effects.plugin.font_selector.*:
+  type: mapping
+  label: 'Font selector plugin settings'
+
+image_effects.plugin.font_selector.basic:
+  type: mapping
+  label: 'Basic'
+
+image_effects.plugin.font_selector.dropdown:
+  type: mapping
+  label: 'Dropdown'
+  mapping:
+    path:
+      type: string
+      label: 'Path where font files can be found'
 
 # Image effects settings
 

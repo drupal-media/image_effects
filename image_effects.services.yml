@@ -10,3 +10,7 @@ services:
     class: Drupal\image_effects\Plugin\ImageEffectsPluginManager
     parent: default_plugin_manager
     arguments: ['image_selector', '@config.factory']
+  plugin.manager.image_effects.font_selector:
+    class: Drupal\image_effects\Plugin\ImageEffectsPluginManager
+    parent: default_plugin_manager
+    arguments: ['font_selector', '@config.factory']
