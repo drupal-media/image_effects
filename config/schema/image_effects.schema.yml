@@ -110,3 +110,23 @@ image.effect.image_effects_color_shift:
 # The strip metadata effect has no settings.
 image.effect.image_effects_strip_metadata:
   type: sequence
+
+image.effect.image_effects_watermark:
+  type: mapping
+  label: 'Watermark image effect'
+  mapping:
+    placement:
+      type: string
+      label: 'Position of the watermark'
+    x_offset:
+      type: integer
+      label: 'x offset'
+    y_offset:
+      type: integer
+      label: 'y offset'
+    opacity:
+      type: integer
+      label: 'opacity'
+    watermark_image:
+      type: string
+      label: 'watermark image path'

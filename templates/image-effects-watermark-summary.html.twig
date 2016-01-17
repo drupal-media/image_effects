@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a summary of an image watermark effect.
+ *
+ * Available variables:
+ * - data: The current configuration for this watermark effect, including:
+ *   - placement: The position of the watermark on the underlying image.
+ *   - x_offset: The x_offset of the watermark image.
+ *   - y_offset: The y_offset of the watermark image.
+ *   - opacity: The opacity of the watermark image.
+ *   - watermark_image: The watermark image.
+ * - effect: The effect information, including:
+ *   - id: The effect identifier.
+ *   - label: The effect name.
+ *   - description: The effect description.
+ *
+ * @ingroup themeable
+ */
+#}
+{% spaceless %}
+  - {{ 'Image'|t }}: <strong>{{ data.watermark_image|e }}</strong>,
+    {{ 'Placement'|t }}: {{ data.placement|e }},
+    {% if data.x_offset %}{{ 'X offset'|t }}: {{ data.x_offset|e }}px,{% endif %}
+    {% if data.y_offset %}{{ 'Y offset'|t }}: {{ data.y_offset|e }}px,{% endif %}
+    {{ 'Opacity'|t }}: {{ data.opacity|e }}%
+{% endspaceless %}
