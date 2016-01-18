@@ -99,6 +99,14 @@ image.effect.image_effects_auto_orient:
       type: boolean
       label: 'Scan EXIF data when calculating styled image dimensions'
 
+image.effect.image_effects_brightness:
+  type: mapping
+  label: 'Adjust image brightness'
+  mapping:
+    level:
+      type: integer
+      label: 'Level'
+
 image.effect.image_effects_color_shift:
   type: mapping
   label: 'Shift image colors'
