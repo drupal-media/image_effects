@@ -21,9 +21,9 @@ function image_effects_theme() {
         'border_color' => '#000000',
       ],
     ],
-    // Textimage text image effect - summary.
+    // Color shift image effect - summary.
     'image_effects_color_shift_summary' => [
-      'variables' => ['data' => NULL],
+      'variables' => ['data' => NULL, 'effect' => []],
     ],
     // Brightness image effect - summary
     'image_effects_brightness_summary' => [
