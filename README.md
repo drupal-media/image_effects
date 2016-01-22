@@ -23,6 +23,7 @@ Image styles let you create derivations of images by applying (a series of)
 effect(s) to it. Think of resizing, desaturating, masking, etc.
 
 The effects that this module provides include:
+
 Effect name      | Description
 -----------------|------------
 Auto orientation | Uses EXIF Orientation tags to determine the image orientation.
