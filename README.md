@@ -24,13 +24,13 @@ effect(s) to it. Think of resizing, desaturating, masking, etc.
 
 The effects that this module provides include:
 
-Effect name      | Description
------------------|------------
-Auto orientation | Uses EXIF Orientation tags to determine the image orientation.
-Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).
-Color shift      | Colorizes image.
-Strip metadata   | Strips all EXIF metadata from image.
-Watermark        | Place a image with transparency anywhere over a source picture.
+Effect name      | Description                                                                                  | GD toolkit | ImageMagick toolkit |
+-----------------|----------------------------------------------------------------------------------------------|:----------:|:-------------------:|
+Auto orientation | Uses EXIF Orientation tags to determine the image orientation.                               | X          | X                   |
+Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | X                   |
+Color shift      | Colorizes image.                                                                             | X          | X                   |
+Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
+Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X                   |
 
 Image Effects tries to support both the GD toolkit from Drupal core and the
 ImageMagick toolkit. However, please note that there may be effects that are
@@ -67,8 +67,8 @@ for further information.
   Image Effects), and choose the UI components that effects provided by this
   module should use:
   - Color selector - allows to use either a 'color' HTML element for selecting
-    colors, or a color picker provided by the Farbtastic library provided in
-    core. Alternative selectors may be added by other modules.
+    colors, or a color picker provided by the Farbtastic library. Alternative
+    selectors may be added by other modules.
   - Image selector - some effects (e.g. Watermark) require to define an image
     file to be used. This setting allows to use either a basic text field where
     the URI/path to the image can be entered, or a 'dropdown' select that will
