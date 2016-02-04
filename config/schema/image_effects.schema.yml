@@ -123,6 +123,50 @@ image.effect.image_effects_contrast:
       type: integer
       label: 'Level'
 
+image.effect.image_effects_set_canvas:
+  type: mapping
+  label: 'Set canvas image effect'
+  mapping:
+    canvas_size:
+      type: string
+      label: 'Canvas sizing, exact or relative'
+    canvas_color:
+      type: string
+      label: 'RGBA color of the canvas'
+    exact:
+      type: mapping
+      mapping:
+        width:
+          type: string
+          label: 'Exact width in px'
+        height:
+          type: string
+          label: 'Exact height in px'
+        placement:
+          type: string
+          label: 'Position of the source image on the canvas'
+        x_offset:
+          type: integer
+          label: 'x offset vs placement'
+        y_offset:
+          type: integer
+          label: 'y offset vs placement'
+    relative:
+      type: mapping
+      mapping:
+        left:
+          type: integer
+          label: 'Left margin in px'
+        right:
+          type: integer
+          label: 'Right margin in px'
+        top:
+          type: integer
+          label: 'Top margin in px'
+        bottom:
+          type: integer
+          label: 'Bottom margin in px'
+
 # The strip metadata effect has no settings.
 image.effect.image_effects_strip_metadata:
   type: sequence
