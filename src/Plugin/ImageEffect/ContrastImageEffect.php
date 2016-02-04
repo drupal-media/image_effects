@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffect\BrightnessImageEffect.
+ * Contains \Drupal\image_effects\Plugin\ImageEffect\ContrastImageEffect.
  */
 
 namespace Drupal\image_effects\Plugin\ImageEffect;
@@ -13,15 +13,15 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\image\ConfigurableImageEffectBase;
 
 /**
- * Adjust image brightness.
+ * Adjust image contrast.
  *
  * @ImageEffect(
- *   id = "image_effects_brightness",
- *   label = @Translation("Brightness"),
- *   description = @Translation("Adjust image brightness.")
+ *   id = "image_effects_contrast",
+ *   label = @Translation("Contrast"),
+ *   description = @Translation("Adjust image contrast.")
  * )
  */
-class BrightnessImageEffect extends ConfigurableImageEffectBase implements ContainerFactoryPluginInterface {
+class ContrastImageEffect extends ConfigurableImageEffectBase implements ContainerFactoryPluginInterface {
 
   /**
    * {@inheritdoc}
@@ -37,7 +37,7 @@ class BrightnessImageEffect extends ConfigurableImageEffectBase implements Conta
    */
   public function getSummary() {
     return [
-      '#theme' => 'image_effects_brightness_summary',
+      '#theme' => 'image_effects_contrast_summary',
       '#data' => $this->configuration,
     ] + parent::getSummary();
   }
@@ -48,8 +48,8 @@ class BrightnessImageEffect extends ConfigurableImageEffectBase implements Conta
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['level'] = [
       '#type' => 'number',
-      '#title' => $this->t('Brightness'),
-      '#description'  => $this->t('The brightness effect seldom looks good on its own, but can be useful to wash out an image before making it transparent - e.g. for a watermark.'),
+      '#title' => $this->t('Contrast'),
+      '#description'  => $this->t('The contrast effect enhances the intensity differences between the lighter and darker elements of the image.'),
       '#default_value' => $this->configuration['level'],
       '#field_prefix' => $this->t('±'),
       '#field_suffix' => $this->t('%'),
@@ -73,7 +73,7 @@ class BrightnessImageEffect extends ConfigurableImageEffectBase implements Conta
    * {@inheritdoc}
    */
   public function applyEffect(ImageInterface $image) {
-    return $image->apply('brightness', ['level' => $this->configuration['level']]);
+    return $image->apply('contrast', ['level' => $this->configuration['level']]);
   }
 
 }

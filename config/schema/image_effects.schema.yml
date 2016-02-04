@@ -115,6 +115,14 @@ image.effect.image_effects_color_shift:
       type: string
       label: 'RGB color shift'
 
+image.effect.image_effects_contrast:
+  type: mapping
+  label: 'Adjust image contrast'
+  mapping:
+    level:
+      type: integer
+      label: 'Level'
+
 # The strip metadata effect has no settings.
 image.effect.image_effects_strip_metadata:
   type: sequence

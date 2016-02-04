@@ -29,6 +29,7 @@ Effect name      | Description                                                  
 Auto orientation | Uses EXIF Orientation tags to determine the image orientation.                               | X          | X                   |
 Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | X                   |
 Color shift      | Colorizes image.                                                                             | X          | X                   |
+Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | X                   |
 Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
 Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X                   |
 

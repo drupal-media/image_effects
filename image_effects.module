@@ -29,6 +29,10 @@ function image_effects_theme() {
     'image_effects_brightness_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Contrast image effect - summary
+    'image_effects_contrast_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // Watemark image effect - summary
     'image_effects_watermark_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
