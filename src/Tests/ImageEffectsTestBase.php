@@ -205,6 +205,25 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   }
 
   /**
+   * Function to compare two colors by RGBa, within a distance.
+   */
+  protected function colorsAreClose($color_a, $color_b, $distance = 100) {
+    // Fully transparent pixels are equal, regardless of RGB.
+    if ($color_a[3] == 127 && $color_b[3] == 127) {
+      return TRUE;
+    }
+
+    $actual_distance = pow(($color_a[0] - $color_b[0]), 2) + pow(($color_a[1] - $color_b[1]), 2) + pow(($color_a[2] - $color_b[2]), 2);
+    foreach ($color_a as $key => $value) {
+      if ($color_b[$key] != $value && $actual_distance > $distance) {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  /**
    * Function for finding a pixel's RGBa values.
    */
   protected function getPixelColor(ImageInterface $image, $x, $y) {
