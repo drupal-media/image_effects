@@ -9,12 +9,8 @@ namespace Drupal\image_effects\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Image\ImageFactory;
-use Drupal\Core\StreamWrapper\StreamWrapperInterface;
-use Drupal\Core\StreamWrapper\StreamWrapperManager;
 use Drupal\image_effects\Plugin\ImageEffectsPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,13 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Main image_effects settings admin form.
  */
 class SettingsForm extends ConfigFormBase {
-
-  /**
-   * The stream wrapper manager.
-   *
-   * @var \Drupal\Core\StreamWrapper\StreamWrapperManager
-   */
-  protected $streamWrapperManager;
 
   /**
    * The color selector plugin manager.
@@ -54,10 +43,6 @@ class SettingsForm extends ConfigFormBase {
   /**
    * Constructs the class for image_effects settings form.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The factory for configuration objects.
-   * @param \Drupal\Core\StreamWrapper\StreamWrapperManager $stream_wrapper_manager
-   *   The stream wrapper manager.
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $color_plugin_manager
    *   The color selector plugin manager.
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $image_plugin_manager
@@ -65,9 +50,8 @@ class SettingsForm extends ConfigFormBase {
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginManager $font_plugin_manager
    *   The font selector plugin manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, StreamWrapperManager $stream_wrapper_manager, ImageEffectsPluginManager $color_plugin_manager, ImageEffectsPluginManager $image_plugin_manager, ImageEffectsPluginManager $font_plugin_manager) {
+  public function __construct(ImageEffectsPluginManager $color_plugin_manager, ImageEffectsPluginManager $image_plugin_manager, ImageEffectsPluginManager $font_plugin_manager) {
     parent::__construct($config_factory);
-    $this->streamWrapperManager = $stream_wrapper_manager;
     $this->colorManager = $color_plugin_manager;
     $this->imageManager = $image_plugin_manager;
     $this->fontManager = $font_plugin_manager;
@@ -78,8 +62,6 @@ class SettingsForm extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory'),
-      $container->get('stream_wrapper_manager'),
       $container->get('plugin.manager.image_effects.color_selector'),
       $container->get('plugin.manager.image_effects.image_selector'),
       $container->get('plugin.manager.image_effects.font_selector')

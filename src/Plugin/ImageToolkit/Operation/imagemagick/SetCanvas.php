@@ -7,7 +7,6 @@
 
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick;
 
-use Drupal\image_effects\Component\PositionedRectangle;
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\SetCanvasTrait;
 use Drupal\imagemagick\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickImageToolkitOperationBase;
 
