@@ -7,6 +7,7 @@
 
 namespace Drupal\image_effects\Plugin\image_effects\FontSelector;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
