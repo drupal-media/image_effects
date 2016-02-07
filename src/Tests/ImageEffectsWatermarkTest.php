@@ -132,7 +132,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     $this->assertTrue($this->colorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia));
     // GD and ImageMagick return slightly different colors, use the
     // ::colorsAreClose method.
-    $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 39, 0), [127, 127, 127, 0]));
+    $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 39, 0), $this->grey, 4));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);

@@ -48,46 +48,64 @@ class ImageEffectsContrastTest extends ImageEffectsTestBase {
     $test_data = [
       // No contrast change.
       '0' => [
-        $this->red,
-        $this->green,
-        $this->transparent,
-        $this->blue,
+        'colors' => [
+          $this->red,
+          $this->green,
+          $this->transparent,
+          $this->blue,
+        ],
+        'tolerance' => 0,
       ],
 
       // Adjust contrast by -50%.
+      // ImageMagick color in test data, GD returns significantly different
+      // color.
       '-50' => [
-        $image_toolkit_id === 'imagemagick' ? array(180, 75, 75, 0) : array(159, 95, 95, 0),
-        $image_toolkit_id === 'imagemagick' ? array(75, 180, 75, 0) : array(95, 159, 95, 0),
-        $this->transparent,
-        $image_toolkit_id === 'imagemagick' ? array(75, 75, 180, 0) : array(95, 95, 159, 0),
+        'colors' => [
+          [180, 75, 75, 0],
+          [75, 180, 75, 0],
+          $this->transparent,
+          [75, 75, 180, 0],
+        ],
+        'tolerance' => 2000,
       ],
 
       // Adjust contrast by -100%.
+      // GD and ImageMagick return slightly different grey.
       '-100' => [
-        $image_toolkit_id === 'imagemagick' ? array(128, 128, 128, 0) : array(127, 127, 127, 0),
-        $image_toolkit_id === 'imagemagick' ? array(128, 128, 128, 0) : array(127, 127, 127, 0),
-        $this->transparent,
-        $image_toolkit_id === 'imagemagick' ? array(128, 128, 128, 0) : array(127, 127, 127, 0),
+        'colors' => [
+          $this->grey,
+          $this->grey,
+          $this->transparent,
+          $this->grey,
+        ],
+        'tolerance' => 4,
       ],
 
       // Adjust contrast by 50%.
       '50' => [
-        array(255, 0, 0, 0),
-        array(0, 255, 0, 0),
-        $this->transparent,
-        array(0, 0, 255, 0),
+        'colors' => [
+          $this->red,
+          $this->green,
+          $this->transparent,
+          $this->blue,
+        ],
+        'tolerance' => 0,
       ],
 
       // Adjust contrast by 100%.
       '100' => [
-        array(255, 0, 0, 0),
-        array(0, 255, 0, 0),
-        $this->transparent,
-        array(0, 0, 255, 0),
+        'colors' => [
+          $this->red,
+          $this->green,
+          $this->transparent,
+          $this->blue,
+        ],
+        'tolerance' => 0,
       ],
     ];
 
-    foreach ($test_data as $key => $colors) {
+    foreach ($test_data as $key => $entry) {
       // Add contrast effect to the test image style.
       $effect = [
         'id' => 'image_effects_contrast',
@@ -103,10 +121,10 @@ class ImageEffectsContrastTest extends ImageEffectsTestBase {
       // Check that ::applyEffect generates image with expected contrast.
       $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
       $image = $image_factory->get($generated_uri, 'gd');
-      $this->assertTrue($this->colorsAreEqual($colors[0], $this->getPixelColor($image, 0, 0)));
-      $this->assertTrue($this->colorsAreEqual($colors[1], $this->getPixelColor($image, 39, 0)));
-      $this->assertTrue($this->colorsAreEqual($colors[2], $this->getPixelColor($image, 0, 19)));
-      $this->assertTrue($this->colorsAreEqual($colors[3], $this->getPixelColor($image, 39, 19)));
+      $this->assertTrue($this->colorsAreClose($entry['colors'][0], $this->getPixelColor($image, 0, 0), $entry['tolerance']));
+      $this->assertTrue($this->colorsAreClose($entry['colors'][1], $this->getPixelColor($image, 39, 0), $entry['tolerance']));
+      $this->assertTrue($this->colorsAreClose($entry['colors'][2], $this->getPixelColor($image, 0, 19), $entry['tolerance']));
+      $this->assertTrue($this->colorsAreClose($entry['colors'][3], $this->getPixelColor($image, 39, 19), $entry['tolerance']));
 
       // Remove effect.
       $uuid = $this->removeEffectFromTestStyle($uuid);

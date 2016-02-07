@@ -35,6 +35,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   protected $fuchsia     = array(255, 0, 255, 0);
   protected $cyan        = array(0, 255, 255, 0);
   protected $white       = array(255, 255, 255, 0);
+  protected $grey        = array(128, 128, 128, 0);
   protected $transparent = array(0, 0, 0, 127);
 
   /**
@@ -205,21 +206,31 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   }
 
   /**
-   * Function to compare two colors by RGBa, within a distance.
+   * Function to compare two colors by RGBa, within a tolerance.
+   *
+   * Very basic, just compares the sum of the squared differences for each of
+   * the R, G, B, a components of two colors against a 'tolerance' value.
+   *
+   * @param int[] $color_a
+   *   An RGBa array.
+   * @param int[] $color_b
+   *   An RGBa array.
+   * @param int $tolerance
+   *   The accepteable difference between the colors.
+   *
+   * @return bool
+   *   TRUE if the colors differences are within tolerance, FALSE otherwise.
    */
-  protected function colorsAreClose($color_a, $color_b, $distance = 100) {
-    // Fully transparent pixels are equal, regardless of RGB.
+  protected function colorsAreClose(array $color_a, array $color_b, $tolerance) {
+    // Fully transparent colors are equal, regardless of RGB.
     if ($color_a[3] == 127 && $color_b[3] == 127) {
       return TRUE;
     }
-
-    $actual_distance = pow(($color_a[0] - $color_b[0]), 2) + pow(($color_a[1] - $color_b[1]), 2) + pow(($color_a[2] - $color_b[2]), 2);
-    foreach ($color_a as $key => $value) {
-      if ($color_b[$key] != $value && $actual_distance > $distance) {
-        return FALSE;
-      }
+    $distance = pow(($color_a[0] - $color_b[0]), 2) + pow(($color_a[1] - $color_b[1]), 2) + pow(($color_a[2] - $color_b[2]), 2) + pow(($color_a[3] - $color_b[3]), 2);
+    if ($distance > $tolerance) {
+      debug("Color A: {" . implode(',', $color_a) . "}, Color B: {" . implode(',', $color_b) . "}, Distance: " . $distance . ", Tolerance: " . $tolerance);
+      return FALSE;
     }
-
     return TRUE;
   }
 
