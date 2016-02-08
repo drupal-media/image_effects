@@ -22,7 +22,7 @@ class ImageEffectsSelectorPluginTest extends ImageEffectsTestBase {
    * Image selector test.
    */
   public function testImageSelector() {
-    $image_path = drupal_get_path('module', 'image_effects') . '/misc';
+    $image_path = drupal_get_path('module', 'image_effects') . '/tests/images';
     $image_file = 'portrait-painting.jpg';
 
     // Test the Basic plugin.

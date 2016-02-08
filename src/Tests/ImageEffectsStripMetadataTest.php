@@ -46,7 +46,7 @@ class ImageEffectsStripMetadataTest extends ImageEffectsTestBase {
     $test_data = [
       // Test a JPEG image with EXIF data.
       [
-        'test_file' => drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg',
+        'test_file' => drupal_get_path('module', 'image_effects') . '/tests/images/portrait-painting.jpg',
         'original_orientation' => 8,
       ],
       // Test a JPEG image without EXIF data.
@@ -63,7 +63,7 @@ class ImageEffectsStripMetadataTest extends ImageEffectsTestBase {
 
     foreach ($test_data as $data) {
       // Get expected URIs.
-      $test_file = drupal_get_path('module', 'image_effects') . '/misc/portrait-painting.jpg';
+      $test_file = drupal_get_path('module', 'image_effects') . '/tests/images/portrait-painting.jpg';
       $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
       $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
 
