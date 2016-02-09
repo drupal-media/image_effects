@@ -3,10 +3,8 @@
 namespace Drupal\image_effects\Plugin;
 
 use Drupal\Component\Plugin\ConfigurablePluginInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
-
 
 /**
  * image_effects base plugin interface.

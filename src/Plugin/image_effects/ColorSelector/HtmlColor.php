@@ -7,7 +7,6 @@
 
 namespace Drupal\image_effects\Plugin\image_effects\ColorSelector;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\image_effects\Plugin\ImageEffectsPluginBase;
 
 /**
