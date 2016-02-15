@@ -190,3 +190,6 @@ image.effect.image_effects_watermark:
     watermark_image:
       type: string
       label: 'watermark image path'
+    watermark_scale:
+      type: integer
+      label: 'watermark image scale'

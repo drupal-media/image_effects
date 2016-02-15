@@ -10,6 +10,7 @@
  *   - y_offset: The y_offset of the watermark image.
  *   - opacity: The opacity of the watermark image.
  *   - watermark_image: The watermark image.
+ *   - watermark_scale: The watermark image scale.
  * - effect: The effect information, including:
  *   - id: The effect identifier.
  *   - label: The effect name.
@@ -20,6 +21,7 @@
 #}
 {% spaceless %}
   - {{ 'Image'|t }}: <strong>{{ data.watermark_image|e }}</strong>,
+    {% if data.watermark_scale %}{{ 'Scale'|t }}: {{ data.watermark_scale|e }}%,{% endif %}
     {{ 'Placement'|t }}: {{ data.placement|e }},
     {% if data.x_offset %}{{ 'X offset'|t }}: {{ data.x_offset|e }}px,{% endif %}
     {% if data.y_offset %}{{ 'Y offset'|t }}: {{ data.y_offset|e }}px,{% endif %}

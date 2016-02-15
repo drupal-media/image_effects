@@ -86,7 +86,8 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       'x_offset' => 0,
       'y_offset' => 0,
       'opacity' => 100,
-      'watermark_image' => ''
+      'watermark_image' => '',
+      'watermark_scale' => NULL,
     ] + parent::defaultConfiguration();
   }
 
@@ -160,6 +161,16 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       '#default_value' => $this->configuration['watermark_image'],
     ];
     $form['watermark_image'] = $this->imageSelector->selectionElement($options);
+    $form['watermark_scale'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Scale'),
+      '#field_suffix' => '%',
+      '#description' => $this->t('Scales the overlay image with respect to the source image. Leave empty to use the actual size of the overlay image.'),
+      '#default_value' => $this->configuration['watermark_scale'],
+      '#min' => 1,
+      '#maxlength' => 4,
+      '#size' => 4,
+    ];
     return $form;
   }
 
@@ -173,6 +184,7 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
     $this->configuration['y_offset'] = $form_state->getValue('y_offset');
     $this->configuration['opacity'] = $form_state->getValue('opacity');
     $this->configuration['watermark_image'] = $form_state->getValue('watermark_image');
+    $this->configuration['watermark_scale'] = $form_state->getValue('watermark_scale');
   }
 
   /**
@@ -182,6 +194,16 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
     $watermark_image = $this->imageFactory->get($this->configuration['watermark_image']);
     if (!$watermark_image->isValid()) {
       return FALSE;
+    }
+    if ($this->configuration['watermark_scale'] !== NULL && $this->configuration['watermark_scale'] > 0) {
+      // Scale the overlay with respect to the dimensions of the source being
+      // overlaid. To maintain the aspect ratio, only the width of the overlay
+      // is scaled like that, the height of the overlay follows the aspect
+      // ratio.
+      $overlay_w = round($image->getWidth() * $this->configuration['watermark_scale'] / 100);
+      if (!$watermark_image->scale($overlay_w, NULL, TRUE)) {
+        return FALSE;
+      }
     }
     list($x, $y) = explode('-', $this->configuration['placement']);
     $x_pos = image_filter_keyword($x, $image->getWidth(), $watermark_image->getWidth());
