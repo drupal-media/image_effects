@@ -198,6 +198,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
 
     foreach ($color_a as $key => $value) {
       if ($color_b[$key] != $value) {
+        debug("Color A: {" . implode(',', $color_a) . "}, Color B: {" . implode(',', $color_b) . "}");
         return FALSE;
       }
     }

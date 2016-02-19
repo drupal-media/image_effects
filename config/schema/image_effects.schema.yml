@@ -167,6 +167,14 @@ image.effect.image_effects_set_canvas:
           type: integer
           label: 'Bottom margin in px'
 
+image.effect.image_effects_set_transparent_color:
+  type: mapping
+  label: 'Set transparent color'
+  mapping:
+    transparent_color:
+      type: string
+      label: 'RGB color'
+
 # The strip metadata effect has no settings.
 image.effect.image_effects_strip_metadata:
   type: sequence
