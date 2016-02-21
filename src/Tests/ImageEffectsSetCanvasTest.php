@@ -50,8 +50,10 @@ class ImageEffectsSetCanvasTest extends ImageEffectsTestBase {
         'canvas_color][container][transparent' => FALSE,
         'canvas_color][container][hex' => '#FF00FF',
         'canvas_color][container][opacity' => 100,
-        'exact][width' => '200%',
-        'exact][height' => '200%',
+        'exact][width][c0][c1][value' => 200,
+        'exact][width][c0][c1][uom' => 'perc',
+        'exact][height][c0][c1][value' => 200,
+        'exact][height][c0][c1][uom' => 'perc',
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);

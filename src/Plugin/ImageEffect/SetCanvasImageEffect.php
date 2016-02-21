@@ -95,18 +95,20 @@ class SetCanvasImageEffect extends ConfigurableImageEffectBase {
       ],
     ];
     $form['exact']['width'] = [
-      '#type' => 'textfield',
+      '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Width'),
       '#default_value' => $this->configuration['exact']['width'],
-      '#description' => $this->t('Enter a value in pixels or percent'),
-      '#size' => 5,
+      '#description' => $this->t('Enter a value, and specify if pixels or percent. Leave blank to keep source image width.'),
+      '#size' => 6,
+      '#maxlength' => 6,
     ];
     $form['exact']['height'] = [
-      '#type' => 'textfield',
+      '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Height'),
       '#default_value' => $this->configuration['exact']['height'],
-      '#description' => $this->t('Enter a value in pixels or percent'),
-      '#size' => 5,
+      '#description' => $this->t('Enter a value, and specify if pixels or percent. Leave blank to keep source image height.'),
+      '#size' => 6,
+      '#maxlength' => 6,
     ];
     $form['exact']['placement'] = [
       '#type' => 'radios',
