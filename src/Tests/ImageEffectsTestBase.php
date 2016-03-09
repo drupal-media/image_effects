@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * image_effects test case script.
- */
-
 namespace Drupal\image_effects\Tests;
 
 use Drupal\Core\Extension\MissingDependencyException;

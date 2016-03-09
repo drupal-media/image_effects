@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Component\ColorUtility.
- */
-
 namespace Drupal\image_effects\Component;
 
 use Drupal\Component\Utility\Color;

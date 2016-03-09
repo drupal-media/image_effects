@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\SetGifTransparentColorTrait.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation;
 
 use Drupal\Component\Utility\Color;

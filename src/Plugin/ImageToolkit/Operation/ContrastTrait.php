@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\ContrastTrait.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation;
 
 /**

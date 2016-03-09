@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\image_effects\FontSelector\Basic.
- */
-
 namespace Drupal\image_effects\Plugin\image_effects\FontSelector;
 
 use Drupal\Component\Utility\Unicode;

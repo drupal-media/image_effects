@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffectsPluginManager.
- */
-
 namespace Drupal\image_effects\Plugin;
 
 use Drupal\Component\Utility\SafeMarkup;

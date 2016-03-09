@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @file
- * Auto Orientation effect test case script.
- */
 
 namespace Drupal\image_effects\Tests;
 

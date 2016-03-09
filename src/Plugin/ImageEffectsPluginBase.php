@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffectsPluginBase.
- */
-
 namespace Drupal\image_effects\Plugin;
 
 use Drupal\Core\Config\ConfigFactoryInterface;

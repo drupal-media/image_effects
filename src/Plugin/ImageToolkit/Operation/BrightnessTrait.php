@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\BrightnessTrait.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation;
 
 /**

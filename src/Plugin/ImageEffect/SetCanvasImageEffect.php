@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffect\SetCanvasImageEffect.
- */
-
 namespace Drupal\image_effects\Plugin\ImageEffect;
 
 use Drupal\Component\Utility\NestedArray;

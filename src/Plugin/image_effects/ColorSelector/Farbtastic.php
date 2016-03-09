@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\image_effects\ColorSelector\Farbtastic.
- */
-
 namespace Drupal\image_effects\Plugin\image_effects\ColorSelector;
 
 use Drupal\image_effects\Plugin\ImageEffectsPluginBase;

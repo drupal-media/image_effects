@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects_module_test\Plugin\ImageEffect\ImageSelectionImageEffect.
- */
-
 namespace Drupal\image_effects_module_test\Plugin\ImageEffect;
 
 use Drupal\Core\Form\FormStateInterface;

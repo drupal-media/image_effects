@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Component\PositionedRectangle.
- */
-
 namespace Drupal\image_effects\Component;
 
 /**

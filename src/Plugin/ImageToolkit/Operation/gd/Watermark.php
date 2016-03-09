@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\gd\Watermark.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\gd;
 
 use Drupal\system\Plugin\ImageToolkit\Operation\gd\GDImageToolkitOperationBase;

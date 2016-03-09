@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\image_effects\ImageSelector\Basic.
- */
-
 namespace Drupal\image_effects\Plugin\image_effects\ImageSelector;
 
 use Drupal\Core\Form\FormStateInterface;

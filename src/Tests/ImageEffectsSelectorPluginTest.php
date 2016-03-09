@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Plugin selector test case script.
- */
-
 namespace Drupal\image_effects\Tests;
 
 /**

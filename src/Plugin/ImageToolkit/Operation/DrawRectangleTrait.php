@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\DrawRectangleTrait.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation;
 
 use Drupal\image_effects\Component\ColorUtility;

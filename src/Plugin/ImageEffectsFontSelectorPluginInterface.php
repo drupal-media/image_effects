@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffectsFontSelectorPluginInterface.
- */
-
 namespace Drupal\image_effects\Plugin;
 
 /**

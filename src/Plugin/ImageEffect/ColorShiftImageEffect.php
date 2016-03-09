@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffect\ColorShiftImageEffect.
- */
-
 namespace Drupal\image_effects\Plugin\ImageEffect;
 
 use Drupal\Core\Image\ImageInterface;

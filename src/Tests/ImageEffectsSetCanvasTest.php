@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Set canvas effect test case script.
- */
-
 namespace Drupal\image_effects\Tests;
 
 use Drupal\image\Entity\ImageStyle;

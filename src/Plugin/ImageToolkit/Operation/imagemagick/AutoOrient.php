@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick\AutoOrient.
- */
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick;
 
 use Drupal\imagemagick\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickImageToolkitOperationBase;

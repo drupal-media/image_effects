@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Element\ImageEffectsPxPerc.
- */
-
 namespace Drupal\image_effects\Element;
 
 use Drupal\Component\Utility\Unicode;

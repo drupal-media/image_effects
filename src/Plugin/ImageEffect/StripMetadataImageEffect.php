@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageEffect\StripMetadataImageEffect.
- */
-
 namespace Drupal\image_effects\Plugin\ImageEffect;
 
 use Drupal\Core\Image\ImageInterface;

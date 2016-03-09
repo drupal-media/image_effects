@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Settings form test case script.
- */
-
 namespace Drupal\image_effects\Tests;
 
 use Drupal\simpletest\WebTestBase;

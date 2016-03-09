@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Form\SettingsForm.
- */
-
 namespace Drupal\image_effects\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;

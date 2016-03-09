@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\image_effects\Plugin\ImageToolkit\Operation\gd\DrawRectangle.
- */
 
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\gd;
 
