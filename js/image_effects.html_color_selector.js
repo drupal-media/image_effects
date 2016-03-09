@@ -7,11 +7,8 @@
  */
 
 (function ($) {
-
-  "use strict";
-
+  'use strict';
   Drupal.behaviors.imageEffectsHtmlColorSelector = {
-
     attach: function (context, settings) {
       $('.image-effects-html-color-selector .form-color', context).once('image-effects-html-color-selector').each(function (index) {
         $(this).on('change', function (event) {
@@ -20,6 +17,5 @@
         });
       });
     }
-
   };
 })(jQuery);
