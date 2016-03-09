@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\image_effects\Tests;
 
 use Drupal\image\Entity\ImageStyle;

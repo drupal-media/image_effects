@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\gd;
 
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\DrawRectangleTrait;
