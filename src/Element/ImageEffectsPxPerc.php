@@ -2,7 +2,6 @@
 
 namespace Drupal\image_effects\Element;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\FormElement;
 use Drupal\image_effects\Component\ColorUtility;
