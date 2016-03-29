@@ -81,8 +81,8 @@ for further information.
 
 ## Usage
 
-- Define image styles at _admin/config/media/image-styles_ and add one or more
-  effects as defined by this module.
+- Define image styles at _Manage > Configuration > Media > Image styles_ and add
+  one or more effects defined by this module.
 - Use the image styles via e.g. the formatters of image fields.
 
 
