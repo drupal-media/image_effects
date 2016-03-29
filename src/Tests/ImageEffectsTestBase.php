@@ -245,4 +245,14 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     return array_values(imagecolorsforindex($toolkit->getResource(), $color_index));
   }
 
+  /**
+   * Asserts a Text overlay image.
+   */
+  protected function assertTextOverlay($image, $width, $height) {
+    $w_error = abs($image->getWidth() - $width);
+    $h_error = abs($image->getHeight() - $height);
+    $tolerance = 0.1;
+    $this->assertTrue($w_error < $width * $tolerance && $h_error < $height * $tolerance, "Width and height ({$image->getWidth()}x{$image->getHeight()}) approximate expected results ({$width}x{$height})");
+  }
+
 }

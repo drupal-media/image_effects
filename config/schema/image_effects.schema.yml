@@ -179,6 +179,116 @@ image.effect.image_effects_set_transparent_color:
 image.effect.image_effects_strip_metadata:
   type: sequence
 
+image.effect.image_effects_text_overlay:
+  type: mapping
+  label: 'Text overlay effect'
+  mapping:
+    text_string:
+      type: text
+      label: 'Text associated with this effect, can include tokens'
+    font:
+      type: mapping
+      mapping:
+        name:
+          type: string
+          label: 'Font name'
+        uri:
+          type: string
+          label: 'Font file URI'
+        size:
+          type: integer
+          label: 'Font size'
+        angle:
+          type: integer
+          label: 'Font orientation'
+        color:
+          type: color_hex
+          label: 'Font color'
+        stroke_mode:
+          type: string
+          label: 'Type of stroke (outline/shadow)'
+        stroke_color:
+          type: color_hex
+          label: 'Color of the stroke'
+        outline_top:
+          type: integer
+          label: 'Outline px on the top'
+        outline_right:
+          type: integer
+          label: 'Outline px on the right'
+        outline_bottom:
+          type: integer
+          label: 'Outline px on the bottom'
+        outline_left:
+          type: integer
+          label: 'Outline px on the left'
+        shadow_x_offset:
+          type: integer
+          label: 'Shadow horizontal offset in px'
+        shadow_y_offset:
+          type: integer
+          label: 'Shadow vertical offset in px'
+        shadow_width:
+          type: integer
+          label: 'Shadow width in px'
+        shadow_height:
+          type: integer
+          label: 'Shadow height in px'
+    layout:
+      type: mapping
+      mapping:
+        padding_top:
+          type: integer
+          label: 'Padding top in px'
+        padding_right:
+          type: integer
+          label: 'Padding right in px'
+        padding_bottom:
+          type: integer
+          label: 'Padding bottom in px'
+        padding_left:
+          type: integer
+          label: 'Padding left in px'
+        x_pos:
+          type: string
+          label: 'Placement on canvas, horizontal'
+        y_pos:
+          type: string
+          label: 'Placement on canvas, vertical'
+        x_offset:
+          type: integer
+          label: 'Placement on canvas, horizontal, offset'
+        y_offset:
+          type: integer
+          label: 'Placement on canvas, vertical, offset'
+        background_color:
+          type: color_hex
+          label: 'Color of bounding box'
+        overflow_action:
+          type: string
+          label: 'Action when text wrapper overflows canvas'
+        extended_color:
+          type: color_hex
+          label: 'Color to be used when extending the underlying image'
+    text:
+      type: mapping
+      mapping:
+        maximum_width:
+          type: integer
+          label: 'Maximum width in px'
+        fixed_width:
+          type: boolean
+          label: 'Fixed width flag'
+        align:
+          type: string
+          label: 'Text alignment'
+        line_spacing:
+          type: integer
+          label: 'Line spacing in px'
+        case_format:
+          type: string
+          label: 'Text format conversion'
+
 image.effect.image_effects_watermark:
   type: mapping
   label: 'Watermark image effect'

@@ -22,6 +22,11 @@ configuration forms.
 Image styles let you create derivations of images by applying (a series of)
 effect(s) to it. Think of resizing, desaturating, masking, etc.
 
+Image Effects tries to support both the GD toolkit from Drupal core and the
+ImageMagick toolkit. However, please note that there may be effects that are
+not supported by all toolkits, or that provide different results with different
+toolkits.
+
 The effects that this module provides include:
 
 Effect name      | Description                                                                                  | GD toolkit | [ImageMagick](https://drupal.org/project/imagemagick) toolkit |
@@ -33,12 +38,12 @@ Contrast         | Supports changing contrast settings of an image. Also support
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | X                   |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | X                   |
 Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
+Text overlay<sup>1</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | X<sup>2</sup>       |
 Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X                   |
 
-Image Effects tries to support both the GD toolkit from Drupal core and the
-ImageMagick toolkit. However, please note that there may be effects that are
-not supported by all toolkits, or that provide different results with different
-toolkits.
+Notes:
+<sup>1</sup> The [Textimage](https://drupal.org/project/textimage) module, if installed, allows this effect to present a preview of the text overlay.
+<sup>2</sup> The ImageMagick toolkit actually requires the GD toolkit to build the text overlay.
 
 
 ## What Image Effects is not?

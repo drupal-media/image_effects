@@ -23,3 +23,9 @@ image_effects.html_color_selector:
   css:
     component:
       css/image_effects.html_color_selector.css: {}
+
+image_effects.text_overlay_preview:
+  version: VERSION
+  css:
+    component:
+      css/image_effects.text_overlay_preview.css: {}

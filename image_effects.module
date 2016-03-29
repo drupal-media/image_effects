@@ -41,10 +41,18 @@ function image_effects_theme() {
     'image_effects_set_transparent_color_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Render a preview of the Text Overlay in the image effect UI.
+    'image_effects_text_overlay_preview' => [
+      'variables' => ['success' => FALSE, 'preview' => []],
+    ],
+    // Text overlay image effect - summary.
+    'image_effects_text_overlay_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // Watemark image effect - summary
     'image_effects_watermark_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
-    ]
+    ],
   ];
 }
 
