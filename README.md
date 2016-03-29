@@ -2,16 +2,6 @@
 
 Project page: https://drupal.org/project/image_effects
 
-Current and past maintainers for Image Effects:
-- [Berdir](https://www.drupal.org/u/Berdir)
-- [fietserwin](https://www.drupal.org/u/fietserwin)
-- [mondrake](https://www.drupal.org/u/mondrake)
-- [slashsrsm](https://www.drupal.org/u/slashrsm)
-
-Past maintainers for Imagecache Actions:
-- [dman](https://drupal.org/user/33240)
-- [sidneyshan](https://drupal.org/user/652426)
-
 
 ## Introduction
 
@@ -49,8 +39,8 @@ Notes:
 ## What Image Effects is not?
 
 Image Effects does not provide a separate UI. It hooks into the Drupal core's
-image styles system. See https://drupal.org/documentation/modules/image for more
-information about working with images.
+image styles system. See [Working with images in Drupal 7 and 8](https://drupal.org/documentation/modules/image) for more
+information.
 
 
 ## Requirements
@@ -69,10 +59,10 @@ for further information.
 
 ## Configuration
 
-- Go to Manage > Configuration > Media > Image toolkit and configure your
+- Go to _Manage > Configuration > Media > Image toolkit_ and configure your
   toolkit and its settings.
-- Check Image Effects configuration page (Manage > Configuration > Media >
-  Image Effects), and choose the UI components that effects provided by this
+- Check Image Effects configuration page (_Manage > Configuration > Media >
+  Image Effects_), and choose the UI components that effects provided by this
   module should use:
   - _Color selector_ - allows to use either a 'color' HTML element for selecting
     colors, or a color picker provided by the Farbtastic library. Alternative
@@ -91,7 +81,7 @@ for further information.
 
 ## Usage
 
-- Define image styles at admin/config/media/image-styles and add one or more
+- Define image styles at _admin/config/media/image-styles_ and add one or more
   effects as defined by this module.
 - Use the image styles via e.g. the formatters of image fields.
 
@@ -105,8 +95,8 @@ of this project](https://www.drupal.org/project/issues/image_effects).
 ## A note about the origin of this module
 
 This module is the Drupal 8 successor of the [ImageCache Actions module](https://www.drupal.org/project/imagecache_actions).
-It also incorporates image effects that were part of the Drupal 7 version of the
-[ImageMagick](https://drupal.org/project/imagemagick) module.
+It also incorporates image effects that were part of the Drupal 7 versions of the
+[ImageMagick](https://drupal.org/project/imagemagick) and [Textimage](https://drupal.org/project/textimage) modules.
 
 
 ## Which toolkit to use?
@@ -127,3 +117,17 @@ Advantages of GD toolkit on the other hand:
 
 Please also note that effects may give different results depending on the
 toolkit used.
+
+
+## Maintainers
+
+Current and past maintainers for Image Effects:
+- [Berdir](https://www.drupal.org/u/Berdir)
+- [fietserwin](https://www.drupal.org/u/fietserwin)
+- [mondrake](https://www.drupal.org/u/mondrake)
+- [slashsrsm](https://www.drupal.org/u/slashrsm)
+
+Past maintainers for Imagecache Actions:
+- [dman](https://drupal.org/user/33240)
+- [sidneyshan](https://drupal.org/user/652426)
+
