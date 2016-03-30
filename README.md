@@ -25,8 +25,10 @@ Auto orientation | Uses EXIF Orientation tags to determine the image orientation
 Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | X                   |
 Color shift      | Colorizes image.                                                                             | X          | X                   |
 Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | X                   |
+Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | X                   |
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | X                   |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | X                   |
+Sharpen          | Sharpens an image (using convolution).                                                       | X          | X                   |
 Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
 Text overlay<sup>1</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | X<sup>2</sup>       |
 Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X                   |

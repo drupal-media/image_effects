@@ -311,3 +311,28 @@ image.effect.image_effects_watermark:
     watermark_scale:
       type: integer
       label: 'watermark image scale'
+
+image.effect.image_effects_convolution:
+  type: mapping
+  label: 'Filter image using convolution'
+  mapping:
+    kernel:
+      type: array
+      label: 'Kernel'
+    divisor:
+      type: integer
+      label: 'Divisor'
+    offset:
+      type: integer
+      label: 'Offset'
+    label:
+      type: string
+      label: 'Label'
+
+image.effect.image_effects_convolution_sharpen:
+  type: mapping
+  label: 'Sharpen image using convolution'
+  mapping:
+    level:
+      type: integer
+      label: 'Level'

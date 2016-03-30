@@ -29,3 +29,11 @@ image_effects.text_overlay_preview:
   css:
     component:
       css/image_effects.text_overlay_preview.css: {}
+
+image_effects.admin.convolution:
+  version: VERSION
+  js:
+    js/image_effects.admin.convolution.js: {}
+  css:
+    component:
+      css/image_effects.admin.convolution.css: {}

@@ -53,6 +53,14 @@ function image_effects_theme() {
     'image_effects_watermark_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Convolution image effect - summary
+    'image_effects_convolution_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
+    // Convolution sharpen image effect - summary
+    'image_effects_convolution_sharpen_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
   ];
 }
 
