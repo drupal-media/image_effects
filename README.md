@@ -96,9 +96,9 @@ of this project](https://www.drupal.org/project/issues/image_effects).
 
 ## A note about the origin of this module
 
-This module is the Drupal 8 successor of the [ImageCache Actions module](https://www.drupal.org/project/imagecache_actions).
+This module is the Drupal 8 successor of the [ImageCache Actions](https://www.drupal.org/project/imagecache_actions) module.
 It also incorporates image effects that were part of the Drupal 7 versions of the
-[ImageMagick](https://drupal.org/project/imagemagick) and [Textimage](https://drupal.org/project/textimage) modules.
+[ImageMagick](https://drupal.org/project/imagemagick), [Textimage](https://drupal.org/project/textimage) and [FiltersIE](https://www.drupal.org/project/filtersie) modules.
 
 
 ## Which toolkit to use?
