@@ -133,4 +133,3 @@ Current and past maintainers for Image Effects:
 Past maintainers for Imagecache Actions:
 - [dman](https://drupal.org/user/33240)
 - [sidneyshan](https://drupal.org/user/652426)
-
