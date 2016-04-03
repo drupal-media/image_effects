@@ -21,12 +21,16 @@ function image_effects_theme() {
         'border_color' => '#000000',
       ],
     ],
-    // Color shift image effect - summary.
-    'image_effects_color_shift_summary' => [
+    // Background image effect - summary
+    'image_effects_background_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
     // Brightness image effect - summary
     'image_effects_brightness_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
+    // Color shift image effect - summary.
+    'image_effects_color_shift_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
     // Contrast image effect - summary

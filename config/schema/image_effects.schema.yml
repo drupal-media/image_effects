@@ -99,6 +99,32 @@ image.effect.image_effects_auto_orient:
       type: boolean
       label: 'Scan EXIF data when calculating styled image dimensions'
 
+image.effect.image_effects_background:
+  type: mapping
+  label: 'Background image effect'
+  mapping:
+    background_image:
+      type: string
+      label: 'Background image path'
+    background_image_width:
+      type: string
+      label: 'Background image width in px'
+    background_image_height:
+      type: string
+      label: 'Background image height in px'
+    placement:
+      type: string
+      label: 'Position of the source image on the background image'
+    x_offset:
+      type: integer
+      label: 'X offset of the source image vs placement'
+    y_offset:
+      type: integer
+      label: 'Y offset of the source image vs placement'
+    opacity:
+      type: integer
+      label: 'Opacity of the source image'
+
 image.effect.image_effects_brightness:
   type: mapping
   label: 'Adjust image brightness'
