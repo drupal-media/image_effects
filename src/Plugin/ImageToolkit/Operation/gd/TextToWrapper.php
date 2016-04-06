@@ -454,7 +454,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
       return NULL;
     }
     // Get the bounding box for $text to get width.
-    $points = imagettfbbox($font_size, 0, $font_file, $text);
+    $points = $this->_imagettfbbox($font_size, 0, $font_file, $text);
     // Return bounding box width.
     return (abs($points[4] - $points[6]) + 1);
   }
@@ -483,7 +483,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
       return NULL;
     }
     // Get the bounding box for $text to get height.
-    $points = imagettfbbox($font_size, 0, $font_file, 'bdfhkltgjpqyBDFHKLTGJPQY§@çÅÀÈÉÌÒÇ');
+    $points = $this->_imagettfbbox($font_size, 0, $font_file, 'bdfhkltgjpqyBDFHKLTGJPQY§@çÅÀÈÉÌÒÇ');
     $height = (abs($points[5] - $points[1]) + 1);
     return [
       'height' => $height,

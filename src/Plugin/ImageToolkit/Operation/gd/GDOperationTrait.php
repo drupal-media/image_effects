@@ -145,4 +145,80 @@ trait GDOperationTrait {
     }
   }
 
+  /**
+   * Wrapper of imagettftext().
+   *
+   * If imagettftext() is missing, throw an exception instead of failing
+   * fatally.
+   *
+   * @param resource $image
+   *   An image resource.
+   * @param float $size
+   *   The font size.
+   * @param float $angle
+   *  The angle in degrees.
+   * @param int $x
+   *   The coordinates given by x and y will define the basepoint of the first
+   *   character (roughly the lower-left corner of the character).
+   * @param int $y
+   *   The y-ordinate. This sets the position of the fonts baseline, not the
+   *   very bottom of the character.
+   * @param int $color
+   *   The color index.
+   * @param string $fontfile
+   *   The path to the TrueType font to use.
+   * @param string $text
+   *   The text string in UTF-8 encoding.
+   *
+   * @return int[]
+   *   An array with 8 elements representing four points making the bounding
+   *   box of the text.
+   *
+   * @see http://php.net/manual/en/function.imagettftext.php
+   */
+  protected function _imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text) {
+    if (function_exists('imagettftext')) {
+      return imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text);
+    }
+    else {
+      // @todo \InvalidArgumentException is incorrect, but other exceptions
+      // would not be managed by toolkits that implement ImageToolkitBase.
+      // Change to \RuntimeException when #2583041 is committed.
+      throw new \InvalidArgumentException("The imagettftext() PHP function is not available, and image effects using fonts cannot be executed");
+    }
+  }
+
+  /**
+   * Wrapper of imagettfbbox().
+   *
+   * If imagettfbbox() is missing, throw an exception instead of failing
+   * fatally.
+   *
+   * @param float $size
+   *   The font size.
+   * @param float $angle
+   *  The angle in degrees.
+   * @param string $fontfile
+   *   The path to the TrueType font to use.
+   * @param string $text
+   *   The string to be measured.
+   *
+   * @return int[]|false
+   *   Array with 8 elements representing four points making the bounding box
+   *   of the text on success and FALSE on error.
+   *
+   * @see http://php.net/manual/en/function.imagettfbbox.php
+   */
+  protected function _imagettfbbox($size, $angle, $fontfile, $text) {
+    if (function_exists('imagettfbbox')) {
+      return imagettfbbox($size, $angle, $fontfile, $text);
+    }
+    else {
+      // @todo \InvalidArgumentException is incorrect, but other exceptions
+      // would not be managed by toolkits that implement ImageToolkitBase.
+      // Change to \RuntimeException when #2583041 is committed.
+      throw new \InvalidArgumentException("The imagettfbbox() PHP function is not available, and image effects using fonts cannot be executed");
+    }
+  }
+
 }

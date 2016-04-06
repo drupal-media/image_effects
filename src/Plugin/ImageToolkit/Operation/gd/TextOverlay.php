@@ -61,7 +61,7 @@ class TextOverlay extends GDImageToolkitOperationBase {
       }
       for ($c1 = ($stroke_x_pos - abs($stroke_left)); $c1 <= ($stroke_x_pos + abs($stroke_right)); $c1++) {
         for ($c2 = ($stroke_y_pos - abs($stroke_top)); $c2 <= ($stroke_y_pos + abs($stroke_bottom)); $c2++) {
-          $bg = imagettftext(
+          $bg = $this->_imagettftext(
             $this->getToolkit()->getResource(),
             $arguments['font_size'],
             -$arguments['font_angle'],
@@ -79,7 +79,7 @@ class TextOverlay extends GDImageToolkitOperationBase {
     }
 
     // Overlays the text.
-    imagettftext(
+    $this->_imagettftext(
       $this->getToolkit()->getResource(),
       $arguments['font_size'],
       -$arguments['font_angle'],
