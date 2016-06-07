@@ -6,4 +6,3 @@ package: Media
 configure: image_effects.settings
 dependencies:
   - image
-  - file_mdm
