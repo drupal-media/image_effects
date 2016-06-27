@@ -362,3 +362,11 @@ image.effect.image_effects_convolution_sharpen:
     level:
       type: integer
       label: 'Level'
+
+image.effect.image_effects_interlace:
+  type: mapping
+  label: 'Adjust interlace type'
+  mapping:
+    type:
+      type: string
+      label: 'Type'

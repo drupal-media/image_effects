@@ -65,6 +65,10 @@ function image_effects_theme() {
     'image_effects_convolution_sharpen_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Interlace image effect - summary
+    'image_effects_interlace_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
   ];
 }
 
