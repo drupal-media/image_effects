@@ -182,6 +182,7 @@ class BackgroundImageEffect extends ConfigurableImageEffectBase implements Conta
   public function applyEffect(ImageInterface $image) {
     $background_image = $this->imageFactory->get($this->configuration['background_image']);
     if (!$background_image->isValid()) {
+      $this->logger->error('Image background failed using the %toolkit toolkit on %path', ['%toolkit' => $image->getToolkitId(), '%path' => $this->configuration['background_image']]);
       return FALSE;
     }
     list($x, $y) = explode('-', $this->configuration['placement']);

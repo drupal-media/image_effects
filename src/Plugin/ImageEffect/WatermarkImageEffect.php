@@ -188,6 +188,7 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
   public function applyEffect(ImageInterface $image) {
     $watermark_image = $this->imageFactory->get($this->configuration['watermark_image']);
     if (!$watermark_image->isValid()) {
+      $this->logger->error('Image watermark failed using the %toolkit toolkit on %path', ['%toolkit' => $image->getToolkitId(), '%path' => $this->configuration['watermark_image']]);
       return FALSE;
     }
     if ($this->configuration['watermark_scale'] !== NULL && $this->configuration['watermark_scale'] > 0) {

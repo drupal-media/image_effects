@@ -16,7 +16,7 @@ class ImageEffectsSelectorPluginTest extends ImageEffectsTestBase {
    */
   public function testImageSelector() {
     $image_path = drupal_get_path('module', 'image_effects') . '/tests/images';
-    $image_file = 'portrait-painting.jpg';
+    $image_file = 'portrait-painting.jpe';
 
     // Test the Basic plugin.
     // Add an effect with the image selector.
