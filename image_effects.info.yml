@@ -6,3 +6,5 @@ package: Media
 configure: image_effects.settings
 dependencies:
   - image
+test_dependencies:
+  - imagemagick
