@@ -74,7 +74,7 @@ class ImageSelectionImageEffect extends ConfigurableImageEffectBase implements C
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     // Image selection.
     $options = [
-      '#default_value' => isset($this->configuration['image_uri']) ? pathinfo($this->configuration['image_uri'], PATHINFO_BASENAME) : '',
+      '#default_value' => $this->configuration['image_uri'],
     ];
     $form['image_uri'] = $this->imageSelector->selectionElement($options);
 
