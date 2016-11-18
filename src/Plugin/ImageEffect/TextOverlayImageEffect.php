@@ -6,6 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Image\ImageInterface;
@@ -39,6 +40,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     'image_xpos' => 0,
     'image_ypos' => 0,
   ];
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The Image factory.
@@ -78,12 +86,15 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    *   The font selector plugin.
    * @param \Drupal\Core\Utility\Token $token_service
    *   The token resolution service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsFontSelectorPluginInterface $font_selector_plugin, Token $token_service) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsFontSelectorPluginInterface $font_selector_plugin, Token $token_service, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger);
     $this->imageFactory = $image_factory;
     $this->fontSelector = $font_selector_plugin;
     $this->token = $token_service;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -97,7 +108,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       $container->get('logger.channel.image_effects'),
       $container->get('image.factory'),
       $container->get('plugin.manager.image_effects.font_selector')->getPlugin(),
-      $container->get('token')
+      $container->get('token'),
+      $container->get('module_handler')
     );
   }
 
@@ -163,6 +175,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
           'align'                 => 'left',
           'line_spacing'          => 0,
           'case_format'           => '',
+          'maximum_chars' => NULL,
+          'excess_chars_text' => $this->t('…'),
         ),
         'text_string'             => $this->t('Preview'),
       ),
@@ -417,6 +431,27 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#title' => $this->t('Text settings'),
       '#group'   => 'settings',
     );
+    // Max characters.
+    $form['text']['maximum_chars'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Maximum characters'),
+      '#description' => $this->t('The maximum allowed characters of text. Text longer than this will be trimmed. Leave blank for no limit.'),
+      '#default_value' => $this->configuration['text']['maximum_chars'],
+      '#maxlength' => 4,
+      '#size' => 5,
+      '#min' => 0,
+    ];
+    $form['text']['excess_chars_text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t("Excess text"),
+      '#default_value' => $this->configuration['text']['excess_chars_text'],
+      '#description' => $this->t('Text to append to the end of the source text, after trimming.'),
+      '#states' => [
+        'visible' => [
+          ':input[name="data[text][maximum_chars]"]' => ['!value' => ''],
+        ],
+      ],
+    ];
     // Inner width.
     $form['text']['maximum_width'] = array(
       '#type'  => 'number',
@@ -661,6 +696,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'align'                => $form_state->getValue(['text', 'align']),
         'case_format'          => $form_state->getValue(['text', 'case_format']),
         'line_spacing'         => $form_state->getValue(['text', 'line_spacing']),
+        'maximum_chars' => $form_state->getValue(['text', 'maximum_chars']),
+        'excess_chars_text' => $form_state->getValue(['text', 'excess_chars_text']),
       ),
       'text_string'            => $form_state->getValue(['text_default', 'text_string']),
     );
@@ -852,6 +889,20 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
   }
 
   /**
+   * Gets the text to overlay on the image, after all alterations.
+   *
+   * @param string $text
+   *   The text to be altered.
+   *
+   * @return string
+   *   The text after alteration by modules.
+   */
+  public function getAlteredText($text) {
+    $this->moduleHandler->alter('image_effects_text_overlay_text', $text, $this);
+    return $text;
+  }
+
+  /**
    * Get the image containing the text.
    *
    * This is separated from ::applyEffect() so that it can also be used
@@ -865,17 +916,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     if (!$textimage_factory || $textimage_factory->getState('building_module') !== 'textimage') {
       // Replace any tokens in text with run-time values.
       $this->configuration['text_string'] = $this->token->replace($this->configuration['text_string']);
-
-      // Convert case, if requested.
-      if ($this->configuration['text']['case_format']) {
-        $method_map = [
-          'upper' => 'strtoupper',
-          'lower' => 'strtolower',
-          'ucwords' => 'ucwords',
-          'ucfirst' => 'ucfirst',
-        ];
-        $this->configuration['text_string'] = Unicode::{$method_map[$this->configuration['text']['case_format']]}($this->configuration['text_string']);
-      }
+      // Let modules alter the text as needed.
+      $this->configuration['text_string'] = $this->getAlteredText($this->configuration['text_string']);
     }
 
     // Create the wrapper image object from scratch.

@@ -299,6 +299,12 @@ image.effect.image_effects_text_overlay:
     text:
       type: mapping
       mapping:
+        maximum_chars:
+          type: integer
+          label: 'Maximum characters threshold'
+        excess_chars_text:
+          type: text
+          label: 'Text to append at the end of the trimmed text string when it exceeded maximum characters threshold'
         maximum_width:
           type: integer
           label: 'Maximum width in px'

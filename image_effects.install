@@ -44,3 +44,19 @@ function image_effects_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * @addtogroup updates-8.x-1.0-alpha
+ * @{
+ */
+
+/**
+ * Clear caches due to added image_effects_text_overlay_text alter hook.
+ */
+function image_effects_update_8001() {
+  // Empty update to cause a cache rebuild.
+}
+
+/**
+ * @} End of "addtogroup updates-8.x-1.0-alpha".
+ */

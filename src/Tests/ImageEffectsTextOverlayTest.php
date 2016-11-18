@@ -24,7 +24,7 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
    */
   public function testTextOverlayEffect() {
     // Add Text overlay effect to the test image style.
-    $effect = [
+    $effect_config = [
       'id' => 'image_effects_text_overlay',
       'data' => [
         'text_default][text_string' => 'the quick brown fox jumps over the lazy dog',
@@ -35,10 +35,26 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
         'layout][position][extended_color][container][opacity' => 100,
       ],
     ];
-    $this->addEffectToTestStyle($effect);
+    $uuid = $this->addEffectToTestStyle($effect_config);
 
     // Test operations on toolkits.
     $this->executeTestOnToolkits([$this, 'doTestTextOverlayOperations']);
+
+    // Test converting to uppercase and trimming text.
+    $this->changeToolkit('gd');
+    $style_name = 'image_effects_test';
+    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
+    $image_style = ImageStyle::load($style_name);
+    $effect = $image_style->getEffect($uuid);
+    $this->assertEqual('the quick brown fox jumps over the lazy dog', $effect->getAlteredText($effect->getConfiguration()['data']['text_string']));
+    $effect_config = [
+      'data[text][maximum_chars]' => 9,
+      'data[text][case_format]' => 'upper',
+    ];
+    $this->drupalPostForm($style_path . '/effects/' . $uuid, $effect_config, t('Update effect'));
+    $image_style = ImageStyle::load($style_name);
+    $effect = $image_style->getEffect($uuid);
+    $this->assertEqual('THE QUICK…', $effect->getAlteredText($effect->getConfiguration()['data']['text_string']));
   }
 
   /**
