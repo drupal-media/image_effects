@@ -5,6 +5,7 @@
  * Provides effects and operations for the Image API.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
 use Drupal\image\ConfigurableImageEffectBase;
 use Drupal\image_effects\Component\ColorUtility;
@@ -85,6 +86,16 @@ function image_effects_image_effects_text_overlay_text_alter(&$text, Configurabl
 
   // Get effect data.
   $effect_data = $image_effect->getConfiguration()['data'];
+
+  // Strip HTML tags, if requested.
+  if ($effect_data['text']['strip_tags'] === TRUE) {
+    $text = strip_tags($text);
+  }
+
+  // Decode HTML entities, if requested.
+  if ($effect_data['text']['decode_entities'] === TRUE) {
+    $text = Html::decodeEntities($text);
+  }
 
   // Convert case, if requested.
   if ($effect_data['text']['case_format']) {

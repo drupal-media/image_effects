@@ -40,13 +40,26 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
     // Test operations on toolkits.
     $this->executeTestOnToolkits([$this, 'doTestTextOverlayOperations']);
 
-    // Test converting to uppercase and trimming text.
+    // Test text and HTML tags and entities.
     $this->changeToolkit('gd');
     $style_name = 'image_effects_test';
     $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
     $image_style = ImageStyle::load($style_name);
     $effect = $image_style->getEffect($uuid);
     $this->assertEqual('the quick brown fox jumps over the lazy dog', $effect->getAlteredText($effect->getConfiguration()['data']['text_string']));
+    $this->assertEqual('Para1 Para2', $effect->getAlteredText('<p>Para1</p><!-- Comment --> Para2'));
+    $this->assertEqual('"Title" One …', $effect->getAlteredText('&quot;Title&quot; One &hellip;'));
+    $effect_config = [
+      'data[text_default][strip_tags]' => FALSE,
+      'data[text_default][decode_entities]' => FALSE,
+    ];
+    $this->drupalPostForm($style_path . '/effects/' . $uuid, $effect_config, t('Update effect'));
+    $image_style = ImageStyle::load($style_name);
+    $effect = $image_style->getEffect($uuid);
+    $this->assertEqual('<p>Para1</p><!-- Comment --> Para2', $effect->getAlteredText('<p>Para1</p><!-- Comment --> Para2'));
+    $this->assertEqual('&quot;Title&quot; One &hellip;', $effect->getAlteredText('&quot;Title&quot; One &hellip;'));
+
+    // Test converting to uppercase and trimming text.
     $effect_config = [
       'data[text][maximum_chars]' => 9,
       'data[text][case_format]' => 'upper',

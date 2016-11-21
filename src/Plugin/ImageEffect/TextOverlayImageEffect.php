@@ -170,6 +170,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
           'extended_color'        => NULL,
         ),
         'text' => array(
+          'strip_tags' => TRUE,
+          'decode_entities' => TRUE,
           'maximum_width'         => 0,
           'fixed_width'           => FALSE,
           'align'                 => 'left',
@@ -192,7 +194,6 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
 
     if ($this->getTextimageFactory()) {
       // Preview effect.
-      $this->configuration['preview_bar']['debug_visuals'] = empty($this->configuration['preview_bar']['debug_visuals']) ? FALSE : TRUE;
       list($success, $preview) = $this->buildPreviewRender($this->configuration);
       $form['preview'] = [
         '#type'   => 'item',
@@ -249,6 +250,20 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     if ($token_tree_builder = $this->getTokenTreeBuilder()) {
       $form['text_default']['tokens'] = $token_tree_builder->buildAllRenderable();
     }
+    // Strip HTML tags.
+    $form['text_default']['strip_tags'] = [
+      '#type'  => 'checkbox',
+      '#title' => $this->t('Strip HTML tags'),
+      '#description' => $this->t("If checked, HTML tags will be stripped from the text. For example, '<kbd>&lt;p&gt;Para1&lt;/p&gt;&lt;!-- Comment --&gt; Para2</kbd>' will be converted to '<kbd>Para1 Para2</kbd>'."),
+      '#default_value' => $this->configuration['text']['strip_tags'],
+    ];
+    // Decode HTML entities.
+    $form['text_default']['decode_entities'] = [
+      '#type'  => 'checkbox',
+      '#title' => $this->t('Decode HTML entities'),
+      '#description' => $this->t("If checked, HTML entities will be decoded. For example, '<kbd>&amp;quot;Title&amp;quot;:&amp;nbsp;One</kbd>' will be converted to <kbd>'&quot;Title&quot;: One</kbd>'."),
+      '#default_value' => $this->configuration['text']['decode_entities'],
+    ];
 
     // Font settings.
     $form['font'] = array(
@@ -691,6 +706,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'background_color'     => $form_state->getValue(['layout', 'background_color']),
       ),
       'text'   => array(
+        'strip_tags' => (bool) $form_state->getValue(['text_default', 'strip_tags']),
+        'decode_entities' => (bool) $form_state->getValue(['text_default', 'decode_entities']),
         'maximum_width'        => $form_state->getValue(['text', 'maximum_width']),
         'fixed_width'          => $form_state->getValue(['text', 'fixed_width']),
         'align'                => $form_state->getValue(['text', 'align']),
@@ -1089,7 +1106,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     $data['layout']['y_offset'] = 0;
     $data['layout']['overflow_action'] = 'extend';
     $data['layout']['extended_color'] = NULL  ;
-    $data['debug_visuals'] = $data['preview_bar']['debug_visuals'];
+    $data['debug_visuals'] = isset($data['preview_bar']['debug_visuals']) ? $data['preview_bar']['debug_visuals'] : FALSE;
     try {
       $textimage = $textimage_factory->get()
         ->setEffects([

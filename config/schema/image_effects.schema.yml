@@ -299,6 +299,12 @@ image.effect.image_effects_text_overlay:
     text:
       type: mapping
       mapping:
+        strip_tags:
+          type: boolean
+          label: 'Strip HTML tags'
+        decode_entities:
+          type: boolean
+          label: 'Decode HTML entities'
         maximum_chars:
           type: integer
           label: 'Maximum characters threshold'
