@@ -31,15 +31,17 @@ function image_effects_requirements($phase) {
   }
 
   // Check PHP GD2 FreeType support.
-  $info = gd_info();
-  if (!function_exists('imagettftext') || !isset($info["FreeType Support"])) {
-    // No FreeType support, raise error.
-    $requirements['image_effects_gd_freetype'] = [
-      'title' => t('GD library FreeType support'),
-      'value' => t('Not installed'),
-      'severity' => REQUIREMENT_WARNING,
-      'description' => t('The GD Library for PHP is enabled, but was compiled without FreeType support. Image effects using fonts will not be available with the GD image toolkit.'),
-    ];
+  if (function_exists('gd_info')) {
+    $info = gd_info();
+    if (!function_exists('imagettftext') || !isset($info["FreeType Support"])) {
+      // No FreeType support, raise warning.
+      $requirements['image_effects_gd_freetype'] = [
+        'title' => t('GD library FreeType support'),
+        'value' => t('Not installed'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => t('The GD Library for PHP is enabled, but was compiled without FreeType support. Image effects using fonts will not be available with the GD image toolkit.'),
+      ];
+    }
   }
 
   return $requirements;
