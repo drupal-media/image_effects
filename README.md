@@ -27,6 +27,7 @@ Brightness       | Supports changing brightness settings of an image. Also suppo
 Color shift      | Colorizes image.                                                                             | X          | X                   |
 Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | X                   |
 Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | X                   |
+ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
 Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | X                   |
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | X                   |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | X                   |
@@ -100,7 +101,8 @@ of this project](https://www.drupal.org/project/issues/image_effects).
 
 This module is the Drupal 8 successor of the [ImageCache Actions](https://www.drupal.org/project/imagecache_actions) module.
 It also incorporates image effects that were part of the Drupal 7 versions of the
-[ImageMagick](https://drupal.org/project/imagemagick), [Textimage](https://drupal.org/project/textimage) and [FiltersIE](https://www.drupal.org/project/filtersie) modules.
+[ImageMagick](https://drupal.org/project/imagemagick), [Textimage](https://drupal.org/project/textimage), [FiltersIE](https://www.drupal.org/project/filtersie)
+and [ImageMagick Raw Effect](https://www.drupal.org/project/im_raw) modules.
 
 
 ## Which toolkit to use?

@@ -39,6 +39,10 @@ function image_effects_theme() {
     'image_effects_contrast_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // ImageMagick arguments effect - summary
+    'image_effects_imagemagick_arguments_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // Set canvas image effect - summary
     'image_effects_set_canvas_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],

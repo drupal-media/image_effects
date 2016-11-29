@@ -149,6 +149,23 @@ image.effect.image_effects_contrast:
       type: integer
       label: 'Level'
 
+image.effect.image_effects_imagemagick_arguments:
+  type: mapping
+  label: 'Directly enter ImageMagick command line arguments'
+  mapping:
+    command_line:
+      type: text
+      label: 'Command line arguments'
+    dimensions_method:
+      type: string
+      label: 'Method for determining dimensions'
+    width:
+      type: string
+      label: 'Width in px or %'
+    height:
+      type: string
+      label: 'Height in px or %'
+
 image.effect.image_effects_set_canvas:
   type: mapping
   label: 'Set canvas image effect'
