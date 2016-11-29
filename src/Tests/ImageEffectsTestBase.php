@@ -12,7 +12,7 @@ use Drupal\simpletest\WebTestBase;
  */
 abstract class ImageEffectsTestBase extends WebTestBase {
 
-  public static $modules = ['image', 'image_effects', 'simpletest'];
+  public static $modules = ['image', 'image_effects', 'simpletest', 'imagemagick'];
 
   /**
    * Toolkits to be tested.
@@ -39,19 +39,6 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   public function setUp() {
     parent::setUp();
 
-    // Try installing additional toolkit modules.
-    $toolkit_modules = ['imagemagick'];
-    try {
-      $this->container->get('module_installer')->install($toolkit_modules, TRUE);
-      $this->rebuildAll();
-    }
-    catch (MissingDependencyException $e) {
-      // The exception message has all the details. We just print out a debug
-      // since we do not want to fail tests if contrib toolkits are not
-      // available.
-      debug($e->getMessage());
-    }
-
     // Create a user and log it in.
     $this->adminUser = $this->drupalCreateUser([
       'administer site configuration',
@@ -59,20 +46,19 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     ]);
     $this->drupalLogin($this->adminUser);
 
-    // Create a test image style.
-    $style_name = 'image_effects_test';
-    $style_label = 'Image Effects Test';
-    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
-    $edit = [
-      'name' => $style_name,
-      'label' => $style_label,
-    ];
-    $this->drupalPostForm('admin/config/media/image-styles/add', $edit, t('Create new style'));
-    $this->assertRaw(t('Style %name was created.', ['%name' => $style_label]));
+    // Create the test image style.
+    $image_style = ImageStyle::create([
+      'name' => 'image_effects_test',
+      'label' => 'Image Effects Test',
+    ]);
+    $this->assertEqual(SAVED_NEW, $image_style->save());
   }
 
   /**
    * Add an image effect to the image test style.
+   *
+   * Uses the image effect configuration forms, and not API directly, to ensure
+   * forms work correctly.
    *
    * @param array $effect
    *   An array of effect data, with following keys:
@@ -117,9 +103,10 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *   The UUID of the effect to remove.
    */
   protected function removeEffectFromTestStyle($uuid) {
-    $style_name = 'image_effects_test';
-    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
-    $this->drupalPostForm($style_path . '/effects/' . $uuid . '/delete', [], t('Delete'));
+    $image_style = ImageStyle::load('image_effects_test');
+    $effect = $image_style->getEffect($uuid);
+    $image_style->deleteImageEffect($effect);
+    $this->assertEqual(SAVED_UPDATED, $image_style->save());
   }
 
   /**
