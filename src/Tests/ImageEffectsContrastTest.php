@@ -16,7 +16,8 @@ class ImageEffectsContrastTest extends ImageEffectsTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->toolkits = ['gd', 'imagemagick'];
+    // @todo This effect does not work on GraphicsMagick.
+    $this->imagemagickPackages['graphicsmagick'] = FALSE;
   }
 
   /**

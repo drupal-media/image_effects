@@ -12,14 +12,6 @@ use Drupal\image\Entity\ImageStyle;
 class ImageEffectsStripMetadataTest extends ImageEffectsTestBase {
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-    $this->toolkits = ['gd', 'imagemagick'];
-  }
-
-  /**
    * Strip metadata effect test.
    */
   public function testStripMetadataEffect() {

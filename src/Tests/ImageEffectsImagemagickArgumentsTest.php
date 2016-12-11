@@ -177,6 +177,9 @@ class ImageEffectsImagemagickArgumentsTest extends ImageEffectsTestBase {
       '#height' => $image->getHeight(),
     ];
     $this->assertEqual('<img src="' . $url . '" width="64" height="48" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
+
+    // Remove effect.
+    $this->removeEffectFromTestStyle($uuid);
   }
 
 }

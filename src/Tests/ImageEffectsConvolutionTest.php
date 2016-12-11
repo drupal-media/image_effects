@@ -6,6 +6,8 @@ use Drupal\system\Tests\Image\ToolkitTestBase;
 /**
  * Tests that the image effects pass parameters to the toolkit correctly.
  *
+ * @todo Need to convert this test to ImageEffectsTestBase.
+ *
  * @group Image Effects
  */
 class ImageEffectsConvolutionTest extends ToolkitTestBase {

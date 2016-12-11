@@ -17,7 +17,8 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->toolkits = ['gd', 'imagemagick'];
+    // @todo This effect does not work on GraphicsMagick.
+    $this->imagemagickPackages['graphicsmagick'] = FALSE;
   }
 
   /**
@@ -59,6 +60,7 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
 
       // Check that ::applyEffect generates interlaced PNG or GIF or
       // progressive JPEG image.
+      file_unmanaged_delete($generated_uri);
       $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
       $image = $image_factory->get($generated_uri, 'gd');
 

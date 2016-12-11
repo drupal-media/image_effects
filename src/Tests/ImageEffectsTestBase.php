@@ -19,7 +19,17 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *
    * @var array
    */
-  protected $toolkits = [];
+  protected $toolkits = ['gd', 'imagemagick'];
+
+  /**
+   * ImageMagick toolkit: packages to be tested.
+   *
+   * @var array
+   */
+  protected $imagemagickPackages = [
+    'imagemagick' => TRUE,
+    'graphicsmagick' => TRUE,
+  ];
 
   // Colors that are used in testing.
   protected $black       = array(0, 0, 0, 0);
@@ -148,21 +158,48 @@ abstract class ImageEffectsTestBase extends WebTestBase {
           break;
 
         case 'imagemagick':
-          if ($this->container->get('module_handler')->moduleExists('imagemagick')) {
-            $this->changeToolkit($toolkit_id);
+          $this->changeToolkit($toolkit_id);
+
+          // Execute tests with ImageMagick.
+          // The test can only be executed if ImageMagick's 'convert' is
+          // available on the shell path.
+          if ($this->imagemagickPackages['imagemagick'] === TRUE) {
             \Drupal::configFactory()->getEditable('imagemagick.settings')
+              ->set('binaries', 'imagemagick')
               ->set('debug', TRUE)
               ->save();
-            // The test can only be executed if the ImageMagick 'convert' is
-            // available on the shell path.
             $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
-            if (empty($status['errors'])) {
-              call_user_func($method);
+            if (!empty($status['errors'])) {
+              // Bots running automated test on d.o. do not have ImageMagick
+              // installed, so there's no purpose to try and run this test there;
+              // it can be run locally where ImageMagick is installed.
+              debug('Tests for ImageMagick cannot run because the \'convert\' binary is not available on the shell path.');
             }
             else {
-              debug('Tests for the Imagemagick toolkit cannot run because the \'convert\' executable is not available on the shell path.');
+              call_user_func($method);
             }
           }
+
+          // Execute tests with GraphicsMagick.
+          // The test can only be executed if GraphicsMagick's 'gm' is available
+          // on the shell path.
+          if ($this->imagemagickPackages['graphicsmagick'] === TRUE) {
+            \Drupal::configFactory()->getEditable('imagemagick.settings')
+              ->set('binaries', 'graphicsmagick')
+              ->set('debug', TRUE)
+              ->save();
+            $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
+            if (!empty($status['errors'])) {
+              // Bots running automated test on d.o. do not have GraphicsMagick
+              // installed, so there's no purpose to try and run this test there;
+              // it can be run locally where GraphicsMagick is installed.
+              debug('Tests for GraphicsMagick cannot run because the \'gm\' binary is not available on the shell path.');
+            }
+            else {
+              call_user_func($method);
+            }
+          }
+
           break;
 
       }

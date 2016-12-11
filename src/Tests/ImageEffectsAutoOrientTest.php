@@ -12,14 +12,6 @@ use Drupal\image\Entity\ImageStyle;
 class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-    $this->toolkits = ['gd', 'imagemagick'];
-  }
-
-  /**
    * Auto Orientation effect test.
    */
   public function testAutoOrientEffect() {

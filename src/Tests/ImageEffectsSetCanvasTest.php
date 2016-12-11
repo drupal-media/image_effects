@@ -16,13 +16,14 @@ class ImageEffectsSetCanvasTest extends ImageEffectsTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->toolkits = ['gd', 'imagemagick'];
+    // @todo This effect does not work on GraphicsMagick.
+    $this->imagemagickPackages['graphicsmagick'] = FALSE;
   }
 
   /**
    * Set canvas effect test.
    */
-  public function testColorShiftEffect() {
+  public function testSetCanvasEffect() {
     // Test operations on toolkits.
     $this->executeTestOnToolkits([$this, 'doTestSetCanvasOperations']);
   }
