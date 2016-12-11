@@ -19,26 +19,30 @@ toolkits.
 
 The effects that this module provides include:
 
-Effect name      | Description                                                                                  | GD toolkit | [ImageMagick](https://drupal.org/project/imagemagick) toolkit |
+Effect name      | Description                                                                                  | GD toolkit | [ImageMagick](https://drupal.org/project/imagemagick) toolkit<sup>1</sup> |
 -----------------|----------------------------------------------------------------------------------------------|:----------:|:-------------------:|
 Auto orientation | Uses EXIF Orientation tags to determine the image orientation.                               | X          | X                   |
-Background       | Places the source image anywhere over a selected background image.                           | X          | X                   |
-Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | X                   |
-Color shift      | Colorizes image.                                                                             | X          | X                   |
-Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | X                   |
-Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | X                   |
+Background       | Places the source image anywhere over a selected background image.                           | X          | IM only             |
+Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | IM only             |
+Color shift      | Colorizes image.                                                                             | X          | IM only             |
+Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | IM only             |
+Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | IM only             |
 ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
-Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | X                   |
-Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | X                   |
-Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | X                   |
-Sharpen          | Sharpens an image (using convolution).                                                       | X          | X                   |
+Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
+Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
+Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | IM only             |
+Sharpen          | Sharpens an image (using convolution).                                                       | X          | IM only             |
 Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
-Text overlay<sup>1</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | X<sup>2</sup>       |
-Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X                   |
+Text overlay<sup>2</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | IM only<sup>3</sup> |
+Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | IM only             |
 
 Notes:
-<sup>1</sup> The [Textimage](https://drupal.org/project/textimage) module, if installed, allows this effect to present a preview of the text overlay.
-<sup>2</sup> The ImageMagick toolkit actually requires the GD toolkit to build the text overlay.
+
+<sup>1</sup> Effect support for ImageMagick also depends on the package in use, ImageMagick or GraphicsMagick. 'X' identifies effects that can be executed with both IM and GM, 'IM only' effects that can only be executed with ImageMagick. 
+
+<sup>2</sup> The [Textimage](https://drupal.org/project/textimage) module, if installed, allows this effect's configuration UI to present a preview of the text overlay.
+
+<sup>3</sup> The ImageMagick toolkit actually requires the GD toolkit to build the text overlay.
 
 
 ## What Image Effects is not?
