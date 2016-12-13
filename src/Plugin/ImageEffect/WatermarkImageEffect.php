@@ -202,8 +202,8 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       }
     }
     list($x, $y) = explode('-', $this->configuration['placement']);
-    $x_pos = image_filter_keyword($x, $image->getWidth(), $watermark_image->getWidth());
-    $y_pos = image_filter_keyword($y, $image->getHeight(), $watermark_image->getHeight());
+    $x_pos = round(image_filter_keyword($x, $image->getWidth(), $watermark_image->getWidth()));
+    $y_pos = round(image_filter_keyword($y, $image->getHeight(), $watermark_image->getHeight()));
 
     return $image->apply('watermark', [
       'x_offset' => $x_pos + $this->configuration['x_offset'],

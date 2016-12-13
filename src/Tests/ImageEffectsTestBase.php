@@ -117,6 +117,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     $effect = $image_style->getEffect($uuid);
     $image_style->deleteImageEffect($effect);
     $this->assertEqual(SAVED_UPDATED, $image_style->save());
+    $image_style->flush();
   }
 
   /**

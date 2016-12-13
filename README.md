@@ -34,15 +34,24 @@ Set transparent color | Defines the color to be used for transparency in GIF ima
 Sharpen          | Sharpens an image (using convolution).                                                       | X          | IM only             |
 Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
 Text overlay<sup>2</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | IM only<sup>3</sup> |
-Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | IM only             |
+Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X<sup>4</sup>       |
 
 Notes:
 
-<sup>1</sup> Effect support for ImageMagick also depends on the package in use, ImageMagick or GraphicsMagick. 'X' identifies effects that can be executed with both IM and GM, 'IM only' effects that can only be executed with ImageMagick. 
+<sup>1</sup> Effect support for ImageMagick also depends on the package in
+use, ImageMagick or GraphicsMagick. 'X' identifies effects that can be executed
+with both IM and GM, 'IM only' effects that can only be executed with
+ImageMagick.
 
-<sup>2</sup> The [Textimage](https://drupal.org/project/textimage) module, if installed, allows this effect's configuration UI to present a preview of the text overlay.
+<sup>2</sup> The [Textimage](https://drupal.org/project/textimage) module, if
+installed, allows this effect's configuration UI to present a preview of the
+text overlay.
 
-<sup>3</sup> The ImageMagick toolkit actually requires the GD toolkit to build the text overlay.
+<sup>3</sup> The ImageMagick toolkit actually requires the GD toolkit to build
+the text overlay.
+
+<sup>4</sup> GraphicsMagick does not support setting transparency level
+(opacity) of the watermark image.
 
 
 ## What Image Effects is not?

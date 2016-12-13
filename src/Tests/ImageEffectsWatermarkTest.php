@@ -12,15 +12,6 @@ use Drupal\image\Entity\ImageStyle;
 class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-    // @todo This effect does not work on GraphicsMagick.
-    $this->imagemagickPackages['graphicsmagick'] = FALSE;
-  }
-
-  /**
    * Watermark effect test.
    */
   public function testWatermarkEffect() {
@@ -33,6 +24,8 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
    */
   public function doTestWatermarkOperations() {
     $image_factory = $this->container->get('image.factory');
+    $image_style = ImageStyle::load('image_effects_test');
+    $image_style->flush();
 
     // -----------------------------------------------------------------------
     // Basic test.
@@ -105,9 +98,9 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // GD slightly compresses fuchsia while resampling, so checking color
     // in and out the watermark needs a tolerance.
     $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 17, 0), $this->fuchsia, 4));
-    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 18, 0), $this->fuchsia, 4));
+    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 19, 0), $this->fuchsia, 4));
     $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 0, 13), $this->fuchsia, 4));
-    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 0, 14), $this->fuchsia, 4));
+    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 0, 15), $this->fuchsia, 4));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
@@ -149,6 +142,11 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Test for watermark PNG image with full transparency set, 50% opacity
     // watermark.
     // -----------------------------------------------------------------------
+    // Skip on ImageMagick toolkit with GraphicsMagick package selected.
+    // @todo see if GraphicsMagick can support opacity setting.
+    if ($image_factory->getToolkitId() === 'imagemagick' && \Drupal::configFactory()->get('imagemagick.settings')->get('binaries') === 'graphicsmagick') {
+      return;
+    }
     $test_file = drupal_get_path('module', 'image_effects') . '/tests/images/fuchsia.png';
     $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
     $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
