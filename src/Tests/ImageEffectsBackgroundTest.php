@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Background effect test.
  *
@@ -32,14 +30,8 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
    * Background operations test.
    */
   public function doTestBackgroundOperations() {
-    $image_factory = $this->container->get('image.factory');
-
-    $test_file = drupal_get_path('module', 'simpletest') . '/files/image-test.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
-
-    $background_file = drupal_get_path('module', 'simpletest') . '/files/image-1.png';
-    $background_uri = file_unmanaged_copy($background_file, 'public://', FILE_EXISTS_RENAME);
+    $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
+    $background_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
 
     $effect = [
       'id' => 'image_effects_background',
@@ -53,14 +45,11 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
     ];
     $uuid = $this->addEffectToTestStyle($effect);
 
-    // Load Image Style.
-    $image_style = ImageStyle::load('image_effects_test');
-
     // Check that ::transformDimensions returns expected dimensions.
-    $image = $image_factory->get($original_uri);
+    $image = $this->imageFactory->get($original_uri);
     $this->assertEqual(40, $image->getWidth());
     $this->assertEqual(20, $image->getHeight());
-    $url = file_url_transform_relative($image_style->buildUrl($original_uri));
+    $derivative_url = file_url_transform_relative($this->testImageStyle->buildUrl($original_uri));
     $variables = [
       '#theme' => 'image_style',
       '#style_name' => 'image_effects_test',
@@ -68,11 +57,12 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
       '#width' => $image->getWidth(),
       '#height' => $image->getHeight(),
     ];
-    $this->assertEqual('<img src="' . $url . '" width="360" height="240" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
+    $this->assertEqual('<img src="' . $derivative_url . '" width="360" height="240" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
 
     // Check that ::applyEffect generates image with expected canvas.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri, 'gd');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+    $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+    $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertEqual(360, $image->getWidth());
     $this->assertEqual(240, $image->getHeight());
     $this->assertTrue($this->colorsAreEqual($this->red, $this->getPixelColor($image, 0, 0)));
@@ -84,11 +74,11 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
     $this->removeEffectFromTestStyle($uuid);
 
     // Toolkit-specific tests.
-    switch ($image_factory->getToolkitId()) {
+    switch ($this->imageFactory->getToolkitId()) {
       case 'gd':
         // For the GD toolkit, test we are not left with orphan resource after
         // applying the operation.
-        $image = $image_factory->get($original_uri);
+        $image = $this->imageFactory->get($original_uri);
         // Store the original GD resource.
         $old_res = $image->getToolkit()->getResource();
         // Apply the operation.
@@ -96,7 +86,7 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
           'x_offset' => 0,
           'y_offset' => 0,
           'opacity' => 100,
-          'background_image' => $image_factory->get($background_uri),
+          'background_image' => $this->imageFactory->get($background_uri),
         ]);
         // The operation replaced the resource, check that the old one has
         // been destroyed.
@@ -107,16 +97,16 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
         break;
 
       case 'imagemagick':
-        // For the Imagemagick toolkit, toolkit should return backround
+        // For the Imagemagick toolkit, toolkit should return background
         // image dimensions after applying the operation, but before
         // saving.
-        $image = $image_factory->get($original_uri);
+        $image = $this->imageFactory->get($original_uri);
         // Apply the operation.
         $image->apply('background', [
           'x_offset' => 0,
           'y_offset' => 0,
           'opacity' => 100,
-          'background_image' => $image_factory->get($background_uri),
+          'background_image' => $this->imageFactory->get($background_uri),
         ]);
         $this->assertEqual(360, $image->getToolkit()->getWidth());
         $this->assertEqual(240, $image->getToolkit()->getHeight());

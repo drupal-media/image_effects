@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Watermark effect test.
  *
@@ -23,19 +21,14 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
    * Watermark operations test.
    */
   public function doTestWatermarkOperations() {
-    $image_factory = $this->container->get('image.factory');
-    $image_style = ImageStyle::load('image_effects_test');
-    $image_style->flush();
 
     // -----------------------------------------------------------------------
     // Basic test.
     // -----------------------------------------------------------------------
-    $test_file = drupal_get_path('module', 'simpletest') . '/files/image-1.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
+    $original_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
-    $watermark_file = drupal_get_path('module', 'simpletest') . '/files/image-test.png';
-    $watermark_uri = file_unmanaged_copy($watermark_file, 'public://', FILE_EXISTS_RENAME);
+    $watermark_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
     $effect = [
       'id' => 'image_effects_watermark',
@@ -49,13 +42,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     ];
     $uuid = $this->addEffectToTestStyle($effect);
 
-    // Load Image Style.
-    $image_style = ImageStyle::load('image_effects_test');
-
     // Check that ::applyEffect generates image with expected watermark.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri, 'gd');
-    $watermark = $image_factory->get($watermark_uri, 'gd');
+    $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+    $image = $this->imageFactory->get($derivative_uri, 'gd');
+    $watermark = $this->imageFactory->get($watermark_uri, 'gd');
     $this->assertFalse($this->colorsAreEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 0, 0)));
     $this->assertTrue($this->colorsAreEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 1, 1)));
     $this->assertTrue($this->colorsAreEqual($this->getPixelColor($watermark, 0, 1), $this->getPixelColor($image, 1, 2)));
@@ -69,12 +59,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // a sample image and check the color of pixels inside/outside the
     // watermark to see that it was scaled properly.
     // -----------------------------------------------------------------------
-    $test_file = drupal_get_path('module', 'simpletest') . '/files/image-1.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
+    $original_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
-    $watermark_file = drupal_get_path('module', 'image_effects') . '/tests/images/fuchsia.png';
-    $watermark_uri = file_unmanaged_copy($watermark_file, 'public://', FILE_EXISTS_RENAME);
+    $watermark_uri = $this->getTestImageCopyUri('/tests/images/fuchsia.png', 'image_effects');
 
     $effect = [
       'id' => 'image_effects_watermark',
@@ -89,12 +77,9 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     ];
     $uuid = $this->addEffectToTestStyle($effect);
 
-    // Load Image Style.
-    $image_style = ImageStyle::load('image_effects_test');
-
     // Check that ::applyEffect generates image with expected watermark.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri, 'gd');
+    $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+    $image = $this->imageFactory->get($derivative_uri, 'gd');
     // GD slightly compresses fuchsia while resampling, so checking color
     // in and out the watermark needs a tolerance.
     $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 17, 0), $this->fuchsia, 4));
@@ -109,11 +94,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Test for watermark PNG image with full transparency set, 100% opacity
     // watermark.
     // -----------------------------------------------------------------------
-    $test_file = drupal_get_path('module', 'image_effects') . '/tests/images/fuchsia.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
-    $watermark_file = drupal_get_path('module', 'simpletest') . '/files/image-test.png';
-    $watermark_uri = file_unmanaged_copy($watermark_file, 'public://', FILE_EXISTS_RENAME);
+    $original_uri = $this->getTestImageCopyUri('/tests/images/fuchsia.png', 'image_effects');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+
+    $watermark_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
     $effect = [
       'id' => 'image_effects_watermark',
@@ -127,12 +111,9 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     ];
     $uuid = $this->addEffectToTestStyle($effect);
 
-    // Load Image Style.
-    $image_style = ImageStyle::load('image_effects_test');
-
     // Check that ::applyEffect generates image with expected transparency.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri, 'gd');
+    $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+    $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertTrue($this->colorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia));
 
     // Remove effect.
@@ -144,14 +125,14 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // -----------------------------------------------------------------------
     // Skip on ImageMagick toolkit with GraphicsMagick package selected.
     // @todo see if GraphicsMagick can support opacity setting.
-    if ($image_factory->getToolkitId() === 'imagemagick' && \Drupal::configFactory()->get('imagemagick.settings')->get('binaries') === 'graphicsmagick') {
+    if ($this->imageFactory->getToolkitId() === 'imagemagick' && \Drupal::configFactory()->get('imagemagick.settings')->get('binaries') === 'graphicsmagick') {
       return;
     }
-    $test_file = drupal_get_path('module', 'image_effects') . '/tests/images/fuchsia.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/' . \Drupal::service('file_system')->basename($original_uri);
-    $watermark_file = drupal_get_path('module', 'simpletest') . '/files/image-test.png';
-    $watermark_uri = file_unmanaged_copy($watermark_file, 'public://', FILE_EXISTS_RENAME);
+
+    $original_uri = $this->getTestImageCopyUri('/tests/images/fuchsia.png', 'image_effects');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+
+    $watermark_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
     $effect = [
       'id' => 'image_effects_watermark',
@@ -165,12 +146,9 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     ];
     $uuid = $this->addEffectToTestStyle($effect);
 
-    // Load Image Style.
-    $image_style = ImageStyle::load('image_effects_test');
-
     // Check that ::applyEffect generates image with expected alpha.
-    $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-    $image = $image_factory->get($generated_uri, 'gd');
+    $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+    $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertTrue($this->colorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia));
     // GD and ImageMagick return slightly different colors, use the
     // ::colorsAreClose method.

@@ -2,7 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\Core\Extension\MissingDependencyException;
 use Drupal\Core\Image\ImageInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\simpletest\WebTestBase;
@@ -12,6 +11,11 @@ use Drupal\simpletest\WebTestBase;
  */
 abstract class ImageEffectsTestBase extends WebTestBase {
 
+  /**
+   * Modules to install.
+   *
+   * @var array
+   */
   public static $modules = ['image', 'image_effects', 'simpletest', 'imagemagick'];
 
   /**
@@ -31,23 +35,54 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     'graphicsmagick' => TRUE,
   ];
 
+  /**
+   * Test image style.
+   *
+   * @var \Drupal\image\Entity\ImageStyle
+   */
+  protected $testImageStyle;
+
+  /**
+   * Test image style name.
+   *
+   * @var string
+   */
+  protected $testImageStyleName = 'image_effects_test';
+
+  /**
+   * Test image style label.
+   *
+   * @var string
+   */
+  protected $testImageStyleLabel = 'Image Effects Test';
+
+  /**
+   * Image factory.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
+   */
+  protected $imageFactory;
+
   // Colors that are used in testing.
-  protected $black       = array(0, 0, 0, 0);
-  protected $red         = array(255, 0, 0, 0);
-  protected $green       = array(0, 255, 0, 0);
-  protected $blue        = array(0, 0, 255, 0);
-  protected $yellow      = array(255, 255, 0, 0);
-  protected $fuchsia     = array(255, 0, 255, 0);
-  protected $cyan        = array(0, 255, 255, 0);
-  protected $white       = array(255, 255, 255, 0);
-  protected $grey        = array(128, 128, 128, 0);
-  protected $transparent = array(0, 0, 0, 127);
+  protected $black       = [  0,   0,   0,   0];
+  protected $red         = [255,   0,   0,   0];
+  protected $green       = [  0, 255,   0,   0];
+  protected $blue        = [  0,   0, 255,   0];
+  protected $yellow      = [255, 255,   0,   0];
+  protected $fuchsia     = [255,   0, 255,   0];
+  protected $cyan        = [  0, 255, 255,   0];
+  protected $white       = [255, 255, 255,   0];
+  protected $grey        = [128, 128, 128,   0];
+  protected $transparent = [  0,   0,   0, 127];
 
   /**
    * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
+
+    // Set the image factory.
+    $this->imageFactory = $this->container->get('image.factory');
 
     // Create a user and log it in.
     $this->adminUser = $this->drupalCreateUser([
@@ -57,11 +92,11 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     $this->drupalLogin($this->adminUser);
 
     // Create the test image style.
-    $image_style = ImageStyle::create([
-      'name' => 'image_effects_test',
-      'label' => 'Image Effects Test',
+    $this->testImageStyle = ImageStyle::create([
+      'name' => $this->testImageStyleName,
+      'label' => $this->testImageStyleLabel,
     ]);
-    $this->assertEqual(SAVED_NEW, $image_style->save());
+    $this->assertEqual(SAVED_NEW, $this->testImageStyle->save());
   }
 
   /**
@@ -80,14 +115,11 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *   The UUID of the newly added effect.
    */
   protected function addEffectToTestStyle($effect) {
-    $style_name = 'image_effects_test';
-    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
-
-    // Get image style prior to adding a new effect.
-    $image_style_pre = ImageStyle::load($style_name);
+    // Get image style prior to adding the new effect.
+    $image_style_pre = ImageStyle::load($this->testImageStyleName);
 
     // Add the effect.
-    $this->drupalPostForm($style_path, array('new' => $effect['id']), t('Add'));
+    $this->drupalPostForm('admin/config/media/image-styles/manage/' . $this->testImageStyleName, ['new' => $effect['id']], t('Add'));
     if (!empty($effect['data'])) {
       $effect_edit = [];
       foreach($effect['data'] as $field => $value) {
@@ -97,8 +129,8 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     }
 
     // Get UUID of newly added effect.
-    $image_style_post = ImageStyle::load($style_name);
-    foreach ($image_style_post->getEffects() as $uuid => $effect) {
+    $this->testImageStyle = ImageStyle::load($this->testImageStyleName);
+    foreach ($this->testImageStyle->getEffects() as $uuid => $effect) {
       if (!$image_style_pre->getEffects()->has($uuid)) {
         return $uuid;
       }
@@ -113,11 +145,9 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *   The UUID of the effect to remove.
    */
   protected function removeEffectFromTestStyle($uuid) {
-    $image_style = ImageStyle::load('image_effects_test');
-    $effect = $image_style->getEffect($uuid);
-    $image_style->deleteImageEffect($effect);
-    $this->assertEqual(SAVED_UPDATED, $image_style->save());
-    $image_style->flush();
+    $effect = $this->testImageStyle->getEffect($uuid);
+    $this->testImageStyle->deleteImageEffect($effect);
+    $this->assertEqual(SAVED_UPDATED, $this->testImageStyle->save());
   }
 
   /**
@@ -156,6 +186,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
         case 'gd':
           $this->changeToolkit($toolkit_id);
           call_user_func($method);
+          $this->testImageStyle->flush();
           break;
 
         case 'imagemagick':
@@ -178,6 +209,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
             }
             else {
               call_user_func($method);
+              $this->testImageStyle->flush();
             }
           }
 
@@ -198,6 +230,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
             }
             else {
               call_user_func($method);
+              $this->testImageStyle->flush();
             }
           }
 
@@ -205,6 +238,28 @@ abstract class ImageEffectsTestBase extends WebTestBase {
 
       }
     }
+  }
+
+  /**
+   * Get the URI of the test image file copied to a safe location.
+   *
+   * @param string $path
+   *   The path to the test image file.
+   * @param string $name
+   *   (optional) The name of the item for which the path is requested.
+   *   Ignored for $type 'core'. If null, $path is returned. Defaults
+   *   to null.
+   * @param string $type
+   *   (optional) The type of the item; one of 'core', 'profile', 'module',
+   *   'theme', or 'theme_engine'. Defaults to 'module'.
+   */
+  protected function getTestImageCopyUri($path, $name = NULL, $type = 'module') {
+    $test_directory = 'public://test-images/';
+    file_prepare_directory($test_directory, FILE_CREATE_DIRECTORY);
+    $source_uri = $name ? drupal_get_path($type, $name) : '';
+    $source_uri .= $path;
+    $target_uri = $test_directory . \Drupal::service('file_system')->basename($source_uri);
+    return file_unmanaged_copy($source_uri, $target_uri, FILE_EXISTS_RENAME);
   }
 
   /**
@@ -264,7 +319,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
 
     $transparent_index = imagecolortransparent($toolkit->getResource());
     if ($color_index == $transparent_index) {
-      return array(0, 0, 0, 127);
+      return [0, 0, 0, 127];
     }
 
     return array_values(imagecolorsforindex($toolkit->getResource(), $color_index));

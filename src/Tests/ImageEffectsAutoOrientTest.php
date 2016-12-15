@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Auto Orientation effect test.
  *
@@ -42,11 +40,10 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
    * Auto Orientation operations test.
    */
   public function doTestAutoOrientOperations() {
-    $image_factory = $this->container->get('image.factory');
     $test_data = [
       // Test a JPEG image with EXIF data.
       [
-        'test_file' => drupal_get_path('module', 'image_effects') . '/tests/images/portrait-painting.jpg',
+        'test_file' => $this->getTestImageCopyUri('/tests/images/portrait-painting.jpg', 'image_effects'),
         'original_width' => 640,
         'original_height' => 480,
         'derivative_width' => 200,
@@ -54,7 +51,7 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
       ],
       // Test a JPEG image without EXIF data.
       [
-        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-test.jpg',
+        'test_file' => $this->getTestImageCopyUri('/files/image-test.jpg', 'simpletest'),
         'original_width' => 40,
         'original_height' => 20,
         'derivative_width' => 200,
@@ -62,7 +59,7 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
       ],
       // Test a non-EXIF image.
       [
-        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-1.png',
+        'test_file' => $this->getTestImageCopyUri('/files/image-1.png', 'simpletest'),
         'original_width' => 360,
         'original_height' => 240,
         'derivative_width' => 200,
@@ -71,34 +68,34 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     ];
 
     foreach ($test_data as $data) {
-      // Get expected URIs.
-      $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
-      $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
+      // Get URI of test file.
+      $original_uri = $data['test_file'];
 
       // Test source image dimensions.
-      $image = $image_factory->get($original_uri);
+      $image = $this->imageFactory->get($original_uri);
       $this->assertEqual($data['original_width'], $image->getWidth());
       $this->assertEqual($data['original_height'], $image->getHeight());
 
-      // Load Image Style and get expected derivative URL.
-      $image_style = ImageStyle::load('image_effects_test');
-      $url = file_url_transform_relative($image_style->buildUrl($original_uri));
+      // Get expected derivative URL.
+      $derivative_url = file_url_transform_relative($this->testImageStyle->buildUrl($original_uri));
 
       // Check that ::transformDimensions returns expected dimensions.
-      $variables = array(
+      $variables = [
         '#theme' => 'image_style',
         '#style_name' => 'image_effects_test',
         '#uri' => $original_uri,
         '#width' => $image->getWidth(),
         '#height' => $image->getHeight(),
-      );
-      $this->assertEqual('<img src="' . $url . '" width="' . $data['derivative_width'] . '" height="' . $data['derivative_height'] . '" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
+      ];
+      $this->assertEqual('<img src="' . $derivative_url . '" width="' . $data['derivative_width'] . '" height="' . $data['derivative_height'] . '" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
 
       // Check that ::applyEffect generates image with expected dimensions.
-      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-      $image = $image_factory->get($generated_uri);
+      $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $image = $this->imageFactory->get($derivative_uri);
       $this->assertEqual($data['derivative_width'], $image->getWidth());
       $this->assertEqual($data['derivative_height'], $image->getHeight());
     }
   }
+
 }

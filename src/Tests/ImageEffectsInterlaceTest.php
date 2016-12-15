@@ -2,7 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Image\ImageInterface;
 
 /**
@@ -33,42 +32,36 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
    * Interlace operations test.
    */
   public function doTestInterlaceOperations() {
-    $image_factory = $this->container->get('image.factory');
-
     $test_data = [
       // Test on the PNG test image.
       [
-        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-test.png',
+        'test_file' => $this->getTestImageCopyUri('/files/image-test.png', 'simpletest'),
       ],
     ];
 
+    // Add interlace effect to the test image style.
+    $effect = [
+      'id' => 'image_effects_interlace',
+      'data' => [
+        'type' => 'Plane',
+      ],
+    ];
+    $uuid = $this->addEffectToTestStyle($effect);
+
     foreach ($test_data as $data) {
-      $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
-      $generated_uri = 'public://styles/image_effects_test/public/'. $this->container->get('file_system')->basename($original_uri);
-
-      // Add interlace effect to the test image style.
-      $effect = [
-        'id' => 'image_effects_interlace',
-        'data' => [
-          'type' => 'Plane',
-        ],
-      ];
-      $uuid = $this->addEffectToTestStyle($effect);
-
-      // Load Image Style.
-      $image_style = ImageStyle::load('image_effects_test');
+      $original_uri = $data['test_file'];
 
       // Check that ::applyEffect generates interlaced PNG or GIF or
       // progressive JPEG image.
-      file_unmanaged_delete($generated_uri);
-      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-      $image = $image_factory->get($generated_uri, 'gd');
+      $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $image = $this->imageFactory->get($derivative_uri, 'gd');
 
       $this->assertTrue($this->isPNGInterlaced($image));
-
-      // Remove effect.
-      $uuid = $this->removeEffectFromTestStyle($uuid);
     }
+
+    // Remove effect.
+    $uuid = $this->removeEffectFromTestStyle($uuid);
   }
 
   /**

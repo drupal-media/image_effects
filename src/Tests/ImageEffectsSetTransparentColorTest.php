@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Set transparent color effect test.
  *
@@ -32,12 +30,9 @@ class ImageEffectsSetTransparentColorTest extends ImageEffectsTestBase {
    * Set transparent color operations test.
    */
   public function doTestColorshiftOperations() {
-    $image_factory = $this->container->get('image.factory');
-
     // Test on the GIF test image.
-    $test_file = drupal_get_path('module', 'simpletest') . '/files/image-test.gif';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
+    $original_uri = $this->getTestImageCopyUri('/files/image-test.gif', 'simpletest');
+    $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
     // Test data.
     $test_data = [
@@ -58,14 +53,11 @@ class ImageEffectsSetTransparentColorTest extends ImageEffectsTestBase {
       ];
       $uuid = $this->addEffectToTestStyle($effect);
 
-      // Load Image Style.
-      $image_style = ImageStyle::load('image_effects_test');
-
       // Check that ::applyEffect generates image with expected transparent
       // color. GD slightly compresses GIF colors so we use the
       // ::colorsAreClose method for testing.
-      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-      $image = $image_factory->get($generated_uri, 'gd');
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $image = $this->imageFactory->get($derivative_uri, 'gd');
       $this->assertTrue($this->colorsAreClose($colors[0], $this->getPixelColor($image, 0, 0), 40));
       $this->assertTrue($this->colorsAreClose($colors[1], $this->getPixelColor($image, 39, 0), 40));
       $this->assertTrue($this->colorsAreClose($colors[2], $this->getPixelColor($image, 0, 19), 40));
@@ -75,4 +67,5 @@ class ImageEffectsSetTransparentColorTest extends ImageEffectsTestBase {
       $uuid = $this->removeEffectFromTestStyle($uuid);
     }
   }
+
 }

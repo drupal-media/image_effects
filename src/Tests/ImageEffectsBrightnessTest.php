@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Brightness effect test.
  *
@@ -32,18 +30,17 @@ class ImageEffectsBrightnessTest extends ImageEffectsTestBase {
    * Brightness operations test.
    */
   public function doTestBrightnessOperations() {
-    $image_factory = $this->container->get('image.factory');
-
     // Test on the PNG test image.
-    $test_file = drupal_get_path('module', 'simpletest') . '/files/image-test.png';
-    $original_uri = file_unmanaged_copy($test_file, 'public://', FILE_EXISTS_RENAME);
-    $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
+    $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
     // Test data.
     $test_data = [
-      '0' => [$this->red, $this->green, $this->transparent, $this->blue],        // No brightness change.
-      '-100' => [$this->black, $this->black, $this->transparent, $this->black],  // Adjust brightness by -100%.
-      '100' => [$this->white, $this->white, $this->transparent, $this->white],   // Adjust brightness by 100%.
+      // No brightness change.
+      '0' => [$this->red, $this->green, $this->transparent, $this->blue],
+      // Adjust brightness by -100%.
+      '-100' => [$this->black, $this->black, $this->transparent, $this->black],
+      // Adjust brightness by 100%.
+      '100' => [$this->white, $this->white, $this->transparent, $this->white],
     ];
 
     foreach ($test_data as $key => $colors) {
@@ -56,12 +53,10 @@ class ImageEffectsBrightnessTest extends ImageEffectsTestBase {
       ];
       $uuid = $this->addEffectToTestStyle($effect);
 
-      // Load Image Style.
-      $image_style = ImageStyle::load('image_effects_test');
-
       // Check that ::applyEffect generates image with expected brightness.
-      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-      $image = $image_factory->get($generated_uri, 'gd');
+      $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $image = $this->imageFactory->get($derivative_uri, 'gd');
       $this->assertTrue($this->colorsAreEqual($colors[0], $this->getPixelColor($image, 0, 0)));
       $this->assertTrue($this->colorsAreEqual($colors[1], $this->getPixelColor($image, 39, 0)));
       $this->assertTrue($this->colorsAreEqual($colors[2], $this->getPixelColor($image, 0, 19)));
@@ -71,4 +66,5 @@ class ImageEffectsBrightnessTest extends ImageEffectsTestBase {
       $uuid = $this->removeEffectFromTestStyle($uuid);
     }
   }
+
 }

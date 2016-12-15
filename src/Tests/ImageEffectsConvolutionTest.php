@@ -1,96 +1,114 @@
 <?php
 
 namespace Drupal\image_effects\Tests;
-use Drupal\system\Tests\Image\ToolkitTestBase;
 
 /**
- * Tests that the image effects pass parameters to the toolkit correctly.
- *
- * @todo Need to convert this test to ImageEffectsTestBase.
+ * Convolution effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsConvolutionTest extends ToolkitTestBase {
+class ImageEffectsConvolutionTest extends ImageEffectsTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
+   * {@inheritdoc}
    */
-  public static $modules = array('image', 'image_effects');
-
-  /**
-   * The image effect manager.
-   *
-   * @var \Drupal\image\ImageEffectManager
-   */
-  protected $manager;
-
-  protected function setUp() {
+  public function setUp() {
     parent::setUp();
-    $this->manager = $this->container->get('plugin.manager.image.effect');
+    // @todo This effect does not work on GraphicsMagick.
+    $this->imagemagickPackages['graphicsmagick'] = FALSE;
   }
 
   /**
-   * Test the image_effects_convolution effect parameters.
+   * Convolution effect test.
    */
-  function testConvolutionEffectParameters() {
-    $this->assertImageEffect('image_effects_convolution', array(
-      'kernel' => [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
-      'divisor' => 9,
-      'offset' => 0,
-    ));
-    // @todo: uncomment the following instruction when
-    // assertToolkitOperationsCalled() will take into account non core effects
-    // $this->assertToolkitOperationsCalled(array('convolution'));
-
-    // Check the parameters.
-    $calls = $this->imageTestGetAllCalls();
-    $this->assertEqual($calls['convolution'][0][0], [[1, 1, 1], [1, 1, 1], [1, 1, 1]], 'Kernel matrix was passed correctly');
-    $this->assertEqual($calls['convolution'][0][1], 9, 'Divisor was passed correctly');
-    $this->assertEqual($calls['convolution'][0][2], 0, 'Offset was passed correctly');
-  }
-
-  /**
-   * Test the image_effects_convolution_sharpen effect parameters.
-   */
-  function testConvolutionSharpenEffectParameters() {
-    $this->assertImageEffect('image_effects_convolution_sharpen', array(
-      'level' => 25,
-    ));
-    // @todo: uncomment the following instruction when
-    // assertToolkitOperationsCalled() will take into account non core effects
-    // $this->assertToolkitOperationsCalled(array('convolution_sharpen'));
-
-    // Check the parameters.
-    $sharpenlevel = 25 / 100;
-    $kernel = [
-      [-$sharpenlevel, -$sharpenlevel, -$sharpenlevel],
-      [-$sharpenlevel, 8 * $sharpenlevel + 1, -$sharpenlevel],
-      [-$sharpenlevel, -$sharpenlevel, -$sharpenlevel]
+  public function testConvolutionEffect() {
+    // Add convolution effect to the test image style.
+    $effect = [
+      'id' => 'image_effects_convolution',
+      'data' => [
+        'kernel][entries][0][0' => 0,
+        'kernel][entries][0][1' => 1,
+        'kernel][entries][0][2' => 2,
+        'kernel][entries][1][0' => 3,
+        'kernel][entries][1][1' => 4,
+        'kernel][entries][1][2' => 5,
+        'kernel][entries][2][0' => 6,
+        'kernel][entries][2][1' => 7,
+        'kernel][entries][2][2' => 8,
+        'divisor' => 9,
+        'offset' => 0,
+        'label' => 'test_convolution',
+      ],
     ];
-    $calls = $this->imageTestGetAllCalls();
-    $this->assertEqual($calls['convolution'][0][0], $kernel, 'Kernel was passed correctly');
-    $this->assertEqual($calls['convolution'][0][1], 1, 'Divisor was passed correctly');
-    $this->assertEqual($calls['convolution'][0][2], 0, 'Offset was passed correctly');
+    $uuid = $this->addEffectToTestStyle($effect);
+
+    // Assert that effect is configured as expected.
+    $effect_configuration_data = $this->testImageStyle->getEffect($uuid)->getConfiguration()['data'];
+    $this->assertEqual([[0, 1, 2], [3, 4, 5], [6, 7, 8]], $effect_configuration_data['kernel']);
+    $this->assertEqual(9, $effect_configuration_data['divisor']);
+    $this->assertEqual(0, $effect_configuration_data['offset']);
+    $this->assertEqual('test_convolution', $effect_configuration_data['label']);
+
+    // Remove effect.
+    $this->removeEffectFromTestStyle($uuid);
+
+    // Test operations on toolkits.
+    $this->executeTestOnToolkits([$this, 'doTestConvolutionOperations']);
   }
 
   /**
-   * Asserts the effect processing of an image effect plugin.
-   *
-   * Note that this method was coppied from class
-   * Drupal\image\Tests\assertImageEffect.
-   *
-   * @param string $effect_name
-   *   The name of the image effect to test.
-   * @param array $data
-   *   The data to pass to the image effect.
-   *
-   * @return bool
-   *   TRUE if the assertion succeeded, FALSE otherwise.
+   * Convolution operations test.
    */
-  protected function assertImageEffect($effect_name, array $data) {
-    $effect = $this->manager->createInstance($effect_name, array('data' => $data));
-    return $this->assertTrue($effect->applyEffect($this->image), 'Function returned the expected value.');
+  function doTestConvolutionOperations() {
+    $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
+    $derivative_uri = 'public://test-images/image-test-derived.png';
+
+    // Add the effect for operation test.
+    $effect = [
+      'id' => 'image_effects_convolution',
+      'data' => [
+        'kernel][entries][0][0' => 9,
+        'kernel][entries][0][1' => 9,
+        'kernel][entries][0][2' => 9,
+        'kernel][entries][1][0' => 9,
+        'kernel][entries][1][1' => 9,
+        'kernel][entries][1][2' => 9,
+        'kernel][entries][2][0' => 9,
+        'kernel][entries][2][1' => 9,
+        'kernel][entries][2][2' => 9,
+        'divisor' => 9,
+        'offset' => 0,
+        'label' => 'test_convolution',
+      ],
+    ];
+    $uuid = $this->addEffectToTestStyle($effect);
+
+    // Apply the operation, via the effect.
+    $image = $this->imageFactory->get($original_uri);
+    $effect = $this->testImageStyle->getEffect($uuid);
+    $effect->applyEffect($image);
+
+    // Toolkit-specific tests.
+    switch ($this->imageFactory->getToolkitId()) {
+      case 'gd':
+        // For the GD toolkit, just test derivative image is valid.
+        $image->save($derivative_uri);
+        $derivative_image = $this->imageFactory->get($derivative_uri);
+        $this->assertTrue($derivative_image->isValid());
+        break;
+
+      case 'imagemagick':
+        // For the Imagemagick toolkit, check the command line argument has
+        // been formatted properly.
+        $argument = $image->getToolkit()->getArguments()[$image->getToolkit()->findArgument('-morphology')];
+        $this->assertEqual("-morphology Convolve '3x3:1,1,1 1,1,1 1,1,1'", $argument);
+        break;
+
+    }
+
+    // Remove effect.
+    $this->removeEffectFromTestStyle($uuid);
+
   }
+
 }

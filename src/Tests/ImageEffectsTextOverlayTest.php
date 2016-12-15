@@ -2,8 +2,6 @@
 
 namespace Drupal\image_effects\Tests;
 
-use Drupal\image\Entity\ImageStyle;
-
 /**
  * Text overlay effect test.
  *
@@ -43,31 +41,28 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
 
     // Test text and HTML tags and entities.
     $this->changeToolkit('gd');
-    $style_name = 'image_effects_test';
-    $style_path = 'admin/config/media/image-styles/manage/' . $style_name;
-    $image_style = ImageStyle::load($style_name);
-    $effect = $image_style->getEffect($uuid);
+    $effect = $this->testImageStyle->getEffect($uuid);
     $this->assertEqual('the quick brown fox jumps over the lazy dog', $effect->getAlteredText($effect->getConfiguration()['data']['text_string']));
     $this->assertEqual('Para1 Para2', $effect->getAlteredText('<p>Para1</p><!-- Comment --> Para2'));
     $this->assertEqual('"Title" One …', $effect->getAlteredText('&quot;Title&quot; One &hellip;'));
-    $effect_config = [
-      'data[text_default][strip_tags]' => FALSE,
-      'data[text_default][decode_entities]' => FALSE,
+    $this->removeEffectFromTestStyle($uuid);
+    $effect_config['data'] += [
+      'text_default][strip_tags' => FALSE,
+      'text_default][decode_entities' => FALSE,
     ];
-    $this->drupalPostForm($style_path . '/effects/' . $uuid, $effect_config, t('Update effect'));
-    $image_style = ImageStyle::load($style_name);
-    $effect = $image_style->getEffect($uuid);
+    $uuid = $this->addEffectToTestStyle($effect_config);
+    $effect = $this->testImageStyle->getEffect($uuid);
     $this->assertEqual('<p>Para1</p><!-- Comment --> Para2', $effect->getAlteredText('<p>Para1</p><!-- Comment --> Para2'));
     $this->assertEqual('&quot;Title&quot; One &hellip;', $effect->getAlteredText('&quot;Title&quot; One &hellip;'));
 
     // Test converting to uppercase and trimming text.
-    $effect_config = [
-      'data[text][maximum_chars]' => 9,
-      'data[text][case_format]' => 'upper',
+    $this->removeEffectFromTestStyle($uuid);
+    $effect_config['data'] += [
+      'text][maximum_chars' => 9,
+      'text][case_format' => 'upper',
     ];
-    $this->drupalPostForm($style_path . '/effects/' . $uuid, $effect_config, t('Update effect'));
-    $image_style = ImageStyle::load($style_name);
-    $effect = $image_style->getEffect($uuid);
+    $uuid = $this->addEffectToTestStyle($effect_config);
+    $effect = $this->testImageStyle->getEffect($uuid);
     $this->assertEqual('THE QUICK…', $effect->getAlteredText($effect->getConfiguration()['data']['text_string']));
   }
 
@@ -75,10 +70,9 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
    * Text overlay operations test.
    */
   public function doTestTextOverlayOperations() {
-    $image_factory = $this->container->get('image.factory');
     $test_data = [
       [
-        'test_file' => drupal_get_path('module', 'simpletest') . '/files/image-test.png',
+        'test_file' => $this->getTestImageCopyUri('/files/image-test.png', 'simpletest'),
         'derivative_width' => 984,
         'derivative_height' => 61,
       ],
@@ -86,20 +80,19 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
 
     foreach ($test_data as $data) {
       // Get expected URIs.
-      $original_uri = file_unmanaged_copy($data['test_file'], 'public://', FILE_EXISTS_RENAME);
-      $generated_uri = 'public://styles/image_effects_test/public/'. \Drupal::service('file_system')->basename($original_uri);
+      $original_uri = $data['test_file'];
+      $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
       // Source image.
-      $image = $image_factory->get($original_uri);
+      $image = $this->imageFactory->get($original_uri);
 
       // Load Image Style and get expected derivative URL.
-      $image_style = ImageStyle::load('image_effects_test');
-      $url = file_url_transform_relative($image_style->buildUrl($original_uri));
+      $derivative_url = file_url_transform_relative($this->testImageStyle->buildUrl($original_uri));
 
       // Check that ::applyEffect generates image with expected dimensions
       // and colors at corners.
-      $image_style->createDerivative($original_uri, $image_style->buildUri($original_uri));
-      $derivative_image = $image_factory->get($generated_uri, 'gd');
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $derivative_image = $this->imageFactory->get($derivative_uri, 'gd');
       $this->assertTextOverlay($derivative_image, $data['derivative_width'], $data['derivative_height']);
       $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($derivative_image, 0, 0)));
       $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($derivative_image, $derivative_image->getWidth() - 1, 0)));
@@ -107,14 +100,15 @@ class ImageEffectsTextOverlayTest extends ImageEffectsTestBase {
       $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($derivative_image, $derivative_image->getWidth() - 1, $derivative_image->getHeight() - 1)));
 
       // Check that ::transformDimensions returns expected dimensions.
-      $variables = array(
+      $variables = [
         '#theme' => 'image_style',
         '#style_name' => 'image_effects_test',
         '#uri' => $original_uri,
         '#width' => $image->getWidth(),
         '#height' => $image->getHeight(),
-      );
-      $this->assertEqual('<img src="' . $url . '" width="' . $derivative_image->getWidth() . '" height="' . $derivative_image->getHeight() . '" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
+      ];
+      $this->assertEqual('<img src="' . $derivative_url . '" width="' . $derivative_image->getWidth() . '" height="' . $derivative_image->getHeight() . '" alt="" class="image-style-image-effects-test" />', $this->getImageTag($variables));
     }
   }
+
 }

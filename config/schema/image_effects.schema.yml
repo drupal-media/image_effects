@@ -372,8 +372,14 @@ image.effect.image_effects_convolution:
   label: 'Filter image using convolution'
   mapping:
     kernel:
-      type: array
+      type: sequence
       label: 'Kernel'
+      sequence:
+        type: sequence
+        label: 'Row'
+        sequence:
+          type: integer
+          label: 'Column'
     divisor:
       type: integer
       label: 'Divisor'
