@@ -60,5 +60,12 @@ function image_effects_update_8001() {
 }
 
 /**
+ * Clear caches to discover added image effects.
+ */
+function image_effects_update_8002() {
+  // Empty update to cause a cache rebuild.
+}
+
+/**
  * @} End of "addtogroup updates-8.x-1.0-alpha".
  */
