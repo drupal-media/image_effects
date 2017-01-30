@@ -221,4 +221,70 @@ trait GDOperationTrait {
     }
   }
 
+  /**
+   * Change overall image transparency level.
+   *
+   * This method implements the algorithm described in
+   * http://php.net/manual/en/function.imagefilter.php#82162
+   *
+   * @param resource $img
+   *   Image resource id.
+   * @param int $pct
+   *   Opacity of the source image in percentage.
+   *
+   * @return bool
+   *   Returns TRUE on success or FALSE on failure.
+   *
+   * @see http://php.net/manual/en/function.imagefilter.php#82162
+   */
+  function filterOpacity($img, $pct) {
+    if (!isset($pct)) {
+      return false;
+    }
+    $pct /= 100;
+
+    // Get image width and height.
+    $w = imagesx($img);
+    $h = imagesy($img);
+
+    // Turn alpha blending off.
+    imagealphablending($img, FALSE);
+
+    // Find the most opaque pixel in the image (the one with the smallest alpha
+    // value).
+    $min_alpha = 127;
+    for ($x = 0; $x < $w; $x++) {
+      for ($y = 0; $y < $h; $y++) {
+        $alpha = (imagecolorat($img, $x, $y) >> 24) & 0xFF;
+        if ($alpha < $min_alpha) {
+          $min_alpha = $alpha;
+        }
+      }
+    }
+
+    // Loop through image pixels and modify alpha for each.
+    for ($x = 0; $x < $w; $x++) {
+      for ($y = 0; $y < $h; $y++) {
+        // Get current alpha value (represents the TANSPARENCY!).
+        $color_xy = imagecolorat($img, $x, $y);
+        $alpha = ($color_xy >> 24) & 0xFF;
+        // Calculate new alpha.
+        if ($min_alpha !== 127) {
+          $alpha = 127 + 127 * $pct * ($alpha - 127) / (127 - $min_alpha);
+        }
+        else {
+          $alpha += 127 * $pct;
+        }
+        // Get the color index with new alpha
+        $alpha_color_xy = imagecolorallocatealpha($img, ($color_xy >> 16) & 0xFF, ($color_xy >> 8) & 0xFF, $color_xy & 0xFF, $alpha);
+        // Set pixel with the new color + opacity.
+        if (!imagesetpixel($img, $x, $y, $alpha_color_xy)) {
+          return FALSE;
+        }
+      }
+    }
+
+    return TRUE;
+  }
+
 }

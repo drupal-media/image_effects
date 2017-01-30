@@ -166,6 +166,14 @@ image.effect.image_effects_imagemagick_arguments:
       type: string
       label: 'Height in px or %'
 
+image.effect.image_effects_opacity:
+  type: mapping
+  label: 'Adjust image transparency level'
+  mapping:
+    opacity:
+      type: integer
+      label: 'Opacity % of the source image'
+
 image.effect.image_effects_set_canvas:
   type: mapping
   label: 'Set canvas image effect'
