@@ -85,18 +85,18 @@ for further information.
   module should use:
   - _Color selector_ - allows to specify a UI component to select colors in the
     image effects. It can use a 'color' HTML element, or a color picker
-    provided by the Farbtastic library, or a JQuery Colorpicker (if the _JQuery
-    Colorpicker_ module is installed). Alternative selectors may be added by
-    other modules.
+    provided by the Farbtastic library, or a JQuery Colorpicker (if the [_JQuery
+    Colorpicker_](https://www.drupal.org/project/jquery_colorpicker) module is
+    installed). Additional selectors may be added by other modules.
   - _Image selector_ - some effects (e.g. Watermark) require to define an image
     file to be used. This setting allows to use either a basic text field where
     the URI/path to the image can be entered, or a 'dropdown' select that will
     list all the image files stored in a directory specified in configuration.
-    Alternative selectors may be added by other modules.
+    Additional selectors may be added by other modules.
   - _Font selector_ - some effects require to define a font file to be used.
     This setting allows to use either a basic text field where the URI/path to
     the font can be entered, or a 'dropdown' select that will list all the font
-    files stored in a directory specified in configuration. Alternative
+    files stored in a directory specified in configuration. Additional
     selectors may be added by other modules.
 
 
