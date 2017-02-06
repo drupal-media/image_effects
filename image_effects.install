@@ -17,14 +17,14 @@ function image_effects_requirements($phase) {
   ];
   if (!extension_loaded('exif')) {
     $requirements['image_effects_exif_extension'] += [
-      'value'=> t('Not installed'),
-      'description'=> t('The PHP EXIF extension is not installed. Automatic image orientation effects will not be available with the GD image toolkit.'),
+      'value' => t('Not installed'),
+      'description' => t('The PHP EXIF extension is not installed. Automatic image orientation effects will not be available with the GD image toolkit.'),
       'severity' => REQUIREMENT_WARNING,
     ];
   }
   else {
     $requirements['image_effects_exif_extension'] += [
-      'value'=> t('Enabled'),
+      'value' => t('Enabled'),
       'severity' => REQUIREMENT_INFO,
     ];
 

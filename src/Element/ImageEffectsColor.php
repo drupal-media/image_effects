@@ -72,8 +72,8 @@ class ImageEffectsColor extends FormElement {
    *     '#allow_null' - if set to TRUE, a checkbox is displayed to set the
    *      color as a full transparency, In this case, color hex and opacity are
    *      hidden, and the value returned is NULL.
-   *     '#allow_opacity' - if set to TRUE, a textfield is displayed to capture the
-   *      'opacity' value, as a percentage.
+   *     '#allow_opacity' - if set to TRUE, a textfield is displayed to capture
+   *      the 'opacity' value, as a percentage.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    * @param array $complete_form
@@ -82,7 +82,7 @@ class ImageEffectsColor extends FormElement {
    * @return array
    *   The processed element.
    */
-  public static function processImageEffectsColor(&$element, FormStateInterface $form_state, &$complete_form) {
+  public static function processImageEffectsColor(array &$element, FormStateInterface $form_state, array &$complete_form) {
     // Make sure element properties are set.
     $element += [
       '#allow_null' => FALSE,

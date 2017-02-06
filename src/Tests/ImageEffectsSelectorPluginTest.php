@@ -9,7 +9,12 @@ namespace Drupal\image_effects\Tests;
  */
 class ImageEffectsSelectorPluginTest extends ImageEffectsTestBase {
 
-  public static $modules = ['image', 'image_effects', 'simpletest', 'image_effects_module_test'];
+  public static $modules = [
+    'image',
+    'image_effects',
+    'simpletest',
+    'image_effects_module_test',
+  ];
 
   /**
    * Image selector test.

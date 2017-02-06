@@ -37,7 +37,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
         'x_offset' => 1,
         'y_offset' => 1,
         'opacity' => 100,
-        'watermark_image' => $watermark_uri
+        'watermark_image' => $watermark_uri,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
@@ -106,7 +106,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
         'x_offset' => 0,
         'y_offset' => 0,
         'opacity' => 100,
-        'watermark_image' => $watermark_uri
+        'watermark_image' => $watermark_uri,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
@@ -141,7 +141,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
         'x_offset' => 0,
         'y_offset' => 0,
         'opacity' => 50,
-        'watermark_image' => $watermark_uri
+        'watermark_image' => $watermark_uri,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);

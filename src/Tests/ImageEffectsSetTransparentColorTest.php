@@ -36,10 +36,30 @@ class ImageEffectsSetTransparentColorTest extends ImageEffectsTestBase {
 
     // Test data.
     $test_data = [
-      '#FF0000' => [$this->transparent, $this->green, $this->yellow, $this->blue],
-      '#00FF00' => [$this->red, $this->transparent, $this->yellow, $this->blue],
-      '#0000FF' => [$this->red, $this->green, $this->yellow, $this->transparent],
-      ''  => [$this->red, $this->green, $this->transparent, $this->blue],
+      '#FF0000' => [
+        $this->transparent,
+        $this->green,
+        $this->yellow,
+        $this->blue,
+      ],
+      '#00FF00' => [
+        $this->red,
+        $this->transparent,
+        $this->yellow,
+        $this->blue,
+      ],
+      '#0000FF' => [
+        $this->red,
+        $this->green,
+        $this->yellow,
+        $this->transparent,
+      ],
+      ''  => [
+        $this->red,
+        $this->green,
+        $this->transparent,
+        $this->blue,
+      ],
     ];
 
     foreach ($test_data as $key => $colors) {

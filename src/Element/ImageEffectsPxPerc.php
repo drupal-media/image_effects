@@ -4,7 +4,6 @@ namespace Drupal\image_effects\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\FormElement;
-use Drupal\image_effects\Component\ColorUtility;
 
 /**
  * Implements a form element for a quantity either in pixels or percentage.
@@ -60,7 +59,7 @@ class ImageEffectsPxPerc extends FormElement {
    * @return array
    *   The processed element.
    */
-  public static function processImageEffectsPxPerc(&$element, FormStateInterface $form_state, &$complete_form) {
+  public static function processImageEffectsPxPerc(array &$element, FormStateInterface $form_state, array &$complete_form) {
     // Make sure element properties are set.
     $element += [
       '#title' => NULL,
@@ -89,7 +88,13 @@ class ImageEffectsPxPerc extends FormElement {
     ];
     $element['c0']['c1'] = [
       '#type' => 'fieldset',
-      '#attributes' => ['class' => ['container-inline','fieldgroup', 'form-composite']],
+      '#attributes' => [
+        'class' => [
+          'container-inline',
+          'fieldgroup',
+          'form-composite',
+        ],
+      ],
     ];
     $element['c0']['c1']['value'] = [
       '#type' => 'number',
