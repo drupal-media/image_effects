@@ -24,15 +24,8 @@ class Watermark extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function execute(array $arguments) {
-    // Overlay image local path.
-    $local_path = $arguments['watermark_image']->getToolkit()->getSourceLocalPath();
-    if ($local_path !== '') {
-      $image_path = $this->getToolkit()->escapeShellArg($local_path);
-    }
-    else {
-      $source_path = $arguments['watermark_image']->getToolkit()->getSource();
-      throw new \InvalidArgumentException("Missing local path for image at {$source_path}");
-    }
+    // Overlay image path.
+    $image_path = $this->getToolkit()->escapeShellArg($arguments['watermark_image']->getToolkit()->getSourceLocalPath());
 
     // Set the dimensions of the overlay. Use of the scale option means that we
     // need to change the dimensions: always set them, they don't harm when the

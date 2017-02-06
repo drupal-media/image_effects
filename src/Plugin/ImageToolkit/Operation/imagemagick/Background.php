@@ -24,16 +24,6 @@ class Background extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function execute(array $arguments) {
-    // Background image local path.
-    $local_path = $arguments['background_image']->getToolkit()->getSourceLocalPath();
-    if ($local_path !== '') {
-      $image_path = $this->getToolkit()->escapeShellArg($local_path);
-    }
-    else {
-      $source_path = $arguments['background_image']->getToolkit()->getSource();
-      throw new \InvalidArgumentException("Missing local path for image at {$source_path}");
-    }
-
     // Reset any gravity settings from earlier effects.
     $op = '-gravity None';
 
@@ -49,7 +39,7 @@ class Background extends ImagemagickImageToolkitOperationBase {
     $op .= " -extent {$w}x{$h}{$x}{$y} ";
 
     // Add the background image.
-    $op .= $image_path;
+    $op .= $this->getToolkit()->escapeShellArg($arguments['background_image']->getToolkit()->getSourceLocalPath());
 
     // Compose it with the destination.
     if ($arguments['opacity'] == 100) {

@@ -25,14 +25,6 @@ class ReplaceImage extends ImagemagickImageToolkitOperationBase {
    */
   protected function execute(array $arguments) {
     $replacement = $arguments['replacement_image'];
-
-    // Replacement image local path.
-    $local_path = $replacement->getToolkit()->getSourceLocalPath();
-    if ($local_path === '') {
-      $source_path = $replacement->getToolkit()->getSource();
-      throw new \InvalidArgumentException("Missing local path for image at {$source_path}");
-    }
-
     $this->getToolkit()
       ->resetArguments()
       ->setSourceLocalPath($replacement->getToolkit()->getSourceLocalPath())
