@@ -24,6 +24,16 @@ image_effects.html_color_selector:
     component:
       css/image_effects.html_color_selector.css: {}
 
+image_effects.jquery_colorpicker_color_selector:
+  version: VERSION
+  js:
+    js/image_effects.jquery_colorpicker_color_selector.js: {}
+  css:
+    component:
+      css/image_effects.jquery_colorpicker_color_selector.css: {}
+  dependencies:
+    - jquery_colorpicker/element
+
 image_effects.text_overlay_preview:
   version: VERSION
   css:

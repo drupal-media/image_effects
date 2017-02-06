@@ -11,7 +11,7 @@ use Drupal\simpletest\WebTestBase;
  */
 class ImageEffectsSettingsFormTest extends WebTestBase {
 
-  public static $modules = ['image_effects'];
+  public static $modules = ['image_effects', 'jquery_colorpicker'];
 
   /**
    * {@inheritdoc}
@@ -67,6 +67,37 @@ class ImageEffectsSettingsFormTest extends WebTestBase {
 
     // Check config changed.
     $this->assertEqual(['path' => 'public://'], \Drupal::config('image_effects.settings')->get('font_selector.plugin_settings.dropdown'));
+  }
+
+  /**
+   * Test JQuery Colorpicker color selector.
+   */
+  public function testJqueryColorpickerSelector() {
+    $admin_path = '/admin/config/media/image_effects';
+
+    // Get the settings form.
+    $this->drupalGet($admin_path);
+
+    // Change the default color selector.
+    $edit = [
+      'settings[color_selector][plugin_id]' => 'jquery_colorpicker',
+    ];
+    $this->drupalPostForm(NULL, $edit, t('Save configuration'));
+
+    // Check config changed.
+    $this->assertEqual('jquery_colorpicker', \Drupal::config('image_effects.settings')->get('color_selector.plugin_id'));
+
+    // Verify that the 'jquery_colorpicker' module cannot be uninstalled.
+    $this->assertNotEqual([], \Drupal::service('module_installer')->validateUninstall(['jquery_colorpicker']));
+
+    // Back to the default color selector.
+    $edit = [
+      'settings[color_selector][plugin_id]' => 'html_color',
+    ];
+    $this->drupalPostForm(NULL, $edit, t('Save configuration'));
+
+    // Verify that the 'jquery_colorpicker' module can be uninstalled now.
+    $this->assertTrue(\Drupal::service('module_installer')->uninstall(['jquery_colorpicker']));
   }
 
 }
