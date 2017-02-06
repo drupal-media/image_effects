@@ -9,3 +9,4 @@ dependencies:
   - system (>=8.2.0)
 test_dependencies:
   - imagemagick
+  - jquery_colorpicker
