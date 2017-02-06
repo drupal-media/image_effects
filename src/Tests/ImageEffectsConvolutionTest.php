@@ -59,7 +59,7 @@ class ImageEffectsConvolutionTest extends ImageEffectsTestBase {
   /**
    * Convolution operations test.
    */
-  function doTestConvolutionOperations() {
+  public function doTestConvolutionOperations() {
     $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
     $derivative_uri = 'public://test-images/image-test-derived.png';
 

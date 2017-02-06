@@ -70,7 +70,7 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'image_effects_settings';
   }
 
@@ -111,7 +111,7 @@ class SettingsForm extends ConfigFormBase {
       $font_plugin->setConfiguration($form_state->getValue(['settings', 'font_selector', 'plugin_settings']));
     }
 
-    // AJAX messages
+    // AJAX messages.
     $form['ajax_messages'] = array(
       '#type' => 'container',
       '#attributes' => [
@@ -185,7 +185,8 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) { }
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+  }
 
   /**
    * {@inheritdoc}

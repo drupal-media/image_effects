@@ -57,7 +57,7 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
       $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
       $image = $this->imageFactory->get($derivative_uri, 'gd');
 
-      $this->assertTrue($this->isPNGInterlaced($image));
+      $this->assertTrue($this->isPngInterlaced($image));
     }
 
     // Remove effect.
@@ -69,12 +69,13 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
    *
    * @param \Drupal\Core\Image\ImageInterface $image
    *   An image object that need to be checked.
+   *
    * @return bool
    *   Returns TRUE on success or FALSE on failure.
    *
    * @see http://stackoverflow.com/questions/14235600/php-test-if-image-is-interlaced
    */
-  private function isPNGInterlaced(ImageInterface $image) {
+  protected function isPngInterlaced(ImageInterface $image) {
     $source = $image->getSource();
 
     $real_path = $this->container->get('file_system')->realpath($source);
@@ -82,7 +83,7 @@ class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
     $handle = fopen($real_path, "r");
     $contents = fread($handle, 32);
     fclose($handle);
-    return( ord($contents[28]) != 0 );
+    return ord($contents[28]) != 0;
   }
 
 }

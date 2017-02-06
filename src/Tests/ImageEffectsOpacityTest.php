@@ -36,11 +36,26 @@ class ImageEffectsOpacityTest extends ImageEffectsTestBase {
     // Test data.
     $test_data = [
       // No transparency change.
-      '100' => [$this->red, $this->green, $this->transparent, $this->blue],
+      '100' => [
+        $this->red,
+        $this->green,
+        $this->transparent,
+        $this->blue,
+      ],
       // 50% transparency.
-      '50' => [[255, 0, 0, 63], [0, 255, 0, 63], $this->transparent, [0, 0, 255, 63]],
+      '50' => [
+        [255, 0, 0, 63],
+        [0, 255, 0, 63],
+        $this->transparent,
+        [0, 0, 255, 63],
+      ],
       // 100% transparency.
-      '0' => [$this->transparent, $this->transparent, $this->transparent, $this->transparent],
+      '0' => [
+        $this->transparent,
+        $this->transparent,
+        $this->transparent,
+        $this->transparent,
+      ],
     ];
 
     foreach ($test_data as $opacity => $colors) {
@@ -66,4 +81,5 @@ class ImageEffectsOpacityTest extends ImageEffectsTestBase {
       $uuid = $this->removeEffectFromTestStyle($uuid);
     }
   }
+
 }

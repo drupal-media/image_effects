@@ -16,7 +16,12 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = ['image', 'image_effects', 'simpletest', 'imagemagick'];
+  public static $modules = [
+    'image',
+    'image_effects',
+    'simpletest',
+    'imagemagick',
+  ];
 
   /**
    * Toolkits to be tested.
@@ -64,6 +69,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   protected $imageFactory;
 
   // Colors that are used in testing.
+  // @codingStandardsIgnoreStart
   protected $black       = [  0,   0,   0,   0];
   protected $red         = [255,   0,   0,   0];
   protected $green       = [  0, 255,   0,   0];
@@ -74,6 +80,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   protected $white       = [255, 255, 255,   0];
   protected $grey        = [128, 128, 128,   0];
   protected $transparent = [  0,   0,   0, 127];
+  // @codingStandardsIgnoreEnd
 
   /**
    * {@inheritdoc}
@@ -114,7 +121,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
    * @return string
    *   The UUID of the newly added effect.
    */
-  protected function addEffectToTestStyle($effect) {
+  protected function addEffectToTestStyle(array $effect) {
     // Get image style prior to adding the new effect.
     $image_style_pre = ImageStyle::load($this->testImageStyleName);
 
@@ -122,7 +129,7 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     $this->drupalPostForm('admin/config/media/image-styles/manage/' . $this->testImageStyleName, ['new' => $effect['id']], t('Add'));
     if (!empty($effect['data'])) {
       $effect_edit = [];
-      foreach($effect['data'] as $field => $value) {
+      foreach ($effect['data'] as $field => $value) {
         $effect_edit['data[' . $field . ']'] = $value;
       }
       $this->drupalPostForm(NULL, $effect_edit, t('Add effect'));
@@ -153,9 +160,9 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   /**
    * Render an image style element.
    *
-   * drupal_render() alters the passed $variables array by adding a new key
-   * '#printed' => TRUE. This prevents next call to re-render the element. We
-   * wrap drupal_render() in a helper protected method and pass each time a
+   * The ::renderRoot method alters the passed $variables array by adding a new
+   * key '#printed' => TRUE. This prevents next call to re-render the element.
+   * We wrap ::renderRoot() in a helper protected method and pass each time a
    * fresh array so that $variables won't get altered and the element is
    * re-rendered each time.
    */
@@ -203,8 +210,8 @@ abstract class ImageEffectsTestBase extends WebTestBase {
             $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
             if (!empty($status['errors'])) {
               // Bots running automated test on d.o. do not have ImageMagick
-              // installed, so there's no purpose to try and run this test there;
-              // it can be run locally where ImageMagick is installed.
+              // installed, so there's no purpose to try and run this test
+              // there; it can be run locally where ImageMagick is installed.
               debug('Tests for ImageMagick cannot run because the \'convert\' binary is not available on the shell path.');
             }
             else {
@@ -224,8 +231,8 @@ abstract class ImageEffectsTestBase extends WebTestBase {
             $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
             if (!empty($status['errors'])) {
               // Bots running automated test on d.o. do not have GraphicsMagick
-              // installed, so there's no purpose to try and run this test there;
-              // it can be run locally where GraphicsMagick is installed.
+              // installed, so there's no purpose to try and run this test
+              // there; it can be run locally where GraphicsMagick is installed.
               debug('Tests for GraphicsMagick cannot run because the \'gm\' binary is not available on the shell path.');
             }
             else {

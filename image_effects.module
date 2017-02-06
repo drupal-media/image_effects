@@ -23,11 +23,11 @@ function image_effects_theme() {
         'border_color' => '#000000',
       ],
     ],
-    // Background image effect - summary
+    // Background image effect - summary.
     'image_effects_background_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Brightness image effect - summary
+    // Brightness image effect - summary.
     'image_effects_brightness_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
@@ -35,23 +35,23 @@ function image_effects_theme() {
     'image_effects_color_shift_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Contrast image effect - summary
+    // Contrast image effect - summary.
     'image_effects_contrast_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // ImageMagick arguments effect - summary
+    // ImageMagick arguments effect - summary.
     'image_effects_imagemagick_arguments_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Opacity image effect - summary
+    // Opacity image effect - summary.
     'image_effects_opacity_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Set canvas image effect - summary
+    // Set canvas image effect - summary.
     'image_effects_set_canvas_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Set transparent color image effect - summary
+    // Set transparent color image effect - summary.
     'image_effects_set_transparent_color_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
@@ -63,19 +63,19 @@ function image_effects_theme() {
     'image_effects_text_overlay_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Watemark image effect - summary
+    // Watemark image effect - summary.
     'image_effects_watermark_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Convolution image effect - summary
+    // Convolution image effect - summary.
     'image_effects_convolution_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Convolution sharpen image effect - summary
+    // Convolution sharpen image effect - summary.
     'image_effects_convolution_sharpen_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
-    // Interlace image effect - summary
+    // Interlace image effect - summary.
     'image_effects_interlace_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
@@ -107,7 +107,7 @@ function image_effects_image_effects_text_overlay_text_alter(&$text, Configurabl
 
   // Convert case, if requested.
   if ($effect_data['text']['case_format']) {
-     $method_map = [
+    $method_map = [
       'upper' => 'strtoupper',
       'lower' => 'strtolower',
       'ucwords' => 'ucwords',

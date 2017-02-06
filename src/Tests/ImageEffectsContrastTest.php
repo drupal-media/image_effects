@@ -117,4 +117,5 @@ class ImageEffectsContrastTest extends ImageEffectsTestBase {
       $uuid = $this->removeEffectFromTestStyle($uuid);
     }
   }
+
 }
