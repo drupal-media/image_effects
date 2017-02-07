@@ -86,7 +86,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsFontSelectorPluginInterface $font_selector_plugin, Token $token_service, ModuleHandlerInterface $module_handler) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsFontSelectorPluginInterface $font_selector_plugin, Token $token_service, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger);
     $this->imageFactory = $image_factory;
     $this->fontSelector = $font_selector_plugin;
@@ -469,7 +469,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#type'  => 'number',
       '#title' => $this->t('Maximum width'),
       '#field_suffix' => $this->t('px'),
-      '#description' => $this->t('Maximum width of the text image, inclusive of padding. Text lines wider than this will be wrapped. Set to 0 to disable wrapping. <b>Note:</b> in case of rotation, the width of the final image rendered will differ, to accomodate the rotation. If you need a strict width/height, add image resize/scale/crop effects afterwards.'),
+      '#description' => $this->t('Maximum width of the text image, inclusive of padding. Text lines wider than this will be wrapped. Set to 0 to disable wrapping. <b>Note:</b> in case of rotation, the width of the final image rendered will differ, to accommodate the rotation. If you need a strict width/height, add image resize/scale/crop effects afterwards.'),
       '#default_value' => $this->configuration['text']['maximum_width'],
       '#maxlength' => 4,
       '#size' => 4,
@@ -1083,7 +1083,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    *   - a render array of the preview, or markup describing the failure if
    *     the build was unsuccessful.
    */
-  protected function buildPreviewRender($data) {
+  protected function buildPreviewRender(array $data) {
     // If no font file specified, nothing to preview.
     if (empty($data['font']['uri'])) {
       return [

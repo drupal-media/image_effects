@@ -13,7 +13,7 @@ use Drupal\image_effects\Plugin\ImageToolkit\Operation\WatermarkTrait;
  *   toolkit = "gd",
  *   operation = "watermark",
  *   label = @Translation("Watermark"),
- *   description = @Translation("Add watermark image efect.")
+ *   description = @Translation("Add watermark image effect.")
  * )
  */
 class Watermark extends GDImageToolkitOperationBase {
