@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Image effect that relies on a image URI selected via the image selector plugin.
+ * Test effect that uses the image selector plugin to get an image.
  *
  * @ImageEffect(
  *   id = "image_effects_module_test_image_selection",

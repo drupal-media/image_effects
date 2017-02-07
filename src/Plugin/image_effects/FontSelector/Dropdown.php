@@ -37,9 +37,7 @@ class Dropdown extends Basic {
       '#default_value' => $this->configuration['path'],
       '#maxlength' => 255,
       '#element_validate' => array(array($this, 'validatePath')),
-      '#description' =>
-        $this->t('Location of the directory where the fonts are stored.') . ' ' .
-        $this->t('Relative paths will be resolved relative to the Drupal installation directory.'),
+      '#description' => $this->t('Location of the directory where the fonts are stored.') . ' ' . $this->t('Relative paths will be resolved relative to the Drupal installation directory.'),
     );
     return $element;
   }

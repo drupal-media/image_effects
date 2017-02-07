@@ -153,7 +153,7 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
    * Convert a dec to a hex.
    *
    * @param int $dec
-   *   an integer number
+   *   An integer number.
    *
    * @return string
    *   the number represented as hex

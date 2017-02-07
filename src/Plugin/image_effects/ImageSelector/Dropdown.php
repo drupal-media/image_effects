@@ -88,9 +88,7 @@ class Dropdown extends ImageEffectsPluginBase {
       '#default_value' => $this->configuration['path'],
       '#element_validate' => array(array($this, 'validatePath')),
       '#maxlength' => 255,
-      '#description' =>
-        $this->t('Location of the directory where the background images are stored.') . ' ' .
-        $this->t('Relative paths will be resolved relative to the Drupal installation directory.'),
+      '#description' => $this->t('Location of the directory where the background images are stored.') . ' ' . $this->t('Relative paths will be resolved relative to the Drupal installation directory.'),
     );
     return $element;
   }

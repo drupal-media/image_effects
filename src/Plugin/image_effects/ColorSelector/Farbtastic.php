@@ -15,6 +15,7 @@ use Drupal\image_effects\Plugin\ImageEffectsPluginBase;
  * )
  */
 class Farbtastic extends ImageEffectsPluginBase {
+
   /**
    * {@inheritdoc}
    */
@@ -32,4 +33,5 @@ class Farbtastic extends ImageEffectsPluginBase {
       '#attached' => ['library' => ['image_effects/image_effects.farbtastic_color_selector']],
     ];
   }
+
 }

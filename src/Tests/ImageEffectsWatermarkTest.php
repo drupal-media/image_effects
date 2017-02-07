@@ -22,9 +22,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
    */
   public function doTestWatermarkOperations() {
 
-    // -----------------------------------------------------------------------
-    // Basic test.
-    // -----------------------------------------------------------------------
+    // 1. Basic test.
     $original_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
@@ -54,11 +52,9 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
 
-    // -----------------------------------------------------------------------
-    // Test for scaled watermark. Place a fuchsia watermark scaled to 5% over
-    // a sample image and check the color of pixels inside/outside the
+    // 2. Test for scaled watermark. Place a fuchsia watermark scaled to 5%
+    // over a sample image and check the color of pixels inside/outside the
     // watermark to see that it was scaled properly.
-    // -----------------------------------------------------------------------
     $original_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
@@ -90,10 +86,8 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
 
-    // -----------------------------------------------------------------------
-    // Test for watermark PNG image with full transparency set, 100% opacity
+    // 3. Test for watermark PNG image with full transparency set, 100% opacity
     // watermark.
-    // -----------------------------------------------------------------------
     $original_uri = $this->getTestImageCopyUri('/tests/images/fuchsia.png', 'image_effects');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
@@ -119,8 +113,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
 
-    // -----------------------------------------------------------------------
-    // Test for watermark PNG image with full transparency set, 50% opacity
+    // 4. Test for watermark PNG image with full transparency set, 50% opacity
     // watermark.
     // -----------------------------------------------------------------------
     // Skip on ImageMagick toolkit with GraphicsMagick package selected.

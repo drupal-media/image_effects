@@ -36,11 +36,26 @@ class ImageEffectsColorShiftTest extends ImageEffectsTestBase {
     // Test data.
     $test_data = [
       // Shift to red.
-      '#FF0000' => [$this->red, $this->yellow, $this->transparent, $this->fuchsia],
+      '#FF0000' => [
+        $this->red,
+        $this->yellow,
+        $this->transparent,
+        $this->fuchsia,
+      ],
       // Shift to green.
-      '#00FF00' => [$this->yellow, $this->green, $this->transparent, $this->cyan],
+      '#00FF00' => [
+        $this->yellow,
+        $this->green,
+        $this->transparent,
+        $this->cyan,
+      ],
       // Shift to blue.
-      '#0000FF' => [$this->fuchsia, $this->cyan, $this->transparent, $this->blue],
+      '#0000FF' => [
+        $this->fuchsia,
+        $this->cyan,
+        $this->transparent,
+        $this->blue,
+      ],
       // Arbitrary shift.
       '#929BEF'  => [
         [255, 155, 239, 0],
