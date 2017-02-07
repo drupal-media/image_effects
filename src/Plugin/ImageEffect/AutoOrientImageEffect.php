@@ -59,7 +59,7 @@ class AutoOrientImageEffect extends ConfigurableImageEffectBase implements Conta
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The file system service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, MimeTypeGuesserInterface $mime_type_guesser, FileSystemInterface $file_system) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, LoggerInterface $logger, MimeTypeGuesserInterface $mime_type_guesser, FileSystemInterface $file_system) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger);
     $this->mimeTypeGuesser = $mime_type_guesser;
     $this->fileSystem = $file_system;

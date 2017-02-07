@@ -229,7 +229,7 @@ class PositionedRectangle {
    *
    * @return $this
    */
-  protected function rotatePoint(&$point, $angle) {
+  protected function rotatePoint(array &$point, $angle) {
     $rad = deg2rad($angle);
     $sin = sin($rad);
     $cos = cos($rad);
@@ -267,7 +267,7 @@ class PositionedRectangle {
    *
    * @return $this
    */
-  public function translate($offset) {
+  public function translate(array $offset) {
     if ($offset[0] || $offset[1]) {
       foreach ($this->points as &$point) {
         $this->translatePoint($point, $offset);
@@ -288,15 +288,13 @@ class PositionedRectangle {
   protected function determineBoundingCorners() {
     $this
       ->setPoint('o_a', [
-          min($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
-          min($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
-        ]
-      )
+        min($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
+        min($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
+      ])
       ->setPoint('o_c', [
-          max($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
-          max($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
-        ]
-      );
+        max($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
+        max($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
+      ]);
     return $this;
   }
 

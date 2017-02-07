@@ -1002,10 +1002,12 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     // The position of the wrapper, once offset as per explicit
     // input. Width and height are not relevant for the algorithm,
     // but would be determined as follows:
+    // @codingStandardsIgnoreStart
     // @code
     //  'width' => ($wrapper_width < $image_width) ? $wrapper_width + abs($this->configuration['layout']['x_offset']) : $wrapper_width;
     //  'height' = ($wrapper_height < $image_height) ? $wrapper_height + abs($this->configuration['layout']['y_offset']) : $wrapper_height;
     // @endcode
+    // @codingStandardsIgnoreEnd
     $this->info['wrapper_xpos'] = $x_offset + $this->configuration['layout']['x_offset'];
     $this->info['wrapper_ypos'] = $y_offset + $this->configuration['layout']['y_offset'];
 

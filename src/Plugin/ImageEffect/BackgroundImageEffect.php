@@ -52,7 +52,7 @@ class BackgroundImageEffect extends ConfigurableImageEffectBase implements Conta
    * @param \Drupal\image_effects\Plugin\ImageEffectsPluginBaseInterface $image_selector
    *   The image selector plugin.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsPluginBaseInterface $image_selector) {
+  public function __construct(array $configuration, $plugin_id, array $plugin_definition, LoggerInterface $logger, ImageFactory $image_factory, ImageEffectsPluginBaseInterface $image_selector) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $logger);
     $this->imageFactory = $image_factory;
     $this->imageSelector = $image_selector;
