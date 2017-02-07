@@ -38,7 +38,7 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
   /**
    * The image_effects logger.
    *
-   * @var \Psr\Log\LoggerInterface.
+   * @var \Psr\Log\LoggerInterface
    */
   protected $logger;
 

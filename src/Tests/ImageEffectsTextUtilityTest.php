@@ -16,6 +16,8 @@ class ImageEffectsTextUtilityTest extends KernelTestBase {
    * Performs the tests for the offset argument.
    */
   public function testOffsetArgument() {
+    $matches = [];
+
     // Character 'п' is 2 bytes long and preg_match() would start from the
     // second 'п' character and not from the first 'z'.
     $result = TextUtility::unicodePregMatch('/п/u', 'ппzz', $matches, NULL, 2);
@@ -32,6 +34,8 @@ class ImageEffectsTextUtilityTest extends KernelTestBase {
    * Performs the tests for the captured offset.
    */
   public function testCapturedOffset() {
+    $matches = [];
+
     // Character 'п' is 2 bytes long and non-unicode preg_match would return
     // 2 here.
     $result = TextUtility::unicodePregMatch('/z/u', 'пz', $matches, PREG_OFFSET_CAPTURE);

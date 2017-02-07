@@ -383,6 +383,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
     // boundaries.
     while (TRUE) {
       // Find the next wrap point (always after trailing whitespace).
+      $match = [];
       if (TextUtility::unicodePregMatch('/[' . TextUtility::PREG_CLASS_PUNCTUATION . '][' . TextUtility::PREG_CLASS_SEPARATOR . ']*|[' . TextUtility::PREG_CLASS_SEPARATOR . ']+/u', $text, $match, PREG_OFFSET_CAPTURE, $end)) {
         $end = $match[0][1] + Unicode::strlen($match[0][0]);
       }

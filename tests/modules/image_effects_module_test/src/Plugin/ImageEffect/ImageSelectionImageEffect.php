@@ -61,8 +61,6 @@ class ImageSelectionImageEffect extends ConfigurableImageEffectBase implements C
    * {@inheritdoc}
    */
   public function getSummary() {
-    $data = $this->configuration;
-
     return array(
       '#markup' => $this->configuration['image_uri'],
     ) + parent::getSummary();

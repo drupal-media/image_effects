@@ -70,7 +70,6 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
    */
   protected function getData($uri) {
     $realpath = drupal_realpath($uri);
-    $pathinfo = pathinfo($realpath);
     $fd = fopen($realpath, "r");
     $text = fread($fd, filesize($realpath));
     fclose($fd);
@@ -90,7 +89,6 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
     }
 
     $storage_dec = $offset_storage_dec + $offset_name_table_dec;
-    $storage_hex = Unicode::strtoupper(dechex($storage_dec));
     $font = array(
       'copyright' => '',
       'family' => '',
@@ -100,8 +98,6 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
     );
 
     for ($j = 0; $j < $number_name_records_dec; $j++) {
-      $platform_id_hex = $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 0])) . $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 1]));
-      $platform_id_dec = hexdec($platform_id_hex);
       $name_id_hex = $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 6])) . $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 7]));
       $name_id_dec = hexdec($name_id_hex);
       $string_length_hex = $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 8])) . $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 9]));
