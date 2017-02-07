@@ -11,8 +11,8 @@ use Drupal\image\ConfigurableImageEffectBase;
  * Shift image colors.
  *
  * Originally contributed to the imagecache_actions module by
- * dan http://coders.co.nz
- * sydneyshan http://enigmadigital.net.au
+ * dan http://coders.co.nz.
+ * sydneyshan http://enigmadigital.net.au.
  *
  * @ImageEffect(
  *   id = "image_effects_color_shift",
@@ -50,7 +50,6 @@ class ColorShiftImageEffect extends ConfigurableImageEffectBase implements Conta
       '#data' => $data,
     ] + parent::getSummary();
   }
-
 
   /**
    * {@inheritdoc}

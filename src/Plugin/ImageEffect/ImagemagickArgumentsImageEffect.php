@@ -8,7 +8,7 @@ use Drupal\image\ConfigurableImageEffectBase;
 use Drupal\image_effects\Component\ImageUtility;
 
 /**
- * Class ImagemagickArgumentsImageEffect
+ * Class ImagemagickArgumentsImageEffect.
  *
  * @ImageEffect(
  *   id = "image_effects_imagemagick_arguments",
@@ -127,7 +127,6 @@ class ImagemagickArgumentsImageEffect extends ConfigurableImageEffectBase {
     $d = $this->getDimensions($dimensions['width'], $dimensions['height']);
     $dimensions['width'] = $d['width'];
     $dimensions['height'] = $d['height'];
-    return;
   }
 
   /**

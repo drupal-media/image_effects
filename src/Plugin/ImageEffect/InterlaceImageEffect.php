@@ -8,7 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\image\ConfigurableImageEffectBase;
 
 /**
- * Class InterlaceImageEffect
+ * Class InterlaceImageEffect.
  *
  * @ImageEffect(
  *   id = "image_effects_interlace",

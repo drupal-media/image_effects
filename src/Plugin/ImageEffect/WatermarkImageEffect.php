@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Image\ImageFactory;
 
 /**
- * Class WatermarkImageEffect
+ * Class WatermarkImageEffect.
  *
  * @ImageEffect(
  *   id = "image_effects_watermark",
@@ -37,7 +37,7 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
   protected $imageSelector;
 
   /**
-   * Constructs an WatermarkImageEffect object
+   * Constructs an WatermarkImageEffect object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -148,7 +148,7 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       '#min' => 0,
       '#max' => 100,
       '#maxlength' => 3,
-      '#size' => 3
+      '#size' => 3,
     ];
     $options = [
       '#title' => $this->t('File name'),

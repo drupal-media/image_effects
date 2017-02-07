@@ -3,7 +3,7 @@
 namespace Drupal\image_effects\Component;
 
 /**
- * image_effects - Image handling methods.
+ * Image handling methods for image_effects.
  */
 abstract class ImageUtility {
 
@@ -21,10 +21,11 @@ abstract class ImageUtility {
    *   The current length. May be null.
    *
    * @return int|null
+   *   The computed length.
    */
   public static function percentFilter($length_specification, $current_length) {
     if (strpos($length_specification, '%') !== FALSE) {
-      $length_specification =  $current_length !== NULL ? str_replace('%', '', $length_specification) * 0.01 * $current_length : NULL;
+      $length_specification = $current_length !== NULL ? str_replace('%', '', $length_specification) * 0.01 * $current_length : NULL;
     }
     return $length_specification;
   }

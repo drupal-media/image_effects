@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Image\ImageFactory;
 
 /**
- * Class BackgroundImageEffect
+ * Class BackgroundImageEffect.
  *
  * @ImageEffect(
  *   id = "image_effects_background",
@@ -37,7 +37,7 @@ class BackgroundImageEffect extends ConfigurableImageEffectBase implements Conta
   protected $imageSelector;
 
   /**
-   * Constructs an BackgroundImageEffect object
+   * Constructs an BackgroundImageEffect object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -153,7 +153,7 @@ class BackgroundImageEffect extends ConfigurableImageEffectBase implements Conta
       '#min' => 0,
       '#max' => 100,
       '#maxlength' => 3,
-      '#size' => 3
+      '#size' => 3,
     ];
     return $form;
   }
@@ -202,7 +202,6 @@ class BackgroundImageEffect extends ConfigurableImageEffectBase implements Conta
   public function transformDimensions(array &$dimensions, $uri) {
     $dimensions['width'] = $this->configuration['background_image_width'];
     $dimensions['height'] = $this->configuration['background_image_height'];
-    return;
   }
 
 }

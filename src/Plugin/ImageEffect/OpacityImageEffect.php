@@ -49,7 +49,7 @@ class OpacityImageEffect extends ConfigurableImageEffectBase {
       '#min' => 0,
       '#max' => 100,
       '#maxlength' => 3,
-      '#size' => 3
+      '#size' => 3,
     ];
     return $form;
   }

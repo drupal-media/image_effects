@@ -49,8 +49,8 @@ class ConvolutionImageEffect extends ConfigurableImageEffectBase implements Cont
 
     $form['kernel'] = array(
       '#type' => 'item',
-      '#title' => t('Kernel matrix'),
-      '#description' => t('Entries sum: ') . '<span class="kernel-matrix-sum">0</span>.',
+      '#title' => $this->t('Kernel matrix'),
+      '#description' => $this->t('Entries sum: <span class="kernel-matrix-sum">0</span>.',
       '#required' => TRUE,
     );
     $form['kernel']['entries'] = array();
@@ -61,7 +61,7 @@ class ConvolutionImageEffect extends ConfigurableImageEffectBase implements Cont
       for ($j = 0; $j < 3; $j++) {
         $form['kernel']['entries'][$i][$j] = array(
           '#type' => 'number',
-          '#title' => t('Matrix entry') . " ($i,$j)",
+          '#title' => $this->t("Matrix entry (@i,@j)", ['@i' => $i, '@j' => $j]),
           '#title_display' => 'invisible',
           '#default_value' => $this->configuration['kernel'][$i][$j],
           '#required' => TRUE,

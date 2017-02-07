@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  * Automatically adjusts the orientation of an image resource.
  *
  * Uses EXIF Orientation tags to determine the image orientation.
- * EXIF: https://en.wikipedia.org/wiki/Exchangeable_image_file_format
- * EXIF orientation tag: http://sylvana.net/jpegcrop/exif_orientation.html
+ * EXIF: https://en.wikipedia.org/wiki/Exchangeable_image_file_format.
+ * EXIF orientation tag: http://sylvana.net/jpegcrop/exif_orientation.html.
  *
  * Originally contributed to the imagecache_actions module by jonathan_hunt
  * https://drupal.org/user/28976, September 1, 2009.

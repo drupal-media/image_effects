@@ -9,7 +9,7 @@ use Drupal\image\ConfigurableImageEffectBase;
 use Drupal\image_effects\Component\ImageUtility;
 
 /**
- * Class SetCanvasImageEffect
+ * Class SetCanvasImageEffect.
  *
  * @ImageEffect(
  *   id = "image_effects_set_canvas",
@@ -252,7 +252,6 @@ class SetCanvasImageEffect extends ConfigurableImageEffectBase {
       $dimensions['width'] = $d['width'];
       $dimensions['height'] = $d['height'];
     }
-    return;
   }
 
   /**

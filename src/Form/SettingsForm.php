@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 namespace Drupal\image_effects\Form;
 
@@ -12,6 +13,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Main image_effects settings admin form.
+ *
+ * @todo the array syntax for $form_state->getValue([...]) fails code style
+ * checking, but this is quite inconvenient. See if sniff gets adjusted or
+ * a different way to access nested keys will be available.
  */
 class SettingsForm extends ConfigFormBase {
 

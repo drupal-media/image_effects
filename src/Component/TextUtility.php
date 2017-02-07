@@ -5,7 +5,7 @@ namespace Drupal\image_effects\Component;
 use Drupal\Component\Utility\Unicode;
 
 /**
- * image_effects - Text handling methods.
+ * Text handling methods for image_effects.
  */
 abstract class TextUtility {
 

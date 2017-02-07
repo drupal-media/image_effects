@@ -6,7 +6,7 @@ use Drupal\Component\Utility\Color;
 use Drupal\Component\Utility\Unicode;
 
 /**
- * image_effects - Color handling methods.
+ * Color handling methods for image_effects.
  */
 abstract class ColorUtility {
 

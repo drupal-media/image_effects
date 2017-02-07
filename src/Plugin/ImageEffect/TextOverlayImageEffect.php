@@ -3,7 +3,6 @@
 namespace Drupal\image_effects\Plugin\ImageEffect;
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -11,10 +10,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Image\ImageInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Utility\Token;
 use Drupal\image\ConfigurableImageEffectBase;
-use Drupal\image_effects\Component\ColorUtility;
 use Drupal\image_effects\Component\PositionedRectangle;
 use Drupal\image_effects\Plugin\ImageEffectsFontSelectorPluginInterface;
 use Psr\Log\LoggerInterface;
@@ -676,47 +673,47 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
 
     $this->configuration = array(
       'font'   => array(
-        'name'                 => $form_state->hasValue(['font', 'uri']) ? $this->fontSelector->getDescription($form_state->getValue(['font', 'uri'])) : NULL,
-        'uri'                  => $form_state->getValue(['font', 'uri']),
-        'size'                 => $form_state->getValue(['font', 'size']),
-        'angle'                => $form_state->getValue(['font', 'angle']),
-        'color'                => $form_state->getValue(['font', 'color']),
-        'stroke_mode'          => $form_state->getValue(['font', 'stroke', 'mode']),
-        'stroke_color'         => $form_state->getValue(['font', 'stroke', 'color']),
-        'outline_top'          => $form_state->getValue(['font', 'stroke', 'top']),
-        'outline_right'        => $form_state->getValue(['font', 'stroke', 'right']),
-        'outline_bottom'       => $form_state->getValue(['font', 'stroke', 'bottom']),
-        'outline_left'         => $form_state->getValue(['font', 'stroke', 'left']),
-        'shadow_x_offset'      => $form_state->getValue(['font', 'stroke', 'x_offset']),
-        'shadow_y_offset'      => $form_state->getValue(['font', 'stroke', 'y_offset']),
-        'shadow_width'         => $form_state->getValue(['font', 'stroke', 'width']),
-        'shadow_height'        => $form_state->getValue(['font', 'stroke', 'height']),
+        'name' => $form_state->hasValue(['font', 'uri']) ? $this->fontSelector->getDescription($form_state->getValue(['font', 'uri'])) : NULL,
+        'uri' => $form_state->getValue(['font', 'uri']),
+        'size' => $form_state->getValue(['font', 'size']),
+        'angle' => $form_state->getValue(['font', 'angle']),
+        'color' => $form_state->getValue(['font', 'color']),
+        'stroke_mode' => $form_state->getValue(['font', 'stroke', 'mode']),
+        'stroke_color' => $form_state->getValue(['font', 'stroke', 'color']),
+        'outline_top' => $form_state->getValue(['font', 'stroke', 'top']),
+        'outline_right' => $form_state->getValue(['font', 'stroke', 'right']),
+        'outline_bottom' => $form_state->getValue(['font', 'stroke', 'bottom']),
+        'outline_left' => $form_state->getValue(['font', 'stroke', 'left']),
+        'shadow_x_offset' => $form_state->getValue(['font', 'stroke', 'x_offset']),
+        'shadow_y_offset' => $form_state->getValue(['font', 'stroke', 'y_offset']),
+        'shadow_width' => $form_state->getValue(['font', 'stroke', 'width']),
+        'shadow_height' => $form_state->getValue(['font', 'stroke', 'height']),
       ),
       'layout' => array(
-        'padding_top'          => $form_state->getValue(['layout', 'padding', 'top']),
-        'padding_right'        => $form_state->getValue(['layout', 'padding', 'right']),
-        'padding_bottom'       => $form_state->getValue(['layout', 'padding', 'bottom']),
-        'padding_left'         => $form_state->getValue(['layout', 'padding', 'left']),
-        'x_pos'                => $x_pos,
-        'y_pos'                => $y_pos,
-        'x_offset'             => $form_state->getValue(['layout', 'position', 'x_offset']),
-        'y_offset'             => $form_state->getValue(['layout', 'position', 'y_offset']),
-        'overflow_action'      => $form_state->getValue(['layout', 'position', 'overflow_action']),
-        'extended_color'       => $form_state->getValue(['layout', 'position', 'extended_color']),
-        'background_color'     => $form_state->getValue(['layout', 'background_color']),
+        'padding_top' => $form_state->getValue(['layout', 'padding', 'top']),
+        'padding_right' => $form_state->getValue(['layout', 'padding', 'right']),
+        'padding_bottom' => $form_state->getValue(['layout', 'padding', 'bottom']),
+        'padding_left' => $form_state->getValue(['layout', 'padding', 'left']),
+        'x_pos' => $x_pos,
+        'y_pos' => $y_pos,
+        'x_offset' => $form_state->getValue(['layout', 'position', 'x_offset']),
+        'y_offset' => $form_state->getValue(['layout', 'position', 'y_offset']),
+        'overflow_action' => $form_state->getValue(['layout', 'position', 'overflow_action']),
+        'extended_color' => $form_state->getValue(['layout', 'position', 'extended_color']),
+        'background_color' => $form_state->getValue(['layout', 'background_color']),
       ),
       'text'   => array(
         'strip_tags' => (bool) $form_state->getValue(['text_default', 'strip_tags']),
         'decode_entities' => (bool) $form_state->getValue(['text_default', 'decode_entities']),
-        'maximum_width'        => $form_state->getValue(['text', 'maximum_width']),
-        'fixed_width'          => $form_state->getValue(['text', 'fixed_width']),
-        'align'                => $form_state->getValue(['text', 'align']),
-        'case_format'          => $form_state->getValue(['text', 'case_format']),
-        'line_spacing'         => $form_state->getValue(['text', 'line_spacing']),
+        'maximum_width' => $form_state->getValue(['text', 'maximum_width']),
+        'fixed_width' => $form_state->getValue(['text', 'fixed_width']),
+        'align' => $form_state->getValue(['text', 'align']),
+        'case_format' => $form_state->getValue(['text', 'case_format']),
+        'line_spacing' => $form_state->getValue(['text', 'line_spacing']),
         'maximum_chars' => $form_state->getValue(['text', 'maximum_chars']),
         'excess_chars_text' => $form_state->getValue(['text', 'excess_chars_text']),
       ),
-      'text_string'            => $form_state->getValue(['text_default', 'text_string']),
+      'text_string' => $form_state->getValue(['text_default', 'text_string']),
     );
 
     // Save the updated configuration in a FormState value to enable Ajax
@@ -870,10 +867,10 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
 
     // Finally, lay the wrapper over the source image.
     if (!$image->apply('watermark', [
-        'watermark_image' => $wrapper,
-        'x_offset' => $this->info['wrapper_xpos'],
-        'y_offset' => $this->info['wrapper_ypos'],
-      ])) {
+      'watermark_image' => $wrapper,
+      'x_offset' => $this->info['wrapper_xpos'],
+      'y_offset' => $this->info['wrapper_ypos'],
+    ])) {
       return FALSE;
     }
 
@@ -1005,8 +1002,10 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     // The position of the wrapper, once offset as per explicit
     // input. Width and height are not relevant for the algorithm,
     // but would be determined as follows:
+    // @code
     //  'width' => ($wrapper_width < $image_width) ? $wrapper_width + abs($this->configuration['layout']['x_offset']) : $wrapper_width;
     //  'height' = ($wrapper_height < $image_height) ? $wrapper_height + abs($this->configuration['layout']['y_offset']) : $wrapper_height;
+    // @endcode
     $this->info['wrapper_xpos'] = $x_offset + $this->configuration['layout']['x_offset'];
     $this->info['wrapper_ypos'] = $y_offset + $this->configuration['layout']['y_offset'];
 
@@ -1061,7 +1060,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     if ($this->configuration['font']['stroke_mode'] == 'outline' && ($this->configuration['font']['outline_top'] || $this->configuration['font']['outline_right'] || $this->configuration['font']['outline_bottom'] || $this->configuration['font']['outline_left'])) {
       return $this->t('Outline');
     }
-    else if ($this->configuration['font']['stroke_mode'] == 'shadow') {
+    elseif ($this->configuration['font']['stroke_mode'] == 'shadow') {
       return $this->t('Shadow');
     }
     else {
@@ -1105,7 +1104,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     $data['layout']['x_offset'] = 0;
     $data['layout']['y_offset'] = 0;
     $data['layout']['overflow_action'] = 'extend';
-    $data['layout']['extended_color'] = NULL  ;
+    $data['layout']['extended_color'] = NULL;
     $data['debug_visuals'] = isset($data['preview_bar']['debug_visuals']) ? $data['preview_bar']['debug_visuals'] : FALSE;
     try {
       $textimage = $textimage_factory->get()
@@ -1136,4 +1135,5 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       ];
     }
   }
+
 }

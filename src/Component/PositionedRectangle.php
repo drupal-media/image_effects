@@ -108,7 +108,7 @@ class PositionedRectangle {
    *   D +-----------------+ C
    *     |                 |
    *     |                 |
-   *   A +-----------------+ B
+   *   A +-----------------+ B.
    *
    * @return $this
    */
@@ -220,14 +220,12 @@ class PositionedRectangle {
   }
 
   /**
-   * Rotates a point, by an offset and a rotation angle.
+   * Rotates a point, by a rotation angle.
    *
    * @param array $point
    *   An array of x, y coordinates.
    * @param float $angle
    *   Rotation angle.
-   * @param array $offset
-   *   Offset array (x, y).
    *
    * @return $this
    */
@@ -291,12 +289,12 @@ class PositionedRectangle {
     $this
       ->setPoint('o_a', [
           min($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
-          min($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1])
+          min($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
         ]
       )
       ->setPoint('o_c', [
           max($this->points['c_a'][0], $this->points['c_b'][0], $this->points['c_c'][0], $this->points['c_d'][0]),
-          max($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1])
+          max($this->points['c_a'][1], $this->points['c_b'][1], $this->points['c_c'][1], $this->points['c_d'][1]),
         ]
       );
     return $this;

@@ -7,7 +7,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 
 /**
- * image_effects base plugin interface.
+ * Interface for image_effects base plugin.
  */
 interface ImageEffectsPluginBaseInterface extends ConfigurablePluginInterface, ContainerFactoryPluginInterface, PluginFormInterface {
 

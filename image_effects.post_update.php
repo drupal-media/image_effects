@@ -12,9 +12,11 @@ use Drupal\image\Entity\ImageStyle;
  * @{
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Add 'maximum_chars' and 'excess_chars_text' parameters to 'Text Overlay' effects.
  */
+// @codingStandardsIgnoreEnd
 function image_effects_post_update_text_overlay_maximum_chars() {
   foreach (ImageStyle::loadMultiple() as $image_style) {
     $edited = FALSE;
