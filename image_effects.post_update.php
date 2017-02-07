@@ -16,8 +16,8 @@ use Drupal\image\Entity\ImageStyle;
 /**
  * Add 'maximum_chars' and 'excess_chars_text' parameters to 'Text Overlay' effects.
  */
-// @codingStandardsIgnoreEnd
 function image_effects_post_update_text_overlay_maximum_chars() {
+// @codingStandardsIgnoreEnd
   foreach (ImageStyle::loadMultiple() as $image_style) {
     $edited = FALSE;
     foreach ($image_style->getEffects() as $effect) {

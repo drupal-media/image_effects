@@ -668,6 +668,10 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::validateConfigurationForm($form, $form_state);
 
+    // @todo the array syntax for $form_state->getValue([...]) fails code
+    // style checking, but this is quite inconvenient. See if sniff gets
+    // adjusted or a different way to access nested keys will be available.
+    // @codingStandardsIgnoreStart
     // Get x-y position from the anchor element.
     list($x_pos, $y_pos) = explode('-', $form_state->getValue(['layout', 'position', 'placement']));
 
@@ -715,6 +719,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       ),
       'text_string' => $form_state->getValue(['text_default', 'text_string']),
     );
+    // @codingStandardsIgnoreEnd
 
     // Save the updated configuration in a FormState value to enable Ajax
     // preview generation.
