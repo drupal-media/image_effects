@@ -21,7 +21,7 @@ trait FontOperationTrait {
    *
    * @var array
    */
-  static $fontPaths = [];
+  protected static $fontPaths = [];
 
   /**
    * Return the real path of the specified file.

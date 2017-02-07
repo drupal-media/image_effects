@@ -4,7 +4,6 @@ namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\gd;
 
 use Drupal\system\Plugin\ImageToolkit\Operation\gd\GDImageToolkitOperationBase;
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\BackgroundTrait;
-use Drupal\image_effects\Plugin\ImageToolkit\Operation\gd\GDOperationTrait;
 
 /**
  * Defines GD Background operation.

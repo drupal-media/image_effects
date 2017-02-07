@@ -79,7 +79,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
     // ---------------------------------------
     // Inner box - the exact bounding box of the text.
     // Outer box - the box where the inner box is - can be different because
-    //  of padding.
+    // of padding.
     // Wrapper - the canvas where the outer box is laid.
     // ---------------------------------------
     // Get inner box details, for horizontal text, unpadded.

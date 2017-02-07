@@ -44,14 +44,14 @@ class AutoOrient extends GDImageToolkitOperationBase {
     $exif = @exif_read_data(\Drupal::service('file_system')->realpath($source_path));
     if (isset($exif['Orientation'])) {
       // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html:
-      // 1 = Horizontal (normal)
-      // 2 = Mirror horizontal
-      // 3 = Rotate 180
-      // 4 = Mirror vertical
-      // 5 = Mirror horizontal and rotate 270 CW
-      // 6 = Rotate 90 CW
-      // 7 = Mirror horizontal and rotate 90 CW
-      // 8 = Rotate 270 CW
+      // 1 = Horizontal (normal).
+      // 2 = Mirror horizontal.
+      // 3 = Rotate 180.
+      // 4 = Mirror vertical.
+      // 5 = Mirror horizontal and rotate 270 CW.
+      // 6 = Rotate 90 CW.
+      // 7 = Mirror horizontal and rotate 90 CW.
+      // 8 = Rotate 270 CW.
       // @todo: Add horizontal and vertical flips etc.
       // imagecopy seems to be able to mirror, see conmments on
       // http://php.net/manual/en/function.imagecopy.php
@@ -60,12 +60,15 @@ class AutoOrient extends GDImageToolkitOperationBase {
         case 3:
           $degrees = 180;
           break;
+
         case 6:
           $degrees = 90;
           break;
+
         case 8:
           $degrees = 270;
           break;
+
         default:
           $degrees = 0;
       }

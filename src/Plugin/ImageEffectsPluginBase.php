@@ -29,7 +29,7 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
   protected $urlGenerator;
 
   /**
-   * image_effects configuration object.
+   * Configuration object for image_effects.
    *
    * @var \Drupal\Core\Config\Config
    */
@@ -134,12 +134,14 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
   /**
    * {@inheritdoc}
    */
-  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) { }
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+  }
 
   /**
    * {@inheritdoc}
    */
-  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) { }
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+  }
 
   /**
    * {@inheritdoc}
@@ -147,4 +149,5 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
   public function selectionElement(array $options = array()) {
     return [];
   }
+
 }

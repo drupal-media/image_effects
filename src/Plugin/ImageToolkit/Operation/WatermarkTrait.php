@@ -18,7 +18,7 @@ trait WatermarkTrait {
         'description' => 'X offset for watermark image.',
       ],
       'y_offset' => [
-        'description' => 'Y offset for watermark image.'
+        'description' => 'Y offset for watermark image.',
       ],
       'opacity' => [
         'description' => 'Opacity for watermark image.',
@@ -26,8 +26,8 @@ trait WatermarkTrait {
         'default' => 100,
       ],
       'watermark_image' => [
-        'description' => 'Image to use for watermark effect.'
-      ]
+        'description' => 'Image to use for watermark effect.',
+      ],
     ];
   }
 

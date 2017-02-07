@@ -26,7 +26,7 @@ trait ColorshiftTrait {
   protected function validateArguments(array $arguments) {
     // Assure color is a valid hex string.
     if (!Color::validateHex($arguments['RGB'])) {
-     throw new \InvalidArgumentException("Invalid color ('{$arguments['RGB']}') specified for the image 'colorshift' operation");
+      throw new \InvalidArgumentException("Invalid color ('{$arguments['RGB']}') specified for the image 'colorshift' operation");
     }
     return $arguments;
   }

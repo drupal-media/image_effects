@@ -18,7 +18,7 @@ trait BackgroundTrait {
         'description' => 'X offset for source image.',
       ],
       'y_offset' => [
-        'description' => 'Y offset for source image.'
+        'description' => 'Y offset for source image.',
       ],
       'opacity' => [
         'description' => 'Opacity for source image.',
@@ -26,8 +26,8 @@ trait BackgroundTrait {
         'default' => 100,
       ],
       'background_image' => [
-        'description' => 'Image to use for background.'
-      ]
+        'description' => 'Image to use for background.',
+      ],
     ];
   }
 

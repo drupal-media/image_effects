@@ -117,7 +117,7 @@ trait GDOperationTrait {
       // If opacity is below 100%, use the approach described in
       // http://php.net/manual/it/function.imagecopymerge.php#92787
       // to preserve watermark alpha.
-
+      // --------------------------------------
       // Create a cut resource.
       // @todo when #2583041 is committed, add a check for memory
       // availability before creating the resource.
@@ -156,7 +156,7 @@ trait GDOperationTrait {
    * @param float $size
    *   The font size.
    * @param float $angle
-   *  The angle in degrees.
+   *   The angle in degrees.
    * @param int $x
    *   The coordinates given by x and y will define the basepoint of the first
    *   character (roughly the lower-left corner of the character).
@@ -176,6 +176,8 @@ trait GDOperationTrait {
    *
    * @see http://php.net/manual/en/function.imagettftext.php
    */
+  // @todo change the method name, it fails code style checking
+  // @codingStandardsIgnoreLine
   protected function _imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text) {
     if (function_exists('imagettftext')) {
       return imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text);
@@ -197,7 +199,7 @@ trait GDOperationTrait {
    * @param float $size
    *   The font size.
    * @param float $angle
-   *  The angle in degrees.
+   *   The angle in degrees.
    * @param string $fontfile
    *   The path to the TrueType font to use.
    * @param string $text
@@ -209,6 +211,8 @@ trait GDOperationTrait {
    *
    * @see http://php.net/manual/en/function.imagettfbbox.php
    */
+  // @todo change the method name, it fails code style checking
+  // @codingStandardsIgnoreLine
   protected function _imagettfbbox($size, $angle, $fontfile, $text) {
     if (function_exists('imagettfbbox')) {
       return imagettfbbox($size, $angle, $fontfile, $text);
@@ -237,9 +241,9 @@ trait GDOperationTrait {
    *
    * @see http://php.net/manual/en/function.imagefilter.php#82162
    */
-  function filterOpacity($img, $pct) {
+  protected function filterOpacity($img, $pct) {
     if (!isset($pct)) {
-      return false;
+      return FALSE;
     }
     $pct /= 100;
 
@@ -275,7 +279,7 @@ trait GDOperationTrait {
         else {
           $alpha += 127 * $pct;
         }
-        // Get the color index with new alpha
+        // Get the color index with new alpha.
         $alpha_color_xy = imagecolorallocatealpha($img, ($color_xy >> 16) & 0xFF, ($color_xy >> 8) & 0xFF, $color_xy & 0xFF, $alpha);
         // Set pixel with the new color + opacity.
         if (!imagesetpixel($img, $x, $y, $alpha_color_xy)) {

@@ -38,10 +38,25 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
     ];
   }
 
+  /**
+   * Get the 'image_effects' plugin type.
+   *
+   * @return string
+   *   The plugin type.
+   */
   public function getType() {
     return $this->defaults['plugin_type'];
   }
 
+  /**
+   * Returns an instance of the specified 'image_effects' plugin.
+   *
+   * @param string $plugin_id
+   *   The plugin id.
+   *
+   * @return \Drupal\image_effects\Plugin\ImageEffectsPluginBaseInterface
+   *   An instance of the specified 'image_effects' plugin.
+   */
   public function getPlugin($plugin_id = NULL) {
     $plugin_id = $plugin_id ?: $this->config->get($this->getType() . '.plugin_id');
     $plugins = $this->getAvailablePlugins();

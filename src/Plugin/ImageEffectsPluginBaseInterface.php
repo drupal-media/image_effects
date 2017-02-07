@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\PluginFormInterface;
  * image_effects base plugin interface.
  */
 interface ImageEffectsPluginBaseInterface extends ConfigurablePluginInterface, ContainerFactoryPluginInterface, PluginFormInterface {
+
   /**
    * Return a form element to select the plugin content.
    *
@@ -32,8 +33,9 @@ interface ImageEffectsPluginBaseInterface extends ConfigurablePluginInterface, C
   /**
    * Determines if plugin can be used.
    *
-   * @return boolean
+   * @return bool
    *   TRUE if the plugin is available.
    */
   public static function isAvailable();
+
 }
