@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Unit;
 
-use Drupal\simpletest\KernelTestBase;
+use Drupal\Tests\UnitTestCase;
 use Drupal\image_effects\Component\TextUtility;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\image_effects\Component\TextUtility;
  *
  * @group Image Effects
  */
-class ImageEffectsTextUtilityTest extends KernelTestBase {
+class TextUtilityTest extends UnitTestCase {
 
   /**
    * Performs the tests for the offset argument.
@@ -21,7 +21,7 @@ class ImageEffectsTextUtilityTest extends KernelTestBase {
     // Character 'п' is 2 bytes long and preg_match() would start from the
     // second 'п' character and not from the first 'z'.
     $result = TextUtility::unicodePregMatch('/п/u', 'ппzz', $matches, NULL, 2);
-    $this->assertFalse($result, 'String was skipped using character-based offset.');
+    $this->assertEquals(0, $result, 'String was skipped using character-based offset.');
 
     // Again, character 'п' is 2 bytes long and we skip 1 character, so
     // preg_match() would fail, because the string with byte offset 1 is not a

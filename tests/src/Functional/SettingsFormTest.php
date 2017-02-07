@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Settings form test.
  *
  * @group Image Effects
  */
-class ImageEffectsSettingsFormTest extends WebTestBase {
+class SettingsFormTest extends BrowserTestBase {
 
   public static $modules = ['image_effects', 'jquery_colorpicker'];
 
