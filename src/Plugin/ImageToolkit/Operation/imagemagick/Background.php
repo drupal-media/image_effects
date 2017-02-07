@@ -44,8 +44,8 @@ class Background extends ImagemagickImageToolkitOperationBase {
     $w = $arguments['background_image']->getToolkit()->getWidth();
     $h = $arguments['background_image']->getToolkit()->getHeight();
     // Reverse offset sign. Offset arguments require a sign in front.
-    $x = $arguments['x_offset'] > 0 ? ('-' . $arguments['x_offset']) : ('+' . -$arguments['x_offset']);
-    $y = $arguments['y_offset'] > 0 ? ('-' . $arguments['y_offset']) : ('+' . -$arguments['y_offset']);
+    $x = $arguments['x_offset'] > 0 ? ('-' . $arguments['x_offset']) : ('+' . - $arguments['x_offset']);
+    $y = $arguments['y_offset'] > 0 ? ('-' . $arguments['y_offset']) : ('+' . - $arguments['y_offset']);
     $op .= " -extent {$w}x{$h}{$x}{$y} ";
 
     // Add the background image.

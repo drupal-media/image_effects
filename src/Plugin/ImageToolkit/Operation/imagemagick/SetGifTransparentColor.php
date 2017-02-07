@@ -2,7 +2,6 @@
 
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick;
 
-use Drupal\image_effects\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickOperationTrait;
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\SetGifTransparentColorTrait;
 use Drupal\imagemagick\Plugin\ImageToolkit\Operation\imagemagick\ImagemagickImageToolkitOperationBase;
 

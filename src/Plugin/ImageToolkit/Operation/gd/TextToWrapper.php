@@ -3,14 +3,12 @@
 namespace Drupal\image_effects\Plugin\ImageToolkit\Operation\gd;
 
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Image\ImageInterface;
 use Drupal\system\Plugin\ImageToolkit\Operation\gd\GDImageToolkitOperationBase;
 use Drupal\image_effects\Component\ColorUtility;
 use Drupal\image_effects\Component\PositionedRectangle;
 use Drupal\image_effects\Component\TextUtility;
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\FontOperationTrait;
 use Drupal\image_effects\Plugin\ImageToolkit\Operation\TextToWrapperTrait;
-use Drupal\image_effects\Plugin\ImageToolkit\Operation\gd\GDOperationTrait;
 
 /**
  * Defines GD Text Overlay text-to-wrapper operation.
@@ -79,12 +77,11 @@ class TextToWrapper extends GDImageToolkitOperationBase {
 
     // Calculate bounding boxes.
     // ---------------------------------------
-    // Inner box   - the exact bounding box of the text.
-    // Outer box   - the box where the inner box is - can be different because
-    //               of padding.
-    // Wrapper     - the canvas where the outer box is laid.
+    // Inner box - the exact bounding box of the text.
+    // Outer box - the box where the inner box is - can be different because
+    //  of padding.
+    // Wrapper - the canvas where the outer box is laid.
     // ---------------------------------------
-
     // Get inner box details, for horizontal text, unpadded.
     // If fixed width, set to configuration, otherwise get width from the font
     // bounding box.
@@ -289,7 +286,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
   /**
    * Display a polygon enclosing the text line, and conspicuous points.
    *
-   * Credit to Ruquay K Calloway
+   * Credit to Ruquay K Calloway.
    *
    * @param \Drupal\image_effects\Component\PositionedRectangle $rect
    *   A PositionedRectangle object, including basepoint.

@@ -39,7 +39,8 @@ class SetCanvas extends ImagemagickImageToolkitOperationBase {
       $format = $this->getToolkit()->getDestinationFormat() ?: $this->getToolkit()->getSourceFormat();
       $mime_type = $this->getFormatMapper()->getMimeTypeFromFormat($format);
       if ($mime_type === 'image/jpeg') {
-        // JPEG does not allow transparency. Set to white. @todo allow to be configurable.
+        // JPEG does not allow transparency. Set to white.
+        // @todo allow to be configurable.
         $bg = '-background ' . $this->getToolkit()->escapeShellArg('#FFFFFF');
       }
       else {
