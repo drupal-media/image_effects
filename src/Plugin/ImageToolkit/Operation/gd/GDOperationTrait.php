@@ -176,9 +176,7 @@ trait GDOperationTrait {
    *
    * @see http://php.net/manual/en/function.imagettftext.php
    */
-  // @todo change the method name, it fails code style checking
-  // @codingStandardsIgnoreLine
-  protected function _imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text) {
+  protected function imagettftextWrapper($image, $size, $angle, $x, $y, $color, $fontfile, $text) {
     if (function_exists('imagettftext')) {
       return imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text);
     }
@@ -211,9 +209,7 @@ trait GDOperationTrait {
    *
    * @see http://php.net/manual/en/function.imagettfbbox.php
    */
-  // @todo change the method name, it fails code style checking
-  // @codingStandardsIgnoreLine
-  protected function _imagettfbbox($size, $angle, $fontfile, $text) {
+  protected function imagettfbboxWrapper($size, $angle, $fontfile, $text) {
     if (function_exists('imagettfbbox')) {
       return imagettfbbox($size, $angle, $fontfile, $text);
     }
