@@ -330,7 +330,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
     // Conspicuous points.
     $orange = '#FF6400FF';
     $yellow = '#FFFF00FF';
-    $green  = '#00FF00FF';
+    $green = '#00FF00FF';
     $dotsize = 6;
 
     // Box corners.
@@ -415,10 +415,10 @@ class TextToWrapper extends GDImageToolkitOperationBase {
         else {
           $first_part = Unicode::substr($text, 0, $fit);
         }
-        $last_part  = Unicode::substr($text, $fit);
-        $text  = $first_part . "\n" . $last_part;
+        $last_part = Unicode::substr($text, $fit);
+        $text = $first_part . "\n" . $last_part;
         $begin = ++$fit;
-        $end   = $begin;
+        $end = $begin;
       }
       else {
         // We can fit this text. Wait for now.
