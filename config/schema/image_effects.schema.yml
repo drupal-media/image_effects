@@ -166,6 +166,10 @@ image.effect.image_effects_imagemagick_arguments:
       type: string
       label: 'Height in px or %'
 
+# The image invert effect has no settings.
+image.effect.image_effects_invert:
+  type: sequence
+
 image.effect.image_effects_opacity:
   type: mapping
   label: 'Adjust image transparency level'

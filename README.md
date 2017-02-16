@@ -29,6 +29,7 @@ Contrast         | Supports changing contrast settings of an image. Also support
 Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | IM only             |
 ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
 Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
+Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |
 Opacity          | Change overall image transparency level.                                                     | X          | IM only             |
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | IM only             |
