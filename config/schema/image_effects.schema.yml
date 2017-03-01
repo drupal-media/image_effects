@@ -170,6 +170,17 @@ image.effect.image_effects_imagemagick_arguments:
 image.effect.image_effects_invert:
   type: sequence
 
+image.effect.image_effects_mirror:
+  type: mapping
+  label: 'Mirror the image horizontally and/or vertically'
+  mapping:
+    x_axis:
+      type: boolean
+      label: 'Flop the source image horizontally'
+    y_axis:
+      type: boolean
+      label: 'Flip the source image vertically'
+
 image.effect.image_effects_opacity:
   type: mapping
   label: 'Adjust image transparency level'

@@ -30,6 +30,7 @@ Convolution      | Allows to build custom image filters like blur, emboss, sharp
 ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
 Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
 Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |
+Mirror           | Mirror the image horizontally and/or vertically.                                             | X          | X                   |
 Opacity          | Change overall image transparency level.                                                     | X          | IM only             |
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | IM only             |
