@@ -44,39 +44,48 @@ class AutoOrient extends GDImageToolkitOperationBase {
     $exif = @exif_read_data(\Drupal::service('file_system')->realpath($source_path));
     if (isset($exif['Orientation'])) {
       // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html:
-      // 1 = Horizontal (normal).
-      // 2 = Mirror horizontal.
-      // 3 = Rotate 180.
-      // 4 = Mirror vertical.
-      // 5 = Mirror horizontal and rotate 270 CW.
-      // 6 = Rotate 90 CW.
-      // 7 = Mirror horizontal and rotate 90 CW.
-      // 8 = Rotate 270 CW.
-      // @todo: Add horizontal and vertical flips etc.
-      // imagecopy seems to be able to mirror, see conmments on
-      // http://php.net/manual/en/function.imagecopy.php
-      // @todo: Create sample set for tests.
+      // 1 = Horizontal (normal)                 [top-left].
+      // 2 = Mirror horizontal                   [top-right].
+      // 3 = Rotate 180                          [bottom-right].
+      // 4 = Mirror vertical                     [bottom-left].
+      // 5 = Mirror horizontal and rotate 270 CW [left-top].
+      // 6 = Rotate 90 CW                        [right-top].
+      // 7 = Mirror horizontal and rotate 90 CW  [right-bottom].
+      // 8 = Rotate 270 CW                       [left-bottom].
       switch ($exif['Orientation']) {
+        case 2:
+          return $this->getToolkit()->apply('mirror', ['x_axis' => TRUE]);
+
         case 3:
-          $degrees = 180;
-          break;
+          return $this->getToolkit()->apply('rotate', ['degrees' => 180]);
+
+        case 4:
+          return $this->getToolkit()->apply('mirror', ['y_axis' => TRUE]);
+
+        case 5:
+          $tmp = $this->getToolkit()->apply('mirror', ['x_axis' => TRUE]);
+          if ($tmp) {
+            $tmp = $this->getToolkit()->apply('rotate', ['degrees' => 270]);
+          }
+          return $tmp;
 
         case 6:
-          $degrees = 90;
-          break;
+          return $this->getToolkit()->apply('rotate', ['degrees' => 90]);
+
+        case 7:
+          $tmp = $this->getToolkit()->apply('mirror', ['x_axis' => TRUE]);
+          if ($tmp) {
+            $tmp = $this->getToolkit()->apply('rotate', ['degrees' => 90]);
+          }
+          return $tmp;
 
         case 8:
-          $degrees = 270;
-          break;
+          return $this->getToolkit()->apply('rotate', ['degrees' => 270]);
 
         default:
-          $degrees = 0;
-      }
-      if ($degrees != 0) {
-        return $this->getToolkit()->apply('rotate', ['degrees' => $degrees]);
+          return TRUE;
       }
     }
-    return TRUE;
   }
 
 }

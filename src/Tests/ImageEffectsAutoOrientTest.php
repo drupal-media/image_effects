@@ -98,4 +98,48 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     }
   }
 
+  /**
+   * Auto Orientation effect test, all EXIF orientation tags.
+   */
+  public function testAutoOrientAllTags() {
+    // Add Auto Orient effect to the test image style.
+    $effect = [
+      'id' => 'image_effects_auto_orient',
+      'data' => [
+        'scan_exif' => TRUE,
+      ],
+    ];
+    $this->addEffectToTestStyle($effect);
+
+    // Test operations on toolkits.
+    $this->executeTestOnToolkits([$this, 'doTestAutoOrientAllTagsOperations']);
+  }
+
+  /**
+   * Auto Orientation operations test, all EXIF orientation tags.
+   */
+  public function doTestAutoOrientAllTagsOperations() {
+    $test_data = [];
+    for ($i = 1; $i < 9; $i++) {
+      $test_data[$i]['test_file'] = drupal_get_path('module', 'image_effects') . "/tests/images/image-test-exif-orientation-$i.jpeg";
+    }
+
+    foreach ($test_data as $data) {
+      // Get URI of test file.
+      $original_uri = $data['test_file'];
+
+      // Check that ::applyEffect generates image with expected dimensions and
+      // colors at corners.
+      $derivative_uri = $this->testImageStyle->buildUri($original_uri);
+      $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
+      $image = $this->imageFactory->get($derivative_uri, 'gd');
+      $this->assertEqual(120, $image->getWidth());
+      $this->assertEqual(60, $image->getHeight());
+      $this->assertTrue($this->colorsAreClose($this->red, $this->getPixelColor($image, 0, 0), 2));
+      $this->assertTrue($this->colorsAreClose($this->green, $this->getPixelColor($image, 119, 0), 2));
+      $this->assertTrue($this->colorsAreClose($this->yellow, $this->getPixelColor($image, 0, 59), 2));
+      $this->assertTrue($this->colorsAreClose($this->blue, $this->getPixelColor($image, 119, 59), 2));
+    }
+  }
+
 }
