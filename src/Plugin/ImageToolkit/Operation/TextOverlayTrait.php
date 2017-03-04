@@ -11,7 +11,7 @@ trait TextOverlayTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
+    return [
       'font_uri' => [
         'description' => 'Font file URI.',
       ],
@@ -54,13 +54,13 @@ trait TextOverlayTrait {
       'font_shadow_height' => [
         'description' => 'Font shadow height in pixels.',
       ],
-      'text' => array(
+      'text' => [
         'description' => 'The text string in UTF-8 encoding.',
-      ),
-      'basepoint' => array(
+      ],
+      'basepoint' => [
         'description' => 'The basepoint of the text to be overlaid.',
-      ),
-    );
+      ],
+    ];
   }
 
   /**

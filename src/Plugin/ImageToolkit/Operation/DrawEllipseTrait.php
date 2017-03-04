@@ -11,23 +11,23 @@ trait DrawEllipseTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'cx' => array(
+    return [
+      'cx' => [
         'description' => 'x-coordinate of the center.',
-      ),
-      'cy' => array(
+      ],
+      'cy' => [
         'description' => 'y-coordinate of the center.',
-      ),
-      'width' => array(
+      ],
+      'width' => [
         'description' => 'The ellipse width.',
-      ),
-      'height' => array(
+      ],
+      'height' => [
         'description' => 'The ellipse height.',
-      ),
-      'color' => array(
+      ],
+      'color' => [
         'description' => 'The fill color, in RGBA format.',
-      ),
-    );
+      ],
+    ];
   }
 
 }

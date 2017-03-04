@@ -36,7 +36,7 @@ class AutoOrient extends GDImageToolkitOperationBase {
 
     // Will not work without EXIF extension installed.
     if (!function_exists('exif_read_data')) {
-      $this->logger->notice('The image %file could not be auto-rotated because the exif_read_data() function is not available in this PHP installation. Check if the PHP EXIF extension is enabled.', array('%file' => $this->getToolkit()->getSource()));
+      $this->logger->notice('The image %file could not be auto-rotated because the exif_read_data() function is not available in this PHP installation. Check if the PHP EXIF extension is enabled.', ['%file' => $this->getToolkit()->getSource()]);
       return FALSE;
     }
 

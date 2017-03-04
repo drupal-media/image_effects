@@ -13,11 +13,11 @@ trait ReplaceImageTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'replacement_image' => array(
+    return [
+      'replacement_image' => [
         'description' => 'The image to be used to replace current one.',
-      ),
-    );
+      ],
+    ];
   }
 
   /**

@@ -135,8 +135,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    */
   public function defaultConfiguration() {
     return NestedArray::mergeDeep(
-      array(
-        'font'          => array(
+      [
+        'font'          => [
           'name'                  => '',
           'uri'                   => '',
           'size'                  => 16,
@@ -152,8 +152,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
           'shadow_y_offset'       => 1,
           'shadow_width'          => 0,
           'shadow_height'         => 0,
-        ),
-        'layout'       => array(
+        ],
+        'layout'       => [
           'padding_top'           => 0,
           'padding_right'         => 0,
           'padding_bottom'        => 0,
@@ -165,8 +165,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
           'background_color'      => NULL,
           'overflow_action'       => 'extend',
           'extended_color'        => NULL,
-        ),
-        'text' => array(
+        ],
+        'text' => [
           'strip_tags' => TRUE,
           'decode_entities' => TRUE,
           'maximum_width'         => 0,
@@ -176,9 +176,9 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
           'case_format'           => '',
           'maximum_chars' => NULL,
           'excess_chars_text' => $this->t('…'),
-        ),
+        ],
         'text_string'             => $this->t('Preview'),
-      ),
+      ],
       parent::defaultConfiguration()
     );
   }
@@ -187,7 +187,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = array();
+    $form = [];
 
     if ($this->getTextimageFactory()) {
       // Preview effect.
@@ -201,49 +201,49 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       ];
 
       // Preview bar.
-      $form['preview_bar'] = array(
+      $form['preview_bar'] = [
         '#type' => 'container',
-        '#attributes' => array(
-          'class' => array('container-inline'),
-        ),
-      );
+        '#attributes' => [
+          'class' => ['container-inline'],
+        ],
+      ];
       // Refresh button.
-      $form['preview_bar']['preview'] = array(
+      $form['preview_bar']['preview'] = [
         '#type'  => 'button',
         '#value' => $this->t('Refresh preview'),
         '#name' => 'preview',
-        '#ajax'  => array(
-          'callback' => array($this, 'processAjaxPreview'),
-        ),
-      );
+        '#ajax'  => [
+          'callback' => [$this, 'processAjaxPreview'],
+        ],
+      ];
       // Visual aids.
-      $form['preview_bar']['debug_visuals'] = array(
+      $form['preview_bar']['debug_visuals'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Visual aids in preview'),
         '#default_value' => FALSE,
-      );
+      ];
     }
 
     // Settings.
-    $form['settings'] = array(
+    $form['settings'] = [
       '#type' => 'vertical_tabs',
       '#tree' => FALSE,
-    );
+    ];
 
     // Text default.
-    $form['text_default'] = array(
+    $form['text_default'] = [
       '#type'  => 'details',
       '#title' => $this->t('Text default'),
       '#group'   => 'settings',
-    );
-    $form['text_default']['text_string'] = array(
+    ];
+    $form['text_default']['text_string'] = [
       '#type'  => 'textarea',
       '#title' => $this->t('Default text'),
       '#default_value' => $this->configuration['text_string'],
       '#description' => $this->t('Enter the default text string for this effect. You can also enter tokens, that will be resolved when applying the effect. <b>Note:</b> only global tokens can be resolved by standard Drupal Image field formatters and widgets. The Textimage module provides a formatter that can also resolve node, file and user tokens.'),
       '#rows' => 3,
       '#required' => TRUE,
-    );
+    ];
     if ($token_tree_builder = $this->getTokenTreeBuilder()) {
       $form['text_default']['tokens'] = $token_tree_builder->buildAllRenderable();
     }
@@ -263,17 +263,17 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     ];
 
     // Font settings.
-    $form['font'] = array(
+    $form['font'] = [
       '#type'  => 'details',
       '#title' => $this->t('Font settings'),
       '#group'   => 'settings',
-    );
-    $form['font']['uri'] = $this->fontSelector->selectionElement(array(
+    ];
+    $form['font']['uri'] = $this->fontSelector->selectionElement([
       '#title' => $this->t('Font'),
       '#description' => $this->t('Select the font to be used in this image.'),
       '#default_value' => $this->configuration['font']['uri'],
-    ));
-    $form['font']['size'] = array(
+    ]);
+    $form['font']['size'] = [
       '#type'  => 'number',
       '#title' => $this->t('Size'),
       '#description'   => $this->t('Enter the size of the text to be generated.'),
@@ -282,8 +282,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#required' => TRUE,
       '#min' => 1,
-    );
-    $form['font']['angle'] = array(
+    ];
+    $form['font']['angle'] = [
       '#type'  => 'number',
       '#title' => $this->t('Rotation'),
       '#maxlength' => 4,
@@ -293,31 +293,31 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#default_value' => $this->configuration['font']['angle'],
       '#min' => -360,
       '#max' => 360,
-    );
-    $form['font']['color'] = array(
+    ];
+    $form['font']['color'] = [
       '#type' => 'image_effects_color',
       '#title' => $this->t('Font color'),
       '#description'  => $this->t('Set the font color.'),
       '#allow_opacity' => TRUE,
       '#default_value' => $this->configuration['font']['color'],
-    );
+    ];
     // Outline.
-    $form['font']['stroke'] = array(
+    $form['font']['stroke'] = [
       '#type' => 'details',
       '#title' => $this->t('Outline / Shadow'),
       '#description'   => $this->t('Optionally add an outline or shadow around the font. Enter the information in pixels.'),
-    );
-    $stroke_options = array(
+    ];
+    $stroke_options = [
       'outline' => $this->t('Outline'),
       'shadow' => $this->t('Shadow'),
-    );
-    $form['font']['stroke']['mode'] = array(
+    ];
+    $form['font']['stroke']['mode'] = [
       '#type'    => 'radios',
       '#title'   => $this->t('Mode'),
       '#options' => $stroke_options,
       '#default_value' => $this->configuration['font']['stroke_mode'],
-    );
-    $form['font']['stroke']['top'] = array(
+    ];
+    $form['font']['stroke']['top'] = [
       '#type' => 'number',
       '#title' => $this->t('Top'),
       '#default_value' => $this->configuration['font']['outline_top'],
@@ -325,13 +325,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'outline'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['right'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'outline'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['right'] = [
       '#type' => 'number',
       '#title' => $this->t('Right'),
       '#default_value' => $this->configuration['font']['outline_right'],
@@ -339,13 +339,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'outline'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['bottom'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'outline'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['bottom'] = [
       '#type' => 'number',
       '#title' => $this->t('Bottom'),
       '#default_value' => $this->configuration['font']['outline_bottom'],
@@ -353,13 +353,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'outline'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['left'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'outline'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['left'] = [
       '#type' => 'number',
       '#title' => $this->t('Left'),
       '#default_value' => $this->configuration['font']['outline_left'],
@@ -367,13 +367,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'outline'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['x_offset'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'outline'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['x_offset'] = [
       '#type' => 'number',
       '#title' => $this->t('Horizontal offset'),
       '#default_value' => $this->configuration['font']['shadow_x_offset'],
@@ -381,13 +381,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 1,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'shadow'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['y_offset'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'shadow'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['y_offset'] = [
       '#type' => 'number',
       '#title' => $this->t('Vertical offset'),
       '#default_value' => $this->configuration['font']['shadow_y_offset'],
@@ -395,13 +395,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 1,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'shadow'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['width'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'shadow'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['width'] = [
       '#type' => 'number',
       '#title' => $this->t('Horizontal elongation'),
       '#default_value' => $this->configuration['font']['shadow_width'],
@@ -409,13 +409,13 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'shadow'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['height'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'shadow'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['height'] = [
       '#type' => 'number',
       '#title' => $this->t('Vertical elongation'),
       '#default_value' => $this->configuration['font']['shadow_height'],
@@ -423,26 +423,26 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#size' => 3,
       '#field_suffix' => 'px',
       '#min' => 0,
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[font][stroke][mode]"]' => array('value' => 'shadow'),
-        ),
-      ),
-    );
-    $form['font']['stroke']['color'] = array(
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[font][stroke][mode]"]' => ['value' => 'shadow'],
+        ],
+      ],
+    ];
+    $form['font']['stroke']['color'] = [
       '#type' => 'image_effects_color',
       '#title' => $this->t('Color'),
       '#description'  => $this->t('Set the outline/shadow color.'),
       '#allow_opacity' => TRUE,
       '#default_value' => $this->configuration['font']['stroke_color'],
-    );
+    ];
 
     // Text settings.
-    $form['text'] = array(
+    $form['text'] = [
       '#type'  => 'details',
       '#title' => $this->t('Text settings'),
       '#group'   => 'settings',
-    );
+    ];
     // Max characters.
     $form['text']['maximum_chars'] = [
       '#type' => 'number',
@@ -465,7 +465,7 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       ],
     ];
     // Inner width.
-    $form['text']['maximum_width'] = array(
+    $form['text']['maximum_width'] = [
       '#type'  => 'number',
       '#title' => $this->t('Maximum width'),
       '#field_suffix' => $this->t('px'),
@@ -474,32 +474,32 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#maxlength' => 4,
       '#size' => 4,
       '#min' => 0,
-    );
-    $form['text']['fixed_width'] = array(
+    ];
+    $form['text']['fixed_width'] = [
       '#type'  => 'checkbox',
       '#title' => $this->t('Fixed width?'),
       '#description' => $this->t('If checked, the width will always be equal to the maximum width.'),
       '#default_value' => $this->configuration['text']['fixed_width'],
-      '#states' => array(
-        'visible' => array(
-          ':input[name="data[text][maximum_width]"]' => array('!value' => 0),
-        ),
-      ),
-    );
+      '#states' => [
+        'visible' => [
+          ':input[name="data[text][maximum_width]"]' => ['!value' => 0],
+        ],
+      ],
+    ];
     // Text alignment.
-    $form['text']['align'] = array(
+    $form['text']['align'] = [
       '#type'  => 'select',
       '#title' => $this->t('Text alignment'),
-      '#options' => array(
+      '#options' => [
         'left' => $this->t('Left'),
         'center' => $this->t('Center'),
         'right' => $this->t('Right'),
-      ),
+      ],
       '#default_value' => $this->configuration['text']['align'],
       '#description' => $this->t('Select how the text should be aligned within the resulting image. The default aligns to the left.'),
-    );
+    ];
     // Line spacing (Leading).
-    $form['text']['line_spacing'] = array(
+    $form['text']['line_spacing'] = [
       '#type'  => 'number',
       '#title' => $this->t('Line spacing (Leading)'),
       '#field_suffix'  => $this->t('px'),
@@ -507,37 +507,37 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#maxlength' => 4,
       '#size' => 4,
       '#description' => $this->t('Specify the space in pixels to be added between text lines (Leading). Can be negative.'),
-    );
-    $form['text']['case_format'] = array(
+    ];
+    $form['text']['case_format'] = [
       '#type'  => 'select',
       '#title' => $this->t('Case format'),
-      '#options' => array(
+      '#options' => [
         '' => $this->t('Default'),
         'upper' => $this->t('UPPERCASE'),
         'lower' => $this->t('lowercase'),
         'ucwords' => $this->t('Uppercase Words'),
         'ucfirst' => $this->t('Uppercase first'),
-      ),
+      ],
       '#description' => $this->t('Convert the input text to a desired format. The default makes no changes to input text.'),
       '#default_value' => $this->configuration['text']['case_format'],
-    );
+    ];
 
     // Layout settings.
-    $form['layout'] = array(
+    $form['layout'] = [
       '#type'  => 'details',
       '#title' => $this->t('Layout settings'),
       '#group'   => 'settings',
-    );
+    ];
     // Position.
-    $form['layout']['position'] = array(
+    $form['layout']['position'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Position'),
-    );
-    $form['layout']['position']['placement'] = array(
+    ];
+    $form['layout']['position']['placement'] = [
       '#type' => 'radios',
       '#title' => $this->t('Placement'),
-      '#options' => array(
+      '#options' => [
         'left-top' => $this->t('Top left'),
         'center-top' => $this->t('Top center'),
         'right-top' => $this->t('Top right'),
@@ -547,12 +547,12 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'left-bottom' => $this->t('Bottom left'),
         'center-bottom' => $this->t('Bottom center'),
         'right-bottom' => $this->t('Bottom right'),
-      ),
+      ],
       '#theme' => 'image_anchor',
-      '#default_value' => implode('-', array($this->configuration['layout']['x_pos'], $this->configuration['layout']['y_pos'])),
+      '#default_value' => implode('-', [$this->configuration['layout']['x_pos'], $this->configuration['layout']['y_pos']]),
       '#description' => $this->t('Position of the text on the underlying image.'),
-    );
-    $form['layout']['position']['x_offset'] = array(
+    ];
+    $form['layout']['position']['x_offset'] = [
       '#type'  => 'number',
       '#title' => $this->t('Horizontal offset'),
       '#field_suffix'  => 'px',
@@ -560,8 +560,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#default_value' => $this->configuration['layout']['x_offset'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
-    $form['layout']['position']['y_offset'] = array(
+    ];
+    $form['layout']['position']['y_offset'] = [
       '#type'  => 'number',
       '#title' => $this->t('Vertical offset'),
       '#field_suffix'  => 'px',
@@ -569,80 +569,80 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
       '#default_value' => $this->configuration['layout']['y_offset'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
+    ];
     // Overflow action.
-    $form['layout']['position']['overflow_action'] = array(
+    $form['layout']['position']['overflow_action'] = [
       '#type' => 'radios',
       '#title' => $this->t('Overflow'),
       '#default_value' => $this->configuration['layout']['overflow_action'],
-      '#options' => array(
+      '#options' => [
         'extend' => $this->t('<b>Extend image.</b> The underlying image will be extended to fit the text.'),
         'crop' => $this->t('<b>Crop text.</b> Only the part of the text fitting in the image is rendered.'),
         'scaletext' => $this->t('<b>Scale text.</b> The text will be scaled to fit the underlying image.'),
-      ),
+      ],
       '#description' => $this->t('Action to take if text overflows the underlying image.'),
-    );
-    $form['layout']['position']['extended_color'] = array(
+    ];
+    $form['layout']['position']['extended_color'] = [
       '#type' => 'image_effects_color',
       '#title' => $this->t('Extended background color'),
       '#description'  => $this->t('Set the color to be used when extending the underlying image.'),
       '#allow_null' => TRUE,
       '#allow_opacity' => TRUE,
       '#default_value' => $this->configuration['layout']['extended_color'],
-      '#states' => array(
-        'visible' => array(
-          ':radio[name="data[layout][position][overflow_action]"]' => array('value' => 'extend'),
-        ),
-      ),
-    );
+      '#states' => [
+        'visible' => [
+          ':radio[name="data[layout][position][overflow_action]"]' => ['value' => 'extend'],
+        ],
+      ],
+    ];
     // Padding.
-    $form['layout']['padding'] = array(
+    $form['layout']['padding'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Padding'),
       '#description' => $this->t('Specify the padding in pixels to be added around the generated text.'),
-    );
-    $form['layout']['padding']['top'] = array(
+    ];
+    $form['layout']['padding']['top'] = [
       '#type'  => 'number',
       '#title' => $this->t('Top'),
       '#field_suffix'  => $this->t('px'),
       '#default_value' => $this->configuration['layout']['padding_top'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
-    $form['layout']['padding']['right'] = array(
+    ];
+    $form['layout']['padding']['right'] = [
       '#type'  => 'number',
       '#title' => $this->t('Right'),
       '#field_suffix'  => $this->t('px'),
       '#default_value' => $this->configuration['layout']['padding_right'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
-    $form['layout']['padding']['bottom'] = array(
+    ];
+    $form['layout']['padding']['bottom'] = [
       '#type'  => 'number',
       '#title' => $this->t('Bottom'),
       '#field_suffix'  => $this->t('px'),
       '#default_value' => $this->configuration['layout']['padding_bottom'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
-    $form['layout']['padding']['left'] = array(
+    ];
+    $form['layout']['padding']['left'] = [
       '#type'  => 'number',
       '#title' => $this->t('Left'),
       '#field_suffix'  => $this->t('px'),
       '#default_value' => $this->configuration['layout']['padding_left'],
       '#maxlength' => 4,
       '#size' => 4,
-    );
+    ];
     // Background color.
-    $form['layout']['background_color'] = array(
+    $form['layout']['background_color'] = [
       '#type' => 'image_effects_color',
       '#title' => $this->t('Background color'),
       '#description'  => $this->t('Select the color you wish to use for the background of the text.'),
       '#allow_null' => TRUE,
       '#allow_opacity' => TRUE,
       '#default_value' => $this->configuration['layout']['background_color'],
-    );
+    ];
 
     return $form;
   }
@@ -675,8 +675,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
     // Get x-y position from the anchor element.
     list($x_pos, $y_pos) = explode('-', $form_state->getValue(['layout', 'position', 'placement']));
 
-    $this->configuration = array(
-      'font'   => array(
+    $this->configuration = [
+      'font'   => [
         'name' => $form_state->hasValue(['font', 'uri']) ? $this->fontSelector->getDescription($form_state->getValue(['font', 'uri'])) : NULL,
         'uri' => $form_state->getValue(['font', 'uri']),
         'size' => $form_state->getValue(['font', 'size']),
@@ -692,8 +692,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'shadow_y_offset' => $form_state->getValue(['font', 'stroke', 'y_offset']),
         'shadow_width' => $form_state->getValue(['font', 'stroke', 'width']),
         'shadow_height' => $form_state->getValue(['font', 'stroke', 'height']),
-      ),
-      'layout' => array(
+      ],
+      'layout' => [
         'padding_top' => $form_state->getValue(['layout', 'padding', 'top']),
         'padding_right' => $form_state->getValue(['layout', 'padding', 'right']),
         'padding_bottom' => $form_state->getValue(['layout', 'padding', 'bottom']),
@@ -705,8 +705,8 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'overflow_action' => $form_state->getValue(['layout', 'position', 'overflow_action']),
         'extended_color' => $form_state->getValue(['layout', 'position', 'extended_color']),
         'background_color' => $form_state->getValue(['layout', 'background_color']),
-      ),
-      'text'   => array(
+      ],
+      'text'   => [
         'strip_tags' => (bool) $form_state->getValue(['text_default', 'strip_tags']),
         'decode_entities' => (bool) $form_state->getValue(['text_default', 'decode_entities']),
         'maximum_width' => $form_state->getValue(['text', 'maximum_width']),
@@ -716,9 +716,9 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
         'line_spacing' => $form_state->getValue(['text', 'line_spacing']),
         'maximum_chars' => $form_state->getValue(['text', 'maximum_chars']),
         'excess_chars_text' => $form_state->getValue(['text', 'excess_chars_text']),
-      ),
+      ],
       'text_string' => $form_state->getValue(['text_default', 'text_string']),
-    );
+    ];
     // @codingStandardsIgnoreEnd
 
     // Save the updated configuration in a FormState value to enable Ajax
@@ -732,34 +732,34 @@ class TextOverlayImageEffect extends ConfigurableImageEffectBase implements Cont
    */
   public function getSummary() {
     $data = $this->configuration;
-    $data['font_color_detail'] = array(
+    $data['font_color_detail'] = [
       '#theme' => 'image_effects_color_detail',
       '#color' => $data['font']['color'],
       '#border' => TRUE,
       '#border_color' => 'matchLuma',
-    );
+    ];
     if ($stroke_mode = $this->strokeMode()) {
       $data['stroke_mode'] = $stroke_mode;
-      $data['stroke_color_detail'] = array(
+      $data['stroke_color_detail'] = [
         '#theme' => 'image_effects_color_detail',
         '#color' => $data['font']['stroke_color'],
         '#border' => TRUE,
         '#border_color' => 'matchLuma',
-      );
+      ];
     }
     if ($data['layout']['background_color']) {
-      $data['background_color_detail'] = array(
+      $data['background_color_detail'] = [
         '#theme' => 'image_effects_color_detail',
         '#color' => $data['layout']['background_color'],
         '#border' => TRUE,
         '#border_color' => 'matchLuma',
-      );
+      ];
     }
 
-    return array(
+    return [
       '#theme' => 'image_effects_text_overlay_summary',
       '#data' => $data,
-    ) + parent::getSummary();
+    ] + parent::getSummary();
   }
 
   /**

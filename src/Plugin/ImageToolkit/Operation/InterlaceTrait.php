@@ -25,7 +25,7 @@ trait InterlaceTrait {
    */
   protected function validateArguments(array $arguments) {
     // Assure interlace type is valid.
-    if (!$arguments['type'] || !in_array($arguments['type'], array('Line', 'Plane'))) {
+    if (!$arguments['type'] || !in_array($arguments['type'], ['Line', 'Plane'])) {
       throw new \InvalidArgumentException("Invalid type '{$arguments['type']}' specified for the image 'interlace' operation");
     }
 

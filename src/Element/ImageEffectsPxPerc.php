@@ -17,15 +17,15 @@ class ImageEffectsPxPerc extends FormElement {
    */
   public function getInfo() {
     $class = get_class($this);
-    return array(
+    return [
       '#input' => TRUE,
-      '#process' => array(
-        array($class, 'processImageEffectsPxPerc'),
-      ),
-      '#element_validate' => array(
-        array($class, 'validateImageEffectsPxPerc'),
-      ),
-    );
+      '#process' => [
+        [$class, 'processImageEffectsPxPerc'],
+      ],
+      '#element_validate' => [
+        [$class, 'validateImageEffectsPxPerc'],
+      ],
+    ];
   }
 
   /**

@@ -11,25 +11,25 @@ trait SetCanvasTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'canvas_color' => array(
+    return [
+      'canvas_color' => [
         'description' => 'Color',
         'required' => FALSE,
         'default' => NULL,
-      ),
-      'width' => array(
+      ],
+      'width' => [
         'description' => 'The width of the canvas image, in pixels',
-      ),
-      'height' => array(
+      ],
+      'height' => [
         'description' => 'The height of the canvas image, in pixels',
-      ),
-      'x_pos' => array(
+      ],
+      'x_pos' => [
         'description' => 'The left offset of the original image on the canvas, in pixels',
-      ),
-      'y_pos' => array(
+      ],
+      'y_pos' => [
         'description' => 'The top offset of the original image on the canvas, in pixels',
-      ),
-    );
+      ],
+    ];
   }
 
   /**

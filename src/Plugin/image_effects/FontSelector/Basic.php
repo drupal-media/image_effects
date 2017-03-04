@@ -24,13 +24,13 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
   /**
    * {@inheritdoc}
    */
-  public function selectionElement(array $options = array()) {
+  public function selectionElement(array $options = []) {
     // Element.
     return array_merge([
       '#type' => 'textfield',
       '#title' => $this->t('Font URI/path'),
       '#description' => $this->t('An URI, an absolute path, or a relative path. Relative paths will be resolved relative to the Drupal installation directory.'),
-      '#element_validate' => array(array($this, 'validateSelectorUri')),
+      '#element_validate' => [[$this, 'validateSelectorUri']],
     ], $options);
   }
 
@@ -89,13 +89,13 @@ class Basic extends ImageEffectsPluginBase implements ImageEffectsFontSelectorPl
     }
 
     $storage_dec = $offset_storage_dec + $offset_name_table_dec;
-    $font = array(
+    $font = [
       'copyright' => '',
       'family' => '',
       'subfamily' => '',
       'name' => '',
       'file' => $uri,
-    );
+    ];
 
     for ($j = 0; $j < $number_name_records_dec; $j++) {
       $name_id_hex = $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 6])) . $this->dec2hex(ord($text[$offset_name_table_dec + 6 + $j * 12 + 7]));

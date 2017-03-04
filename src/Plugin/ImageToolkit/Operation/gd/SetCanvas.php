@@ -29,22 +29,22 @@ class SetCanvas extends GDImageToolkitOperationBase {
     $original_res = $this->getToolkit()->getResource();
 
     // Prepare the canvas.
-    $data = array(
+    $data = [
       'width' => $arguments['width'],
       'height' => $arguments['height'],
       'extension' => image_type_to_extension($this->getToolkit()->getType(), FALSE),
       'transparent_color' => $this->getToolkit()->getTransparentColor(),
       'is_temp' => TRUE,
-    );
+    ];
     if (!$this->getToolkit()->apply('create_new', $data)) {
       return FALSE;
     }
 
     // Fill the canvas with required color.
-    $data = array(
+    $data = [
       'rectangle' => new PositionedRectangle($arguments['width'], $arguments['height']),
       'fill_color' => $arguments['canvas_color'],
-    );
+    ];
     if (!$this->getToolkit()->apply('draw_rectangle', $data)) {
       return FALSE;
     }

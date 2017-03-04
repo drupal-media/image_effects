@@ -117,72 +117,72 @@ class SettingsForm extends ConfigFormBase {
     }
 
     // AJAX messages.
-    $form['ajax_messages'] = array(
+    $form['ajax_messages'] = [
       '#type' => 'container',
       '#attributes' => [
         'id' => 'image-effects-ajax-messages',
       ],
-    );
+    ];
 
     // AJAX settings.
     $ajax_settings = ['callback' => [$this, 'processAjax']];
 
     // Main part of settings form.
-    $form['settings'] = array(
+    $form['settings'] = [
       '#type' => 'container',
       '#tree' => TRUE,
       '#attributes' => [
         'id' => 'image-effects-settings-main',
       ],
-    );
+    ];
 
     // Color selector.
-    $form['settings']['color_selector'] = array(
+    $form['settings']['color_selector'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Color selector'),
       '#tree' => TRUE,
-    );
-    $form['settings']['color_selector']['plugin_id'] = array(
+    ];
+    $form['settings']['color_selector']['plugin_id'] = [
       '#type' => 'radios',
       '#options' => $this->colorManager->getPluginOptions(),
       '#default_value' => $color_plugin->getPluginId(),
       '#required' => TRUE,
       '#ajax'  => $ajax_settings,
-    );
-    $form['settings']['color_selector']['plugin_settings'] = $color_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
+    ];
+    $form['settings']['color_selector']['plugin_settings'] = $color_plugin->buildConfigurationForm([], $form_state, $ajax_settings);
 
     // Image selector.
-    $form['settings']['image_selector'] = array(
+    $form['settings']['image_selector'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Image selector'),
       '#tree' => TRUE,
-    );
-    $form['settings']['image_selector']['plugin_id'] = array(
+    ];
+    $form['settings']['image_selector']['plugin_id'] = [
       '#type'    => 'radios',
       '#options' => $this->imageManager->getPluginOptions(),
       '#default_value' => $image_plugin->getPluginId(),
       '#required'    => TRUE,
       '#ajax'  => $ajax_settings,
-    );
-    $form['settings']['image_selector']['plugin_settings'] = $image_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
+    ];
+    $form['settings']['image_selector']['plugin_settings'] = $image_plugin->buildConfigurationForm([], $form_state, $ajax_settings);
 
     // Font selector.
-    $form['settings']['font_selector'] = array(
+    $form['settings']['font_selector'] = [
       '#type' => 'details',
       '#open' => TRUE,
       '#title' => $this->t('Font selector'),
       '#tree' => TRUE,
-    );
-    $form['settings']['font_selector']['plugin_id'] = array(
+    ];
+    $form['settings']['font_selector']['plugin_id'] = [
       '#type'    => 'radios',
       '#options' => $this->fontManager->getPluginOptions(),
       '#default_value' => $font_plugin->getPluginId(),
       '#required'    => TRUE,
       '#ajax'  => $ajax_settings,
-    );
-    $form['settings']['font_selector']['plugin_settings'] = $font_plugin->buildConfigurationForm(array(), $form_state, $ajax_settings);
+    ];
+    $form['settings']['font_selector']['plugin_settings'] = $font_plugin->buildConfigurationForm([], $form_state, $ajax_settings);
 
     return parent::buildForm($form, $form_state);
   }
@@ -236,7 +236,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function processAjax($form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
-    $status_messages = array('#type' => 'status_messages');
+    $status_messages = ['#type' => 'status_messages'];
     $response->addCommand(new HtmlCommand('#image-effects-ajax-messages', $status_messages));
     $response->addCommand(new HtmlCommand('#image-effects-settings-main', $form['settings']));
     return $response;

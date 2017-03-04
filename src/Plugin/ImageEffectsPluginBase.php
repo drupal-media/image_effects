@@ -63,7 +63,7 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->pluginType = $configuration['plugin_type'];
     $config = $this->config->get($this->pluginType . '.plugin_settings.' . $plugin_id);
-    $this->setConfiguration(array_merge($this->defaultConfiguration(), is_array($config) ? $config : array()));
+    $this->setConfiguration(array_merge($this->defaultConfiguration(), is_array($config) ? $config : []));
     $this->urlGenerator = $url_generator;
     $this->logger = $logger;
   }
@@ -146,7 +146,7 @@ abstract class ImageEffectsPluginBase extends PluginBase implements ImageEffects
   /**
    * {@inheritdoc}
    */
-  public function selectionElement(array $options = array()) {
+  public function selectionElement(array $options = []) {
     return [];
   }
 

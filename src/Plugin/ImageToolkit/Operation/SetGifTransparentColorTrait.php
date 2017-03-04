@@ -13,13 +13,13 @@ trait SetGifTransparentColorTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'transparent_color' => array(
+    return [
+      'transparent_color' => [
         'description' => 'The RGB hex color for GIF transparency',
         'required' => FALSE,
         'default' => '#ffffff',
-      ),
-    );
+      ],
+    ];
   }
 
   /**

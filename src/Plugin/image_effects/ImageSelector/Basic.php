@@ -22,13 +22,13 @@ class Basic extends ImageEffectsPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function selectionElement(array $options = array()) {
+  public function selectionElement(array $options = []) {
     // Element.
     return array_merge([
       '#type' => 'textfield',
       '#title' => $this->t('Image URI/path'),
       '#description' => $this->t('An URI, an absolute path, or a relative path. Relative paths will be resolved relative to the Drupal installation directory.'),
-      '#element_validate' => array(array($this, 'validateSelectorUri')),
+      '#element_validate' => [[$this, 'validateSelectorUri']],
     ], $options);
   }
 

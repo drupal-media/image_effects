@@ -67,7 +67,7 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
       $plugin_id = NULL;
     }
 
-    return $this->createInstance($plugin_id, array('plugin_type' => $this->getType()));
+    return $this->createInstance($plugin_id, ['plugin_type' => $this->getType()]);
   }
 
   /**
@@ -78,7 +78,7 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
    */
   public function getAvailablePlugins() {
     $plugins = $this->getDefinitions();
-    $output = array();
+    $output = [];
     foreach ($plugins as $id => $definition) {
       // Only allow plugins that are available.
       if (call_user_func($definition['class'] . '::isAvailable')) {
@@ -95,7 +95,7 @@ class ImageEffectsPluginManager extends DefaultPluginManager {
    *   An array with the plugin ids as keys and the descriptions as values.
    */
   public function getPluginOptions() {
-    $options = array();
+    $options = [];
     foreach ($this->getAvailablePlugins() as $plugin) {
       $options[$plugin['id']] = SafeMarkup::format('<b>@title</b> - @description', ['@title' => $plugin['short_title'], '@description' => $plugin['help']]);
     }

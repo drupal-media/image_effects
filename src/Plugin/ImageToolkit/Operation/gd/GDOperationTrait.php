@@ -68,7 +68,7 @@ trait GDOperationTrait {
    */
   protected function getRectangleCorners(PositionedRectangle $rect) {
     $points = [];
-    foreach (array('c_d', 'c_c', 'c_b', 'c_a') as $c) {
+    foreach (['c_d', 'c_c', 'c_b', 'c_a'] as $c) {
       $point = $rect->getPoint($c);
       $points[] = $point[0];
       $points[] = $point[1];

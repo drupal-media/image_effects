@@ -62,9 +62,9 @@ class FontSelectionImageEffect extends ConfigurableImageEffectBase implements Co
    * {@inheritdoc}
    */
   public function getSummary() {
-    return array(
+    return [
       '#markup' => $this->configuration['font_name'],
-    ) + parent::getSummary();
+    ] + parent::getSummary();
   }
 
   /**

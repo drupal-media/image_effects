@@ -14,31 +14,31 @@ trait DrawRectangleTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'rectangle' => array(
+    return [
+      'rectangle' => [
         'description' => 'A PositionedRectangle object.',
-      ),
-      'fill_color' => array(
+      ],
+      'fill_color' => [
         'description' => 'The RGBA color of the polygon fill.',
         'required' => FALSE,
         'default' => NULL,
-      ),
-      'fill_color_luma' => array(
+      ],
+      'fill_color_luma' => [
         'description' => 'If TRUE, convert RGBA of the polygon fill to best match using luma.',
         'required' => FALSE,
         'default' => FALSE,
-      ),
-      'border_color' => array(
+      ],
+      'border_color' => [
         'description' => 'The RGBA color of the polygon line.',
         'required' => FALSE,
         'default' => NULL,
-      ),
-      'border_color_luma' => array(
+      ],
+      'border_color_luma' => [
         'description' => 'If TRUE, convert RGBA of the polygon line to best match using luma.',
         'required' => FALSE,
         'default' => FALSE,
-      ),
-    );
+      ],
+    ];
   }
 
   /**

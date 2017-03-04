@@ -24,21 +24,21 @@ class Dropdown extends Basic {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array('path' => '');
+    return ['path' => ''];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state, array $ajax_settings = []) {
-    $element['path'] = array(
+    $element['path'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Path'),
       '#default_value' => $this->configuration['path'],
       '#maxlength' => 255,
-      '#element_validate' => array(array($this, 'validatePath')),
+      '#element_validate' => [[$this, 'validatePath']],
       '#description' => $this->t('Location of the directory where the fonts are stored.') . ' ' . $this->t('Relative paths will be resolved relative to the Drupal installation directory.'),
-    );
+    ];
     return $element;
   }
 
@@ -54,7 +54,7 @@ class Dropdown extends Basic {
   /**
    * {@inheritdoc}
    */
-  public function selectionElement(array $options = array()) {
+  public function selectionElement(array $options = []) {
     // Get list of font names.
     $fonts_list = $this->getList();
     if (empty($fonts_list)) {
@@ -104,7 +104,7 @@ class Dropdown extends Basic {
    *   Array of font names.
    */
   protected function getList() {
-    $filelist = array();
+    $filelist = [];
     if (is_dir($this->configuration['path']) && $handle = opendir($this->configuration['path'])) {
       while ($file_name = readdir($handle)) {
         if (preg_match("/\.[ot]tf$/i", $file_name) == 1) {

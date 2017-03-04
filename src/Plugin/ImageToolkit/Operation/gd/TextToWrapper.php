@@ -125,34 +125,34 @@ class TextToWrapper extends GDImageToolkitOperationBase {
 
     // Draw and fill the outer text box, if required.
     if ($arguments['layout_background_color']) {
-      $data_rectangle = array(
+      $data_rectangle = [
         'rectangle' => $outer_rect,
         'fill_color' => $arguments['layout_background_color'],
-      );
+      ];
       $this->getToolkit()->apply('draw_rectangle', $data_rectangle);
     }
 
     // In debug mode, visually display the text boxes.
     if ($arguments['debug_visuals']) {
       // Inner box.
-      $data = array(
+      $data = [
         'rectangle' => $inner_rect,
         'border_color' => $arguments['layout_background_color'] ?: '#FFFFFF',
         'border_color_luma' => TRUE,
-      );
+      ];
       $this->getToolkit()->apply('draw_rectangle', $data);
       // Outer box.
-      $data = array(
+      $data = [
         'rectangle' => $outer_rect,
         'border_color' => $arguments['layout_background_color'] ?: '#FFFFFF',
         'border_color_luma' => TRUE,
-      );
+      ];
       $this->getToolkit()->apply('draw_rectangle', $data);
       // Wrapper.
-      $data = array(
+      $data = [
         'rectangle' => new PositionedRectangle($this->getToolkit()->getWidth(), $this->getToolkit()->getHeight()),
         'border_color' => '#000000',
-      );
+      ];
       $this->getToolkit()->apply('draw_rectangle', $data);
     }
 
@@ -189,7 +189,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
       $text_line_rect->translate($outer_rect->getRotationOffset());
 
       // Overlay the text onto the image.
-      $data = array(
+      $data = [
         'text'                     => $text_line,
         'basepoint'                => $text_line_rect->getPoint('basepoint'),
         'font_uri'                 => $arguments['font_uri'],
@@ -206,7 +206,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
         'font_shadow_y_offset'     => $arguments['font_shadow_y_offset'],
         'font_shadow_width'        => $arguments['font_shadow_width'],
         'font_shadow_height'       => $arguments['font_shadow_height'],
-      );
+      ];
       $this->getToolkit()->apply('text_overlay', $data);
 
       // In debug mode, display a polygon enclosing the text line.
@@ -311,20 +311,20 @@ class TextToWrapper extends GDImageToolkitOperationBase {
     $points = $this->getRectangleCorners($rect);
 
     // Draw box.
-    $data = array(
+    $data = [
       'rectangle' => $rect,
       'border_color' => $rgba,
-    );
+    ];
     $this->getToolkit()->apply('draw_rectangle', $data);
 
     // Draw diagonal.
-    $data = array(
+    $data = [
       'x1' => $points[0],
       'y1' => $points[1],
       'x2' => $points[4],
       'y2' => $points[5],
       'color' => $rgba,
-    );
+    ];
     $this->getToolkit()->apply('draw_line', $data);
 
     // Conspicuous points.
@@ -336,25 +336,25 @@ class TextToWrapper extends GDImageToolkitOperationBase {
     // Box corners.
     for ($i = 0; $i < 8; $i += 2) {
       $col = $i < 4 ? $orange : $yellow;
-      $data = array(
+      $data = [
         'cx' => $points[$i],
         'cy' => $points[$i + 1],
         'width' => $dotsize,
         'height' => $dotsize,
         'color' => $col,
-      );
+      ];
       $this->getToolkit()->apply('draw_ellipse', $data);
     }
 
     // Font baseline.
     $basepoint = $rect->getPoint('basepoint');
-    $data = array(
+    $data = [
       'cx' => $basepoint[0],
       'cy' => $basepoint[1],
       'width' => $dotsize,
       'height' => $dotsize,
       'color' => $green,
-    );
+    ];
     $this->getToolkit()->apply('draw_ellipse', $data);
   }
 

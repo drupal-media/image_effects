@@ -30,7 +30,7 @@ abstract class ColorUtility {
       // Dark colors - white.
       $d = 255;
     }
-    return Color::rgbToHex(array($d, $d, $d));
+    return Color::rgbToHex([$d, $d, $d]);
   }
 
   /**

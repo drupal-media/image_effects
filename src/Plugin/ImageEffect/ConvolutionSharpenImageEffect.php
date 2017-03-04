@@ -42,14 +42,14 @@ class ConvolutionSharpenImageEffect extends ConfigurableImageEffectBase implemen
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
 
-    $form['level'] = array(
+    $form['level'] = [
       '#type' => 'number',
       '#title' => t('Sharpen level'),
       '#description' => t('Typically 1 - 50.'),
       '#default_value' => $this->configuration['level'],
       '#required' => TRUE,
       '#allow_negative' => FALSE,
-    );
+    ];
     return $form;
   }
 

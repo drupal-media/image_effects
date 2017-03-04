@@ -90,10 +90,10 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
    * {@inheritdoc}
    */
   public function getSummary() {
-    $summary = array(
+    $summary = [
       '#theme' => 'image_effects_watermark_summary',
       '#data' => $this->configuration,
-    );
+    ];
     $summary += parent::getSummary();
 
     return $summary;

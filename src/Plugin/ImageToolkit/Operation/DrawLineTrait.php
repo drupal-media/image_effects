@@ -11,23 +11,23 @@ trait DrawLineTrait {
    * {@inheritdoc}
    */
   protected function arguments() {
-    return array(
-      'x1' => array(
+    return [
+      'x1' => [
         'description' => 'x-coordinate for first point.',
-      ),
-      'y1' => array(
+      ],
+      'y1' => [
         'description' => 'y-coordinate for first point.',
-      ),
-      'x2' => array(
+      ],
+      'x2' => [
         'description' => 'x-coordinate for second point.',
-      ),
-      'y2' => array(
+      ],
+      'y2' => [
         'description' => 'y-coordinate for second point.',
-      ),
-      'color' => array(
+      ],
+      'color' => [
         'description' => 'The line color, in RGBA format.',
-      ),
-    );
+      ],
+    ];
   }
 
 }

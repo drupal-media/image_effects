@@ -19,7 +19,7 @@ class Farbtastic extends ImageEffectsPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function selectionElement(array $options = array()) {
+  public function selectionElement(array $options = []) {
     return [
       '#type' => 'textfield',
       '#title' => isset($options['#title']) ? $options['#title'] : $this->t('Color'),

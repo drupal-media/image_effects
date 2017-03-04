@@ -20,7 +20,7 @@ interface ImageEffectsPluginBaseInterface extends ConfigurablePluginInterface, C
    * @return array
    *   Render array of the form element.
    */
-  public function selectionElement(array $options = array());
+  public function selectionElement(array $options = []);
 
   /**
    * Get the image_effects plugin type.

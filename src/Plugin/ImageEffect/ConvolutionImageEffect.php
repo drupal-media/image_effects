@@ -47,26 +47,26 @@ class ConvolutionImageEffect extends ConfigurableImageEffectBase implements Cont
 
     $form['#attached']['library'][] = 'image_effects/image_effects.admin.convolution';
 
-    $form['kernel'] = array(
+    $form['kernel'] = [
       '#type' => 'item',
       '#title' => $this->t('Kernel matrix'),
       '#description' => $this->t('Entries sum: <span class="kernel-matrix-sum">0</span>.'),
       '#required' => TRUE,
-    );
-    $form['kernel']['entries'] = array();
+    ];
+    $form['kernel']['entries'] = [];
     for ($i = 0; $i < 3; $i++) {
-      $form['kernel']['entries'][$i] = array(
+      $form['kernel']['entries'][$i] = [
         '#type' => 'container',
-      );
+      ];
       for ($j = 0; $j < 3; $j++) {
-        $form['kernel']['entries'][$i][$j] = array(
+        $form['kernel']['entries'][$i][$j] = [
           '#type' => 'number',
           '#title' => $this->t("Matrix entry (@i,@j)", ['@i' => $i, '@j' => $j]),
           '#title_display' => 'invisible',
           '#default_value' => $this->configuration['kernel'][$i][$j],
           '#required' => TRUE,
-          '#wrapper_attributes' => array('class' => array('kernel-entry')),
-        );
+          '#wrapper_attributes' => ['class' => ['kernel-entry']],
+        ];
       }
     }
     $form['divisor'] = [

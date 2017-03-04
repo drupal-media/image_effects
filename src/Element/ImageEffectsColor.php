@@ -22,15 +22,15 @@ class ImageEffectsColor extends FormElement {
    */
   public function getInfo() {
     $class = get_class($this);
-    return array(
+    return [
       '#input' => TRUE,
-      '#process' => array(
-        array($class, 'processImageEffectsColor'),
-      ),
-      '#element_validate' => array(
-        array($class, 'validateImageEffectsColor'),
-      ),
-    );
+      '#process' => [
+        [$class, 'processImageEffectsColor'],
+      ],
+      '#element_validate' => [
+        [$class, 'validateImageEffectsColor'],
+      ],
+    ];
   }
 
   /**
@@ -105,31 +105,31 @@ class ImageEffectsColor extends FormElement {
     if ($element['#allow_null'] || $element['#allow_opacity']) {
       // More sub-fields are needed to define the color, wrap them in a
       // container fieldset.
-      $element['container'] = array(
+      $element['container'] = [
         '#type' => 'fieldset',
         '#description' => $element['#description'],
         '#title' => $element['#title'],
         '#states' => $element['#states'],
-      );
+      ];
       // Checkbox for transparency.
       if ($element['#allow_null']) {
-        $element['container']['transparent'] = array(
+        $element['container']['transparent'] = [
           '#type' => 'checkbox',
           '#title' => $element['#checkbox_title'],
           '#default_value' => $transparent,
-        );
+        ];
       }
       // Color field.
-      $element['container']['hex'] = $colorPlugin->selectionElement(array('#default_value' => $hex));
+      $element['container']['hex'] = $colorPlugin->selectionElement(['#default_value' => $hex]);
       // States management for color field.
-      $element['container']['hex']['#states'] = array(
-        'visible' => array(
-          ':input[name="' . $element['#name'] . '[container][transparent]"]' => array('checked' => FALSE),
-        ),
-      );
+      $element['container']['hex']['#states'] = [
+        'visible' => [
+          ':input[name="' . $element['#name'] . '[container][transparent]"]' => ['checked' => FALSE],
+        ],
+      ];
       // Textfield for opacity.
       if ($element['#allow_opacity']) {
-        $element['container']['opacity'] = array(
+        $element['container']['opacity'] = [
           '#type'  => 'number',
           '#title' => t('Opacity'),
           '#default_value' => $opacity,
@@ -138,12 +138,12 @@ class ImageEffectsColor extends FormElement {
           '#field_suffix' => '%',
           '#min' => 0,
           '#max' => 100,
-          '#states' => array(
-            'visible' => array(
-              ':input[name="' . $element['#name'] . '[container][transparent]"]' => array('checked' => FALSE),
-            ),
-          ),
-        );
+          '#states' => [
+            'visible' => [
+              ':input[name="' . $element['#name'] . '[container][transparent]"]' => ['checked' => FALSE],
+            ],
+          ],
+        ];
       }
     }
     else {
