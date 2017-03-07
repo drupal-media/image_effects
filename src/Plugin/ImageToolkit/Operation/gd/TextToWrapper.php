@@ -392,7 +392,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
       }
 
       // Fetch text, removing trailing white-space, and measure it.
-      $line  = preg_replace('/[' . TextUtility::PREG_CLASS_SEPARATOR . ']+$/u', '', Unicode::substr($text, $begin, $end - $begin));
+      $line = preg_replace('/[' . TextUtility::PREG_CLASS_SEPARATOR . ']+$/u', '', Unicode::substr($text, $begin, $end - $begin));
       $width = $this->getTextWidth($line, $font_size, $font_uri);
 
       // See if line extends past the available space.
@@ -401,7 +401,7 @@ class TextToWrapper extends GDImageToolkitOperationBase {
         if ($fit == $begin) {
           // Cut off letters until it fits.
           while (Unicode::strlen($line) > 0 && $width > $maximum_width) {
-            $line  = Unicode::substr($line, 0, -1);
+            $line = Unicode::substr($line, 0, -1);
             $width = $this->getTextWidth($line, $font_size, $font_uri);
           }
           // If no fit was found, the image is too narrow.

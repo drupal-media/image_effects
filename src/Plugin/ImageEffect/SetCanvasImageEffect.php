@@ -212,13 +212,6 @@ class SetCanvasImageEffect extends ConfigurableImageEffectBase {
   /**
    * {@inheritdoc}
    */
-  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
-    parent::submitConfigurationForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function applyEffect(ImageInterface $image) {
     $data = [];
     $data['canvas_color'] = $this->configuration['canvas_color'];

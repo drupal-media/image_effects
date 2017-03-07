@@ -1,6 +1,6 @@
 /* JQuery Colorpicker Color selector */
 
-div.image-effects-jquery-colorpicker-color-selector  span.image-effects-color-suffix {
+.image-effects-jquery-colorpicker-color-selector  .image-effects-color-suffix {
   left: 40px;
   position: absolute;
   top: 6px;
