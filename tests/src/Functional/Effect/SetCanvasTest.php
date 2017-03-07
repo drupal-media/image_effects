@@ -1,35 +1,48 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Set canvas effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsSetCanvasTest extends ImageEffectsTestBase {
+class SetCanvasTest extends ImageEffectsTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function providerToolkits() {
+    $toolkits = parent::providerToolkits();
     // @todo This effect does not work on GraphicsMagick.
-    $this->imagemagickPackages['graphicsmagick'] = FALSE;
+    unset($toolkits['ImageMagick-graphicsmagick']);
+    return $toolkits;
+  }
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
    * Set canvas effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testSetCanvasEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestSetCanvasOperations']);
-  }
-
-  /**
-   * Set canvas operations test.
-   */
-  public function doTestSetCanvasOperations() {
     $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 
@@ -68,10 +81,10 @@ class ImageEffectsSetCanvasTest extends ImageEffectsTestBase {
     $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertEqual(80, $image->getWidth());
     $this->assertEqual(40, $image->getHeight());
-    $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($image, 0, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($image, 79, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($image, 0, 39)));
-    $this->assertTrue($this->colorsAreEqual($this->fuchsia, $this->getPixelColor($image, 79, 39)));
+    $this->assertColorsAreEqual($this->fuchsia, $this->getPixelColor($image, 0, 0));
+    $this->assertColorsAreEqual($this->fuchsia, $this->getPixelColor($image, 79, 0));
+    $this->assertColorsAreEqual($this->fuchsia, $this->getPixelColor($image, 0, 39));
+    $this->assertColorsAreEqual($this->fuchsia, $this->getPixelColor($image, 79, 39));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
@@ -111,10 +124,10 @@ class ImageEffectsSetCanvasTest extends ImageEffectsTestBase {
     $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertEqual(70, $image->getWidth());
     $this->assertEqual(90, $image->getHeight());
-    $this->assertTrue($this->colorsAreEqual($this->yellow, $this->getPixelColor($image, 0, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->yellow, $this->getPixelColor($image, 69, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->yellow, $this->getPixelColor($image, 0, 89)));
-    $this->assertTrue($this->colorsAreEqual($this->yellow, $this->getPixelColor($image, 69, 89)));
+    $this->assertColorsAreEqual($this->yellow, $this->getPixelColor($image, 0, 0));
+    $this->assertColorsAreEqual($this->yellow, $this->getPixelColor($image, 69, 0));
+    $this->assertColorsAreEqual($this->yellow, $this->getPixelColor($image, 0, 89));
+    $this->assertColorsAreEqual($this->yellow, $this->getPixelColor($image, 69, 89));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);

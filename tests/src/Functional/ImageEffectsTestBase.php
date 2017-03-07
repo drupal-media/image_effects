@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional;
 
 use Drupal\Core\Image\ImageInterface;
+use Drupal\Tests\BrowserTestBase;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\simpletest\WebTestBase;
 
 /**
  * Base test class for image_effects tests.
  */
-abstract class ImageEffectsTestBase extends WebTestBase {
+abstract class ImageEffectsTestBase extends BrowserTestBase {
 
   /**
    * Modules to install.
@@ -21,23 +21,6 @@ abstract class ImageEffectsTestBase extends WebTestBase {
     'image_effects',
     'simpletest',
     'imagemagick',
-  ];
-
-  /**
-   * Toolkits to be tested.
-   *
-   * @var array
-   */
-  protected $toolkits = ['gd', 'imagemagick'];
-
-  /**
-   * ImageMagick toolkit: packages to be tested.
-   *
-   * @var array
-   */
-  protected $imagemagickPackages = [
-    'imagemagick' => TRUE,
-    'graphicsmagick' => TRUE,
   ];
 
   /**
@@ -171,80 +154,76 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   }
 
   /**
+   * Provides toolkit data for testing.
+   *
+   * @return array[]
+   *   An associative array, with key the toolkit scenario to be tested, and
+   *   value an associative array with the following keys:
+   *   - 'toolkit_id': the toolkit to be used in the test.
+   *   - 'toolkit_config': the config object of the toolkit.
+   *   - 'toolkit_settings': an associative array of toolkit settings.
+   */
+  public function providerToolkits() {
+    return [
+      'GD' => [
+        'toolkit_id' => 'gd',
+        'toolkit_config' => 'system.image.gd',
+        'toolkit_settings' => [
+          'jpeg_quality' => 100,
+        ],
+      ],
+      'ImageMagick-imagemagick' => [
+        'toolkit_id' => 'imagemagick',
+        'toolkit_config' => 'imagemagick.settings',
+        'toolkit_settings' => [
+          'binaries' => 'imagemagick',
+          'quality' => 100,
+          'debug' => TRUE,
+        ],
+      ],
+      'ImageMagick-graphicsmagick' => [
+        'toolkit_id' => 'imagemagick',
+        'toolkit_config' => 'imagemagick.settings',
+        'toolkit_settings' => [
+          'binaries' => 'graphicsmagick',
+          'quality' => 100,
+          'debug' => TRUE,
+        ],
+      ],
+    ];
+  }
+
+  /**
    * Change toolkit.
    *
    * @param string $toolkit_id
    *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
    */
-  protected function changeToolkit($toolkit_id) {
+  protected function changeToolkit($toolkit_id, $toolkit_config, array $toolkit_settings) {
     \Drupal::configFactory()->getEditable('system.image')
       ->set('toolkit', $toolkit_id)
       ->save();
-    $this->container->get('image.factory')->setToolkitId($toolkit_id);
-  }
+    $config = \Drupal::configFactory()->getEditable($toolkit_config);
+    foreach ($toolkit_settings as $setting => $value) {
+      $config->set($setting, $value);
+    }
+    $config->save();
 
-  /**
-   * Executes a test method on requested toolkits.
-   */
-  protected function executeTestOnToolkits($method) {
-    foreach ($this->toolkits as $toolkit_id) {
-      // Manage toolkit specific configuration.
-      switch ($toolkit_id) {
-        case 'gd':
-          $this->changeToolkit($toolkit_id);
-          call_user_func($method);
-          $this->testImageStyle->flush();
-          break;
-
-        case 'imagemagick':
-          $this->changeToolkit($toolkit_id);
-
-          // Execute tests with ImageMagick.
-          // The test can only be executed if ImageMagick's 'convert' is
-          // available on the shell path.
-          if ($this->imagemagickPackages['imagemagick'] === TRUE) {
-            \Drupal::configFactory()->getEditable('imagemagick.settings')
-              ->set('binaries', 'imagemagick')
-              ->set('debug', TRUE)
-              ->save();
-            $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
-            if (!empty($status['errors'])) {
-              // Bots running automated test on d.o. do not have ImageMagick
-              // installed, so there's no purpose to try and run this test
-              // there; it can be run locally where ImageMagick is installed.
-              debug('Tests for ImageMagick cannot run because the \'convert\' binary is not available on the shell path.');
-            }
-            else {
-              call_user_func($method);
-              $this->testImageStyle->flush();
-            }
-          }
-
-          // Execute tests with GraphicsMagick.
-          // The test can only be executed if GraphicsMagick's 'gm' is available
-          // on the shell path.
-          if ($this->imagemagickPackages['graphicsmagick'] === TRUE) {
-            \Drupal::configFactory()->getEditable('imagemagick.settings')
-              ->set('binaries', 'graphicsmagick')
-              ->set('debug', TRUE)
-              ->save();
-            $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
-            if (!empty($status['errors'])) {
-              // Bots running automated test on d.o. do not have GraphicsMagick
-              // installed, so there's no purpose to try and run this test
-              // there; it can be run locally where GraphicsMagick is installed.
-              debug('Tests for GraphicsMagick cannot run because the \'gm\' binary is not available on the shell path.');
-            }
-            else {
-              call_user_func($method);
-              $this->testImageStyle->flush();
-            }
-          }
-
-          break;
-
+    // Bots running automated test on d.o. do not have ImageMagick or
+    // GraphicsMagick binaries installed, so the test will be skipped; they can
+    // be run locally if binaries are installed.
+    if ($toolkit_id === 'imagemagick') {
+      $status = \Drupal::service('image.toolkit.manager')->createInstance('imagemagick')->checkPath('');
+      if (!empty($status['errors'])) {
+        $this->markTestSkipped("Tests for '{$toolkit_settings['binaries']}' cannot run because the binaries are not available on the shell path.");
       }
     }
+
+    $this->container->get('image.factory')->setToolkitId($toolkit_id);
   }
 
   /**
@@ -270,51 +249,62 @@ abstract class ImageEffectsTestBase extends WebTestBase {
   }
 
   /**
-   * Function to compare two colors by RGBa.
+   * Assert two colors are equal by RGBA.
    */
-  protected function colorsAreEqual($color_a, $color_b) {
-    // Fully transparent pixels are equal, regardless of RGB.
-    if ($color_a[3] == 127 && $color_b[3] == 127) {
-      return TRUE;
-    }
-
-    foreach ($color_a as $key => $value) {
-      if ($color_b[$key] != $value) {
-        debug("Color A: {" . implode(',', $color_a) . "}, Color B: {" . implode(',', $color_b) . "}");
-        return FALSE;
-      }
-    }
-
-    return TRUE;
+  public function assertColorsAreEqual(array $actual, array $expected) {
+    $this->assertColorsAreClose($actual, $expected, 0);
   }
 
   /**
-   * Function to compare two colors by RGBa, within a tolerance.
+   * Assert two colors are not equal by RGBA.
+   */
+  public function assertColorsAreNotEqual(array $actual, array $expected) {
+    // Fully transparent colors are equal, regardless of RGB.
+    if ($expected[3] == 127) {
+      $this->assertNotEquals(127, $actual[3]);
+      return;
+    }
+    $this->assertColorsAreNotClose($actual, $expected, 0);
+  }
+
+  /**
+   * Assert two colors are close by RGBA within a tolerance.
    *
    * Very basic, just compares the sum of the squared differences for each of
-   * the R, G, B, a components of two colors against a 'tolerance' value.
+   * the R, G, B, A components of two colors against a 'tolerance' value.
    *
-   * @param int[] $color_a
-   *   An RGBa array.
-   * @param int[] $color_b
-   *   An RGBa array.
+   * @param int[] $actual
+   *   The actual RGBA array.
+   * @param int[] $expected
+   *   The expected RGBA array.
    * @param int $tolerance
-   *   The accepteable difference between the colors.
-   *
-   * @return bool
-   *   TRUE if the colors differences are within tolerance, FALSE otherwise.
+   *   The acceptable difference between the colors.
    */
-  protected function colorsAreClose(array $color_a, array $color_b, $tolerance) {
+  public function assertColorsAreClose(array $actual, array $expected, $tolerance) {
     // Fully transparent colors are equal, regardless of RGB.
-    if ($color_a[3] == 127 && $color_b[3] == 127) {
-      return TRUE;
+    if ($actual[3] == 127 && $expected[3] == 127) {
+      return;
     }
-    $distance = pow(($color_a[0] - $color_b[0]), 2) + pow(($color_a[1] - $color_b[1]), 2) + pow(($color_a[2] - $color_b[2]), 2) + pow(($color_a[3] - $color_b[3]), 2);
-    if ($distance > $tolerance) {
-      debug("Color A: {" . implode(',', $color_a) . "}, Color B: {" . implode(',', $color_b) . "}, Distance: " . $distance . ", Tolerance: " . $tolerance);
-      return FALSE;
-    }
-    return TRUE;
+    $distance = pow(($actual[0] - $expected[0]), 2) + pow(($actual[1] - $expected[1]), 2) + pow(($actual[2] - $expected[2]), 2) + pow(($actual[3] - $expected[3]), 2);
+    $this->assertLessThanOrEqual($tolerance, $distance, "Actual: {" . implode(',', $actual) . "}, Expected: {" . implode(',', $expected) . "}, Distance: " . $distance . ", Tolerance: " . $tolerance);
+  }
+
+  /**
+   * Asserts two colors are *not* close by RGBA within a tolerance.
+   *
+   * Very basic, just compares the sum of the squared differences for each of
+   * the R, G, B, A components of two colors against a 'tolerance' value.
+   *
+   * @param int[] $actual
+   *   The actual RGBA array.
+   * @param int[] $expected
+   *   The expected RGBA array.
+   * @param int $tolerance
+   *   The acceptable difference between the colors.
+   */
+  public function assertColorsAreNotClose(array $actual, array $expected, $tolerance) {
+    $distance = pow(($actual[0] - $expected[0]), 2) + pow(($actual[1] - $expected[1]), 2) + pow(($actual[2] - $expected[2]), 2) + pow(($actual[3] - $expected[3]), 2);
+    $this->assertGreaterThan($tolerance, $distance, "Actual: {" . implode(',', $actual) . "}, Expected: {" . implode(',', $expected) . "}, Distance: " . $distance . ", Tolerance: " . $tolerance);
   }
 
   /**

@@ -1,26 +1,38 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Mirror effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsMirrorTest extends ImageEffectsTestBase {
+class MirrorTest extends ImageEffectsTestBase {
 
   /**
-   * Mirror effect test.
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
    */
-  public function testMirrorEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestMirrorOperations']);
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
-   * Mirror operations test.
+   * Mirror effect test.
+   *
+   * @depends testOnToolkits
    */
-  public function doTestMirrorOperations() {
+  public function testMirrorEffect() {
     // Test on the PNG test image.
     $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
@@ -87,10 +99,10 @@ class ImageEffectsMirrorTest extends ImageEffectsTestBase {
       $derivative_uri = $this->testImageStyle->buildUri($original_uri);
       $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
       $image = $this->imageFactory->get($derivative_uri, 'gd');
-      $this->assertTrue($this->colorsAreEqual($data['expected_colors'][0], $this->getPixelColor($image, 0, 0)));
-      $this->assertTrue($this->colorsAreEqual($data['expected_colors'][1], $this->getPixelColor($image, 39, 0)));
-      $this->assertTrue($this->colorsAreEqual($data['expected_colors'][2], $this->getPixelColor($image, 0, 19)));
-      $this->assertTrue($this->colorsAreEqual($data['expected_colors'][3], $this->getPixelColor($image, 39, 19)));
+      $this->assertColorsAreEqual($data['expected_colors'][0], $this->getPixelColor($image, 0, 0));
+      $this->assertColorsAreEqual($data['expected_colors'][1], $this->getPixelColor($image, 39, 0));
+      $this->assertColorsAreEqual($data['expected_colors'][2], $this->getPixelColor($image, 0, 19));
+      $this->assertColorsAreEqual($data['expected_colors'][3], $this->getPixelColor($image, 39, 19));
 
       // Remove effect.
       $uuid = $this->removeEffectFromTestStyle($uuid);

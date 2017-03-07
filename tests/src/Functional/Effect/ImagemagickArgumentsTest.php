@@ -1,33 +1,48 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * ImageMagick arguments effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsImagemagickArgumentsTest extends ImageEffectsTestBase {
+class ImagemagickArgumentsTest extends ImageEffectsTestBase {
 
   /**
-   * Toolkits to be tested.
-   *
-   * @var array
+   * {@inheritdoc}
    */
-  protected $toolkits = ['imagemagick'];
-
-  /**
-   * ImageMagick arguments effect test.
-   */
-  public function testImagemagickArgumentsEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestImagemagickArgumentsOperations']);
+  public function providerToolkits() {
+    $toolkits = parent::providerToolkits();
+    // @todo This effect is irrelevant on GD.
+    unset($toolkits['GD']);
+    return $toolkits;
   }
 
   /**
-   * ImageMagick arguments operations test.
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
    */
-  public function doTestImagemagickArgumentsOperations() {
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
+  }
+
+  /**
+   * ImageMagick arguments effect test.
+   *
+   * @depends testOnToolkits
+   */
+  public function testImagemagickArgumentsEffect() {
     $original_uri = $this->getTestImageCopyUri('/tests/images/portrait-painting.jpg', 'image_effects');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
 

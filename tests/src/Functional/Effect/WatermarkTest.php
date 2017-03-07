@@ -1,27 +1,38 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Watermark effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
+class WatermarkTest extends ImageEffectsTestBase {
 
   /**
-   * Watermark effect test.
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
    */
-  public function testWatermarkEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestWatermarkOperations']);
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
-   * Watermark operations test.
+   * Watermark effect test.
+   *
+   * @depends testOnToolkits
    */
-  public function doTestWatermarkOperations() {
-
+  public function testWatermarkEffect() {
     // 1. Basic test.
     $original_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
     $derivative_uri = $this->testImageStyle->buildUri($original_uri);
@@ -44,10 +55,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
     $image = $this->imageFactory->get($derivative_uri, 'gd');
     $watermark = $this->imageFactory->get($watermark_uri, 'gd');
-    $this->assertFalse($this->colorsAreEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 0, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 1, 1)));
-    $this->assertTrue($this->colorsAreEqual($this->getPixelColor($watermark, 0, 1), $this->getPixelColor($image, 1, 2)));
-    $this->assertTrue($this->colorsAreEqual($this->getPixelColor($watermark, 0, 3), $this->getPixelColor($image, 1, 4)));
+    $this->assertColorsAreNotEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 0, 0));
+    $this->assertColorsAreEqual($this->getPixelColor($watermark, 0, 0), $this->getPixelColor($image, 1, 1));
+    $this->assertColorsAreEqual($this->getPixelColor($watermark, 0, 1), $this->getPixelColor($image, 1, 2));
+    $this->assertColorsAreEqual($this->getPixelColor($watermark, 0, 3), $this->getPixelColor($image, 1, 4));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
@@ -78,10 +89,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     $image = $this->imageFactory->get($derivative_uri, 'gd');
     // GD slightly compresses fuchsia while resampling, so checking color
     // in and out the watermark needs a tolerance.
-    $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 17, 0), $this->fuchsia, 4));
-    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 19, 0), $this->fuchsia, 4));
-    $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 0, 13), $this->fuchsia, 4));
-    $this->assertFalse($this->colorsAreClose($this->getPixelColor($image, 0, 15), $this->fuchsia, 4));
+    $this->assertColorsAreClose($this->getPixelColor($image, 17, 0), $this->fuchsia, 4);
+    $this->assertColorsAreNotClose($this->getPixelColor($image, 19, 0), $this->fuchsia, 4);
+    $this->assertColorsAreClose($this->getPixelColor($image, 0, 13), $this->fuchsia, 4);
+    $this->assertColorsAreNotClose($this->getPixelColor($image, 0, 15), $this->fuchsia, 4);
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
@@ -108,7 +119,7 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Check that ::applyEffect generates image with expected transparency.
     $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
     $image = $this->imageFactory->get($derivative_uri, 'gd');
-    $this->assertTrue($this->colorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia));
+    $this->assertColorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia);
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);
@@ -142,10 +153,10 @@ class ImageEffectsWatermarkTest extends ImageEffectsTestBase {
     // Check that ::applyEffect generates image with expected alpha.
     $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
     $image = $this->imageFactory->get($derivative_uri, 'gd');
-    $this->assertTrue($this->colorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia));
+    $this->assertColorsAreEqual($this->getPixelColor($image, 0, 19), $this->fuchsia);
     // GD and ImageMagick return slightly different colors, use the
-    // ::colorsAreClose method.
-    $this->assertTrue($this->colorsAreClose($this->getPixelColor($image, 39, 0), $this->grey, 4));
+    // ::assertColorsAreClose method.
+    $this->assertColorsAreClose($this->getPixelColor($image, 39, 0), $this->grey, 4);
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);

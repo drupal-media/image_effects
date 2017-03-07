@@ -1,37 +1,49 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
 
 use Drupal\Core\Image\ImageInterface;
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Interlace effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsInterlaceTest extends ImageEffectsTestBase {
+class InterlaceTest extends ImageEffectsTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function providerToolkits() {
+    $toolkits = parent::providerToolkits();
     // @todo This effect does not work on GraphicsMagick.
-    $this->imagemagickPackages['graphicsmagick'] = FALSE;
+    unset($toolkits['ImageMagick-graphicsmagick']);
+    return $toolkits;
+  }
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
    * Interlace effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testInterlaceEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestInterlaceOperations']);
-  }
-
-  /**
-   * Interlace operations test.
-   */
-  public function doTestInterlaceOperations() {
     $test_data = [
       // Test on the PNG test image.
       [

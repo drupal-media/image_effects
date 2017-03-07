@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional;
 
 /**
  * Selector plugins test.
  *
  * @group Image Effects
  */
-class ImageEffectsSelectorPluginTest extends ImageEffectsTestBase {
+class SelectorPluginTest extends ImageEffectsTestBase {
 
   public static $modules = [
     'image',

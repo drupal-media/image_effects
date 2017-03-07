@@ -1,16 +1,36 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Auto Orientation effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
+class AutoOrientTest extends ImageEffectsTestBase {
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
+  }
 
   /**
    * Auto Orientation effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testAutoOrientEffect() {
     // Add Auto Orient effect to the test image style.
@@ -32,14 +52,6 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     ];
     $this->addEffectToTestStyle($effect);
 
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestAutoOrientOperations']);
-  }
-
-  /**
-   * Auto Orientation operations test.
-   */
-  public function doTestAutoOrientOperations() {
     $test_data = [
       // Test a JPEG image with EXIF data.
       [
@@ -100,6 +112,8 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
 
   /**
    * Auto Orientation effect test, all EXIF orientation tags.
+   *
+   * @depends testOnToolkits
    */
   public function testAutoOrientAllTags() {
     // Add Auto Orient effect to the test image style.
@@ -111,14 +125,6 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
     ];
     $this->addEffectToTestStyle($effect);
 
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestAutoOrientAllTagsOperations']);
-  }
-
-  /**
-   * Auto Orientation operations test, all EXIF orientation tags.
-   */
-  public function doTestAutoOrientAllTagsOperations() {
     $test_data = [];
     for ($i = 1; $i < 9; $i++) {
       $test_data[$i]['test_file'] = drupal_get_path('module', 'image_effects') . "/tests/images/image-test-exif-orientation-$i.jpeg";
@@ -135,10 +141,10 @@ class ImageEffectsAutoOrientTest extends ImageEffectsTestBase {
       $image = $this->imageFactory->get($derivative_uri, 'gd');
       $this->assertEqual(120, $image->getWidth());
       $this->assertEqual(60, $image->getHeight());
-      $this->assertTrue($this->colorsAreClose($this->red, $this->getPixelColor($image, 0, 0), 2));
-      $this->assertTrue($this->colorsAreClose($this->green, $this->getPixelColor($image, 119, 0), 2));
-      $this->assertTrue($this->colorsAreClose($this->yellow, $this->getPixelColor($image, 0, 59), 2));
-      $this->assertTrue($this->colorsAreClose($this->blue, $this->getPixelColor($image, 119, 59), 2));
+      $this->assertColorsAreClose($this->red, $this->getPixelColor($image, 0, 0), 10);
+      $this->assertColorsAreClose($this->green, $this->getPixelColor($image, 119, 0), 10);
+      $this->assertColorsAreClose($this->yellow, $this->getPixelColor($image, 0, 59), 10);
+      $this->assertColorsAreClose($this->blue, $this->getPixelColor($image, 119, 59), 10);
     }
   }
 

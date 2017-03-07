@@ -1,35 +1,48 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Background effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
+class BackgroundTest extends ImageEffectsTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function providerToolkits() {
+    $toolkits = parent::providerToolkits();
     // @todo This effect does not work on GraphicsMagick.
-    $this->imagemagickPackages['graphicsmagick'] = FALSE;
+    unset($toolkits['ImageMagick-graphicsmagick']);
+    return $toolkits;
+  }
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
    * Background effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testBackgroundEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestBackgroundOperations']);
-  }
-
-  /**
-   * Background operations test.
-   */
-  public function doTestBackgroundOperations() {
     $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
     $background_uri = $this->getTestImageCopyUri('/files/image-1.png', 'simpletest');
 
@@ -65,10 +78,10 @@ class ImageEffectsBackgroundTest extends ImageEffectsTestBase {
     $image = $this->imageFactory->get($derivative_uri, 'gd');
     $this->assertEqual(360, $image->getWidth());
     $this->assertEqual(240, $image->getHeight());
-    $this->assertTrue($this->colorsAreEqual($this->red, $this->getPixelColor($image, 0, 0)));
-    $this->assertTrue($this->colorsAreEqual($this->green, $this->getPixelColor($image, 39, 0)));
-    $this->assertTrue($this->colorsAreEqual([185, 185, 185, 0], $this->getPixelColor($image, 0, 19)));
-    $this->assertTrue($this->colorsAreEqual($this->blue, $this->getPixelColor($image, 39, 19)));
+    $this->assertColorsAreEqual($this->red, $this->getPixelColor($image, 0, 0));
+    $this->assertColorsAreEqual($this->green, $this->getPixelColor($image, 39, 0));
+    $this->assertColorsAreEqual([185, 185, 185, 0], $this->getPixelColor($image, 0, 19));
+    $this->assertColorsAreEqual($this->blue, $this->getPixelColor($image, 39, 19));
 
     // Remove effect.
     $this->removeEffectFromTestStyle($uuid);

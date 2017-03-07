@@ -1,16 +1,36 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Strip metadata effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsStripMetadataTest extends ImageEffectsTestBase {
+class StripMetadataTest extends ImageEffectsTestBase {
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
+  }
 
   /**
    * Strip metadata effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testStripMetadataEffect() {
     // Add Strip metadata effect to the test image style.
@@ -19,14 +39,6 @@ class ImageEffectsStripMetadataTest extends ImageEffectsTestBase {
     ];
     $this->addEffectToTestStyle($effect);
 
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestStripMetadataOperations']);
-  }
-
-  /**
-   * Strip metadata operations test.
-   */
-  public function doTestStripMetadataOperations() {
     $test_data = [
       // Test a JPEG image with EXIF data.
       [

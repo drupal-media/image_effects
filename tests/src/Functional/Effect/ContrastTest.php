@@ -1,35 +1,48 @@
 <?php
 
-namespace Drupal\image_effects\Tests;
+namespace Drupal\Tests\image_effects\Functional\Effect;
+
+use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 
 /**
  * Contrast effect test.
  *
  * @group Image Effects
  */
-class ImageEffectsContrastTest extends ImageEffectsTestBase {
+class ContrastTest extends ImageEffectsTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function providerToolkits() {
+    $toolkits = parent::providerToolkits();
     // @todo This effect does not work on GraphicsMagick.
-    $this->imagemagickPackages['graphicsmagick'] = FALSE;
+    unset($toolkits['ImageMagick-graphicsmagick']);
+    return $toolkits;
+  }
+
+  /**
+   * Test effect on required toolkits.
+   *
+   * @param string $toolkit_id
+   *   The id of the toolkit to set up.
+   * @param string $toolkit_config
+   *   The config object of the toolkit to set up.
+   * @param array $toolkit_settings
+   *   The settings of the toolkit to set up.
+   *
+   * @dataProvider providerToolkits
+   */
+  public function testOnToolkits($toolkit_id, $toolkit_config, array $toolkit_settings) {
+    $this->changeToolkit($toolkit_id, $toolkit_config, $toolkit_settings);
   }
 
   /**
    * Contrast effect test.
+   *
+   * @depends testOnToolkits
    */
   public function testContrastEffect() {
-    // Test operations on toolkits.
-    $this->executeTestOnToolkits([$this, 'doTestContrastOperations']);
-  }
-
-  /**
-   * Contrast operations test.
-   */
-  public function doTestContrastOperations() {
     // Test on the PNG test image.
     $original_uri = $this->getTestImageCopyUri('/files/image-test.png', 'simpletest');
 
@@ -108,10 +121,10 @@ class ImageEffectsContrastTest extends ImageEffectsTestBase {
       $derivative_uri = $this->testImageStyle->buildUri($original_uri);
       $this->testImageStyle->createDerivative($original_uri, $derivative_uri);
       $image = $this->imageFactory->get($derivative_uri, 'gd');
-      $this->assertTrue($this->colorsAreClose($entry['colors'][0], $this->getPixelColor($image, 0, 0), $entry['tolerance']));
-      $this->assertTrue($this->colorsAreClose($entry['colors'][1], $this->getPixelColor($image, 39, 0), $entry['tolerance']));
-      $this->assertTrue($this->colorsAreClose($entry['colors'][2], $this->getPixelColor($image, 0, 19), $entry['tolerance']));
-      $this->assertTrue($this->colorsAreClose($entry['colors'][3], $this->getPixelColor($image, 39, 19), $entry['tolerance']));
+      $this->assertColorsAreClose($entry['colors'][0], $this->getPixelColor($image, 0, 0), $entry['tolerance']);
+      $this->assertColorsAreClose($entry['colors'][1], $this->getPixelColor($image, 39, 0), $entry['tolerance']);
+      $this->assertColorsAreClose($entry['colors'][2], $this->getPixelColor($image, 0, 19), $entry['tolerance']);
+      $this->assertColorsAreClose($entry['colors'][3], $this->getPixelColor($image, 39, 19), $entry['tolerance']);
 
       // Remove effect.
       $uuid = $this->removeEffectFromTestStyle($uuid);
