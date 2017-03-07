@@ -149,6 +149,17 @@ image.effect.image_effects_contrast:
       type: integer
       label: 'Level'
 
+image.effect.image_effects_gaussian_blur:
+  type: mapping
+  label: 'Blur the image with a Gaussian operator'
+  mapping:
+    radius:
+      type: integer
+      label: 'Radius'
+    sigma:
+      type: float
+      label: 'Sigma'
+
 image.effect.image_effects_imagemagick_arguments:
   type: mapping
   label: 'Directly enter ImageMagick command line arguments'

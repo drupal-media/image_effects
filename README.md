@@ -27,6 +27,7 @@ Brightness       | Supports changing brightness settings of an image. Also suppo
 Color shift      | Colorizes image.                                                                             | X          | IM only             |
 Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | IM only             |
 Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | IM only             |
+Gaussian blur    | Uses the Gaussian function to blur the image.                                                | X          | X                   |
 ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
 Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
 Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |

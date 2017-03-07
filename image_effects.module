@@ -39,6 +39,10 @@ function image_effects_theme() {
     'image_effects_contrast_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Gaussian blur effect - summary.
+    'image_effects_gaussian_blur_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // ImageMagick arguments effect - summary.
     'image_effects_imagemagick_arguments_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
