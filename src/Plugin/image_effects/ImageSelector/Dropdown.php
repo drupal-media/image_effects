@@ -5,7 +5,6 @@ namespace Drupal\image_effects\Plugin\image_effects\ImageSelector;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Image\ImageFactory;
-use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Url;
 use Drupal\image_effects\Plugin\ImageEffectsPluginBase;
 use Psr\Log\LoggerInterface;
@@ -44,15 +43,13 @@ class Dropdown extends ImageEffectsPluginBase {
    *   The plugin implementation definition.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
-   * @param \Drupal\Core\Routing\UrlGeneratorInterface $url_generator
-   *   The URL generator.
    * @param \Psr\Log\LoggerInterface $logger
    *   The image_effects logger.
    * @param \Drupal\Core\Image\ImageFactory $image_factory
    *   The image factory service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, UrlGeneratorInterface $url_generator, LoggerInterface $logger, ImageFactory $image_factory) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $config_factory, $url_generator, $logger);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, LoggerInterface $logger, ImageFactory $image_factory) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $config_factory, $logger);
     $this->imageFactory = $image_factory;
   }
 
@@ -65,7 +62,6 @@ class Dropdown extends ImageEffectsPluginBase {
       $plugin_id,
       $plugin_definition,
       $container->get('config.factory'),
-      $container->get('url_generator'),
       $container->get('logger.channel.image_effects'),
       $container->get('image.factory')
     );
