@@ -200,6 +200,17 @@ image.effect.image_effects_opacity:
       type: integer
       label: 'Opacity % of the source image'
 
+image.effect.image_effects_resize_percentage:
+  type: mapping
+  label: 'Resize based on percentage'
+  mapping:
+    width:
+      type: string
+      label: 'Width in px or %'
+    height:
+      type: string
+      label: 'Height in px or %'
+
 image.effect.image_effects_set_canvas:
   type: mapping
   label: 'Set canvas image effect'

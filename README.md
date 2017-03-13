@@ -33,6 +33,7 @@ Interlace        | Used to specify the type of interlacing scheme for raw image 
 Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |
 Mirror           | Mirror the image horizontally and/or vertically.                                             | X          | X                   |
 Opacity          | Change overall image transparency level.                                                     | X          | IM only             |
+Resize percentage | Resize the image by percentage of its width/height.                                         | X          | X                   |
 Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
 Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | IM only             |
 Sharpen          | Sharpens an image (using convolution).                                                       | X          | IM only             |

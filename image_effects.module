@@ -55,6 +55,10 @@ function image_effects_theme() {
     'image_effects_opacity_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Resize percentage image effect - summary.
+    'image_effects_resize_percentage_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // Set canvas image effect - summary.
     'image_effects_set_canvas_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
