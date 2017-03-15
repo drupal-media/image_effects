@@ -90,7 +90,7 @@ abstract class GdGaussianBlur {
    * @param int $line
    *   The image's line to be processed.
    * @param int $linelen
-   *   The line's lenght in pixels.
+   *   The line's length in pixels.
    * @param float[] $coeffs
    *   The array of coefficients to use for the blur.
    * @param int $radius

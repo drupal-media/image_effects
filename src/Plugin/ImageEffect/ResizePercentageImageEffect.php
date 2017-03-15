@@ -42,7 +42,7 @@ class ResizePercentageImageEffect extends ConfigurableImageEffectBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form['width'] = array(
+    $form['width'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Width'),
       '#default_value' => $this->configuration['width'],
@@ -50,8 +50,8 @@ class ResizePercentageImageEffect extends ConfigurableImageEffectBase {
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
-    $form['height'] = array(
+    ];
+    $form['height'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Height'),
       '#default_value' => $this->configuration['height'],
@@ -59,7 +59,7 @@ class ResizePercentageImageEffect extends ConfigurableImageEffectBase {
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
+    ];
 
     return $form;
   }

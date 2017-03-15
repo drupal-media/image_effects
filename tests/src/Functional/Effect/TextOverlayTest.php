@@ -55,7 +55,7 @@ class TextOverlayTest extends ImageEffectsTestBase {
         'layout][position][extended_color][container][opacity' => 100,
       ],
     ];
-    $uuid = $this->addEffectToTestStyle($effect_config);
+    $this->addEffectToTestStyle($effect_config);
 
     $test_data = [
       [
