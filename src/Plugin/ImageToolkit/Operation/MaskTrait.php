@@ -63,16 +63,10 @@ trait MaskTrait {
     if ($arguments['mask_height'] !== NULL && $arguments['mask_height'] <= 0) {
       throw new \InvalidArgumentException("Invalid height ('{$arguments['mask_height']}') specified for the image 'mask' operation");
     }
-    // Ensure 'x_offset' is a positive integer.
+    // Ensure 'x_offset' is an integer.
     $arguments['x_offset'] = (int) $arguments['x_offset'];
-    if ($arguments['x_offset'] < 0) {
-      throw new \InvalidArgumentException("Invalid X offset ('{$arguments['x_offset']}') specified for the image 'mask' operation");
-    }
-    // Ensure 'y_offset' is a positive integer.
+    // Ensure 'y_offset' is an integer.
     $arguments['y_offset'] = (int) $arguments['y_offset'];
-    if ($arguments['y_offset'] < 0) {
-      throw new \InvalidArgumentException("Invalid Y offset ('{$arguments['y_offset']}') specified for the image 'mask' operation");
-    }
     return $arguments;
   }
 
