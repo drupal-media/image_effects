@@ -1,5 +1,5 @@
 /* HTML Color selector */
 
-div.image-effects-html-color-selector  span.field-suffix {
-  vertical-align: -webkit-baseline-middle;
+.image-effects-html-color-selector .field-suffix {
+  vertical-align: bottom;
 }
