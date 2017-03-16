@@ -31,6 +31,7 @@ Gaussian blur    | Uses the Gaussian function to blur the image.                
 ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
 Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
 Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |
+Mask             | Apply a mask to the image.                      .                                            | X          | IM only             |
 Mirror           | Mirror the image horizontally and/or vertically.                                             | X          | X                   |
 Opacity          | Change overall image transparency level.                                                     | X          | IM only             |
 Resize percentage | Resize the image by percentage of its width/height.                                         | X          | X                   |

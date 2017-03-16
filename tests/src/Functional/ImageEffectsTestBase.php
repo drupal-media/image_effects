@@ -245,7 +245,7 @@ abstract class ImageEffectsTestBase extends BrowserTestBase {
     $source_uri = $name ? drupal_get_path($type, $name) : '';
     $source_uri .= $path;
     $target_uri = $test_directory . \Drupal::service('file_system')->basename($source_uri);
-    return file_unmanaged_copy($source_uri, $target_uri, FILE_EXISTS_RENAME);
+    return file_unmanaged_copy($source_uri, $target_uri, FILE_EXISTS_REPLACE);
   }
 
   /**

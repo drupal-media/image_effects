@@ -181,6 +181,29 @@ image.effect.image_effects_imagemagick_arguments:
 image.effect.image_effects_invert:
   type: sequence
 
+image.effect.image_effects_mask:
+  type: mapping
+  label: 'Apply a mask to the image'
+  mapping:
+    mask_image:
+      type: string
+      label: 'Mask image path'
+    mask_width:
+      type: string
+      label: 'Mask image horizontal resizing'
+    mask_height:
+      type: string
+      label: 'Mask image vertical resizing'
+    placement:
+      type: string
+      label: 'Position of the mask image on the image'
+    x_offset:
+      type: string
+      label: 'X offset of the mask image vs placement'
+    y_offset:
+      type: string
+      label: 'Y offset of the mask image vs placement'
+
 image.effect.image_effects_mirror:
   type: mapping
   label: 'Mirror the image horizontally and/or vertically'

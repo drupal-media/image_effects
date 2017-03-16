@@ -47,6 +47,10 @@ function image_effects_theme() {
     'image_effects_imagemagick_arguments_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
     ],
+    // Mask image effect - summary.
+    'image_effects_mask_summary' => [
+      'variables' => ['data' => NULL, 'effect' => []],
+    ],
     // Mirror image effect - summary.
     'image_effects_mirror_summary' => [
       'variables' => ['data' => NULL, 'effect' => []],
