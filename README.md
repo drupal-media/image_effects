@@ -19,28 +19,28 @@ toolkits.
 
 The effects that this module provides include:
 
-Effect name      | Description                                                                                  | GD toolkit | [ImageMagick](https://drupal.org/project/imagemagick) toolkit<sup>1</sup> |
------------------|----------------------------------------------------------------------------------------------|:----------:|:-------------------:|
-Auto orientation | Uses EXIF Orientation tags to determine the image orientation.                               | X          | X                   |
-Background       | Places the source image anywhere over a selected background image.                           | X          | IM only             |
-Brightness       | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | IM only             |
-Color shift      | Colorizes image.                                                                             | X          | IM only             |
-Contrast         | Supports changing contrast settings of an image. Also supports negative values.              | X          | IM only             |
-Convolution      | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | IM only             |
-Gaussian blur    | Uses the Gaussian function to blur the image.                                                | X          | X                   |
-ImageMagick arguments | Directly enter ImageMagick command line arguments.                                      |            | X                   |
-Interlace        | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
-Invert           | Replace each pixel with its complementary color.                                             | X          | X                   |
-Mask             | Apply a mask to the image.                      .                                            | X          | IM only             |
-Mirror           | Mirror the image horizontally and/or vertically.                                             | X          | X                   |
-Opacity          | Change overall image transparency level.                                                     | X          | IM only             |
-Resize percentage | Resize the image by percentage of its width/height.                                         | X          | X                   |
-Set canvas       | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
-Set transparent color | Defines the color to be used for transparency in GIF images.                            | X          | IM only             |
-Sharpen          | Sharpens an image (using convolution).                                                       | X          | IM only             |
-Strip metadata   | Strips all EXIF metadata from image.                                                         | X          | X                   |
-Text overlay<sup>2</sup> | Overlays text on an image, defining text font, size and positioning.                 | X          | IM only<sup>3</sup> |
-Watermark        | Place a image with transparency anywhere over a source picture.                              | X          | X<sup>4</sup>       |
+Effect name              | Description                                                                                  | GD toolkit | [ImageMagick](https://drupal.org/project/imagemagick) toolkit<sup>1</sup> |
+-------------------------|----------------------------------------------------------------------------------------------|:----------:|:-------------------:|
+Auto orientation         | Uses EXIF Orientation tags to determine the image orientation.                               | X          | X                   |
+Background               | Places the source image anywhere over a selected background image.                           | X          | IM only             |
+Brightness               | Supports changing brightness settings of an image. Also supports negative values (darkening).| X          | IM only             |
+Color shift              | Colorizes image.                                                                             | X          | IM only             |
+Contrast                 | Supports changing contrast settings of an image. Also supports negative values.              | X          | IM only             |
+Convolution              | Allows to build custom image filters like blur, emboss, sharpen and others (see http://docs.gimp.org/en/plug-in-convmatrix.html). | X          | IM only             |
+Gaussian blur            | Uses the Gaussian function to blur the image.                                                | X          | X                   |
+ImageMagick arguments    | Directly enter ImageMagick command line arguments.                                           |            | X                   |
+Interlace                | Used to specify the type of interlacing scheme for raw image formats.                        | X          | IM only             |
+Invert                   | Replace each pixel with its complementary color.                                             | X          | X                   |
+Mask                     | Apply a mask to the image.                                                                   | X          | IM only             |
+Mirror                   | Mirror the image horizontally and/or vertically.                                             | X          | X                   |
+Opacity                  | Change overall image transparency level.                                                     | X          | IM only             |
+Resize percentage        | Resize the image by percentage of its width/height.                                          | X          | X                   |
+Set canvas               | Places the source image over a colored or a transparent background of a defined size.        | X          | IM only             |
+Set transparent color    | Defines the color to be used for transparency in GIF images.                                 | X          | IM only             |
+Sharpen                  | Sharpens an image (using convolution).                                                       | X          | IM only             |
+Strip metadata           | Strips all EXIF metadata from image.                                                         | X          | X                   |
+Text overlay<sup>2</sup> | Overlays text on an image, defining text font, size and positioning.                         | X          | IM only<sup>3</sup> |
+Watermark                | Place a image with transparency anywhere over a source picture.                              | X          | X<sup>4</sup>       |
 
 Notes:
 
