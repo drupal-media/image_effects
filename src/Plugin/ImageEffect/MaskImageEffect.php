@@ -213,8 +213,8 @@ class MaskImageEffect extends ConfigurableImageEffectBase implements ContainerFa
     $y_pos = round(image_filter_keyword($y, $image->getHeight(), $mask_height));
 
     // Calculate offset based on px/percentage.
-    $x_offset = ImageUtility::percentFilter($this->configuration['x_offset'], $image->getWidth());
-    $y_offset = ImageUtility::percentFilter($this->configuration['y_offset'], $image->getHeight());
+    $x_offset = (int) ImageUtility::percentFilter($this->configuration['x_offset'], $image->getWidth());
+    $y_offset = (int) ImageUtility::percentFilter($this->configuration['y_offset'], $image->getHeight());
 
     return $image->apply('mask', [
       'mask_image' => $mask_image,
