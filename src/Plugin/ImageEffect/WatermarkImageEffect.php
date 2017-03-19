@@ -2,14 +2,15 @@
 
 namespace Drupal\image_effects\Plugin\ImageEffect;
 
+use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Image\ImageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\image\ConfigurableImageEffectBase;
+use Drupal\image_effects\Component\ImageUtility;
 use Drupal\image_effects\Plugin\ImageEffectsPluginBaseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Image\ImageFactory;
 
 /**
  * Class WatermarkImageEffect.
@@ -21,6 +22,8 @@ use Drupal\Core\Image\ImageFactory;
  * )
  */
 class WatermarkImageEffect extends ConfigurableImageEffectBase implements ContainerFactoryPluginInterface {
+
+  use AnchorTrait;
 
   /**
    * The image factory service.
@@ -77,12 +80,13 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
    */
   public function defaultConfiguration() {
     return [
+      'watermark_image' => '',
+      'watermark_width' => NULL,
+      'watermark_height' => NULL,
       'placement' => 'center-center',
       'x_offset' => 0,
       'y_offset' => 0,
       'opacity' => 100,
-      'watermark_image' => '',
-      'watermark_scale' => NULL,
     ] + parent::defaultConfiguration();
   }
 
@@ -96,6 +100,9 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
     ];
     $summary += parent::getSummary();
 
+    // Get the human readable label for placement.
+    $summary['#data']['placement'] = $this->anchorOptions()[$summary['#data']['placement']];
+
     return $summary;
   }
 
@@ -103,38 +110,54 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $options = [
+      '#title' => $this->t('Watermark image'),
+      '#description' => $this->t('Image to use as watermark.'),
+      '#default_value' => $this->configuration['watermark_image'],
+    ];
+    $form['watermark_image'] = $this->imageSelector->selectionElement($options);
+    $form['watermark_resize'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Watermark resize'),
+      '#description' => $this->t('Select dimensions either in pixels or as percentage of the <strong>current canvas</strong>. Leaving one dimension empty will resize the watermark maintaing its aspect ratio. Leave both dimensions empty to apply the watermark in its original dimensions.'),
+      '#open' => TRUE,
+    ];
+    $form['watermark_resize']['watermark_width'] = array(
+      '#type' => 'image_effects_px_perc',
+      '#title' => $this->t('Watermark width'),
+      '#default_value' => $this->configuration['watermark_width'],
+      '#size' => 5,
+      '#maxlength' => 5,
+      '#required' => FALSE,
+    );
+    $form['watermark_resize']['watermark_height'] = array(
+      '#type' => 'image_effects_px_perc',
+      '#title' => $this->t('Watermark height'),
+      '#default_value' => $this->configuration['watermark_height'],
+      '#size' => 5,
+      '#maxlength' => 5,
+      '#required' => FALSE,
+    );
     $form['placement'] = [
       '#type' => 'radios',
       '#title' => $this->t('Placement'),
-      '#options' => [
-        'left-top' => $this->t('Top left'),
-        'center-top' => $this->t('Top center'),
-        'right-top' => $this->t('Top right'),
-        'left-center' => $this->t('Center left'),
-        'center-center' => $this->t('Center'),
-        'right-center' => $this->t('Center right'),
-        'left-bottom' => $this->t('Bottom left'),
-        'center-bottom' => $this->t('Bottom center'),
-        'right-bottom' => $this->t('Bottom right'),
-      ],
+      '#options' => $this->anchorOptions(),
       '#theme' => 'image_anchor',
       '#default_value' => $this->configuration['placement'],
-      '#description' => $this->t('Position of the watermark on the underlying image.'),
+      '#description' => $this->t('Position of the watermark on the canvas.'),
     ];
     $form['x_offset'] = [
-      '#type'  => 'number',
+      '#type'  => 'image_effects_px_perc',
       '#title' => $this->t('Horizontal offset'),
-      '#field_suffix'  => 'px',
-      '#description'   => $this->t('Additional horizontal offset from placement.'),
+      '#description'   => $this->t("Additional horizontal offset from placement. Enter a value, and specify if pixels or percent of the canvas width. '+' or no sign shifts the watermark rightward, '-' sign leftward."),
       '#default_value' => $this->configuration['x_offset'],
       '#maxlength' => 4,
       '#size' => 4,
     ];
     $form['y_offset'] = [
-      '#type'  => 'number',
+      '#type'  => 'image_effects_px_perc',
       '#title' => $this->t('Vertical offset'),
-      '#field_suffix'  => 'px',
-      '#description'   => $this->t('Additional vertical offset from placement.'),
+      '#description'   => $this->t("Additional vertical offset from placement. Enter a value, and specify if pixels or percent of the canvas height. '+' or no sign shifts the watermark downward, '-' sign upward."),
       '#default_value' => $this->configuration['y_offset'],
       '#maxlength' => 4,
       '#size' => 4,
@@ -143,28 +166,12 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       '#type' => 'number',
       '#title' => $this->t('Opacity'),
       '#field_suffix' => '%',
-      '#description' => $this->t('Opacity: 0 - 100'),
+      '#description' => $this->t('Opacity, in percentage, of the watermark on the canvas. 0% is fully transparent, 100% is fully opaque.'),
       '#default_value' => $this->configuration['opacity'],
       '#min' => 0,
       '#max' => 100,
       '#maxlength' => 3,
       '#size' => 3,
-    ];
-    $options = [
-      '#title' => $this->t('File name'),
-      '#description' => $this->t('Image to use for watermark effect.'),
-      '#default_value' => $this->configuration['watermark_image'],
-    ];
-    $form['watermark_image'] = $this->imageSelector->selectionElement($options);
-    $form['watermark_scale'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Scale'),
-      '#field_suffix' => '%',
-      '#description' => $this->t('Scales the overlay image with respect to the source image. Leave empty to use the actual size of the overlay image.'),
-      '#default_value' => $this->configuration['watermark_scale'],
-      '#min' => 1,
-      '#maxlength' => 4,
-      '#size' => 4,
     ];
     return $form;
   }
@@ -174,42 +181,60 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::submitConfigurationForm($form, $form_state);
+    $this->configuration['watermark_image'] = $form_state->getValue('watermark_image');
+    $this->configuration['watermark_width'] = $form_state->getValue(['watermark_resize', 'watermark_width']);
+    $this->configuration['watermark_height'] = $form_state->getValue(['watermark_resize', 'watermark_height']);
     $this->configuration['placement'] = $form_state->getValue('placement');
     $this->configuration['x_offset'] = $form_state->getValue('x_offset');
     $this->configuration['y_offset'] = $form_state->getValue('y_offset');
     $this->configuration['opacity'] = $form_state->getValue('opacity');
-    $this->configuration['watermark_image'] = $form_state->getValue('watermark_image');
-    $this->configuration['watermark_scale'] = $form_state->getValue('watermark_scale');
   }
 
   /**
    * {@inheritdoc}
    */
   public function applyEffect(ImageInterface $image) {
+    // Get the watermark image object.
     $watermark_image = $this->imageFactory->get($this->configuration['watermark_image']);
     if (!$watermark_image->isValid()) {
       $this->logger->error('Image watermark failed using the %toolkit toolkit on %path', ['%toolkit' => $image->getToolkitId(), '%path' => $this->configuration['watermark_image']]);
       return FALSE;
     }
-    if ($this->configuration['watermark_scale'] !== NULL && $this->configuration['watermark_scale'] > 0) {
-      // Scale the overlay with respect to the dimensions of the source being
-      // overlaid. To maintain the aspect ratio, only the width of the overlay
-      // is scaled like that, the height of the overlay follows the aspect
-      // ratio.
-      $overlay_w = round($image->getWidth() * $this->configuration['watermark_scale'] / 100);
-      if (!$watermark_image->scale($overlay_w, NULL, TRUE)) {
-        return FALSE;
+
+    // Determine watermark dimensions if they need to be changed.
+    if ((bool) $this->configuration['watermark_width'] || (bool) $this->configuration['watermark_height']) {
+      $watermark_aspect = $watermark_image->getHeight() / $watermark_image->getWidth();
+      $watermark_width = ImageUtility::percentFilter($this->configuration['watermark_width'], $image->getWidth());
+      $watermark_height = ImageUtility::percentFilter($this->configuration['watermark_height'], $image->getHeight());
+      if ($watermark_width && !$watermark_height) {
+        $watermark_height = (int) round($watermark_width * $watermark_aspect);
+      }
+      elseif (!$watermark_width && $watermark_height) {
+        $watermark_width = (int) round($watermark_height / $watermark_aspect);
       }
     }
+    else {
+      $watermark_width = $watermark_image->getWidth();
+      $watermark_height = $watermark_image->getHeight();
+    }
+
+    // Calculate position of watermark on source image based on placement
+    // option.
     list($x, $y) = explode('-', $this->configuration['placement']);
-    $x_pos = round(image_filter_keyword($x, $image->getWidth(), $watermark_image->getWidth()));
-    $y_pos = round(image_filter_keyword($y, $image->getHeight(), $watermark_image->getHeight()));
+    $x_pos = round(image_filter_keyword($x, $image->getWidth(), $watermark_width));
+    $y_pos = round(image_filter_keyword($y, $image->getHeight(), $watermark_height));
+
+    // Calculate offset based on px/percentage.
+    $x_offset = (int) ImageUtility::percentFilter($this->configuration['x_offset'], $image->getWidth());
+    $y_offset = (int) ImageUtility::percentFilter($this->configuration['y_offset'], $image->getHeight());
 
     return $image->apply('watermark', [
-      'x_offset' => $x_pos + $this->configuration['x_offset'],
-      'y_offset' => $y_pos + $this->configuration['y_offset'],
-      'opacity' => $this->configuration['opacity'],
       'watermark_image' => $watermark_image,
+      'watermark_width' => $watermark_width !== $watermark_image->getWidth() ? $watermark_width : NULL,
+      'watermark_height' => $watermark_height !== $watermark_image->getHeight() ? $watermark_height : NULL,
+      'x_offset' => $x_pos + $x_offset,
+      'y_offset' => $y_pos + $y_offset,
+      'opacity' => $this->configuration['opacity'],
     ]);
   }
 

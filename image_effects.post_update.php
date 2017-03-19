@@ -59,5 +59,28 @@ function image_effects_post_update_text_overlay_strip_tags() {
 }
 
 /**
+ * Update 'watermark' effects parameters.
+ */
+function image_effects_post_update_watermark_watermark_scale() {
+  foreach (ImageStyle::loadMultiple() as $image_style) {
+    $edited = FALSE;
+    foreach ($image_style->getEffects() as $effect) {
+      if ($effect->getPluginId() === "image_effects_watermark") {
+        $configuration = $effect->getConfiguration();
+        if (isset($configuration['data']['watermark_scale']) && !empty($configuration['data']['watermark_scale'])) {
+          $configuration['data']['watermark_width'] = (string) $configuration['data']['watermark_scale'] . '%';
+        }
+        unset($configuration['data']['watermark_scale']);
+        $effect->setConfiguration($configuration);
+        $edited = TRUE;
+      }
+    }
+    if ($edited) {
+      $image_style->save();
+    }
+  }
+}
+
+/**
  * @} End of "addtogroup updates-8.x-1.0-alpha".
  */

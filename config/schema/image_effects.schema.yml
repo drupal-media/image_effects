@@ -416,24 +416,27 @@ image.effect.image_effects_watermark:
   type: mapping
   label: 'Watermark image effect'
   mapping:
+    watermark_image:
+      type: string
+      label: 'Watermark image path'
+    watermark_width:
+      type: string
+      label: 'Watermark image horizontal resizing'
+    watermark_height:
+      type: string
+      label: 'Watermark image vertical resizing'
     placement:
       type: string
-      label: 'Position of the watermark'
+      label: 'Position of the watermark image on the canvas'
     x_offset:
-      type: integer
-      label: 'x offset'
+      type: string
+      label: 'X offset of the watermark image vs placement'
     y_offset:
-      type: integer
-      label: 'y offset'
+      type: string
+      label: 'Y offset of the watermark image vs placement'
     opacity:
       type: integer
       label: 'opacity'
-    watermark_image:
-      type: string
-      label: 'watermark image path'
-    watermark_scale:
-      type: integer
-      label: 'watermark image scale'
 
 image.effect.image_effects_convolution:
   type: mapping

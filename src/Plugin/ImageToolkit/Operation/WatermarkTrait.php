@@ -14,19 +14,33 @@ trait WatermarkTrait {
    */
   protected function arguments() {
     return [
+      'watermark_image' => [
+        'description' => 'Watermark image.',
+      ],
+      'watermark_width' => [
+        'description' => 'Width of watermark image.',
+        'required' => FALSE,
+        'default' => NULL,
+      ],
+      'watermark_height' => [
+        'description' => 'Height of watermark image.',
+        'required' => FALSE,
+        'default' => NULL,
+      ],
       'x_offset' => [
         'description' => 'X offset for watermark image.',
+        'required' => FALSE,
+        'default' => 0,
       ],
       'y_offset' => [
         'description' => 'Y offset for watermark image.',
+        'required' => FALSE,
+        'default' => 0,
       ],
       'opacity' => [
         'description' => 'Opacity for watermark image.',
         'required' => FALSE,
         'default' => 100,
-      ],
-      'watermark_image' => [
-        'description' => 'Image to use for watermark effect.',
       ],
     ];
   }
@@ -48,6 +62,20 @@ trait WatermarkTrait {
       $source = $arguments['watermark_image']->getSource();
       throw new \InvalidArgumentException("Invalid image at {$source}");
     }
+    // Ensure 'watermark_width' is NULL or a positive integer.
+    $arguments['watermark_width'] = $arguments['watermark_width'] !== NULL ? (int) $arguments['watermark_width'] : NULL;
+    if ($arguments['watermark_width'] !== NULL && $arguments['watermark_width'] <= 0) {
+      throw new \InvalidArgumentException("Invalid watermark width ('{$arguments['watermark_width']}') specified for the image 'watermark' operation");
+    }
+    // Ensure 'watermark_height' is NULL or a positive integer.
+    $arguments['watermark_height'] = $arguments['watermark_height'] !== NULL ? (int) $arguments['watermark_height'] : NULL;
+    if ($arguments['watermark_height'] !== NULL && $arguments['watermark_height'] <= 0) {
+      throw new \InvalidArgumentException("Invalid height ('{$arguments['watermark_height']}') specified for the image 'watermark' operation");
+    }
+    // Ensure 'x_offset' is an integer.
+    $arguments['x_offset'] = (int) $arguments['x_offset'];
+    // Ensure 'y_offset' is an integer.
+    $arguments['y_offset'] = (int) $arguments['y_offset'];
     return $arguments;
   }
 

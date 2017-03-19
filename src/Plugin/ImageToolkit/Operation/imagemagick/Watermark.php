@@ -24,7 +24,7 @@ class Watermark extends ImagemagickImageToolkitOperationBase {
    * {@inheritdoc}
    */
   protected function execute(array $arguments) {
-    // Overlay image local path.
+    // Watermark image local path.
     $local_path = $arguments['watermark_image']->getToolkit()->getSourceLocalPath();
     if ($local_path !== '') {
       $image_path = $this->getToolkit()->escapeShellArg($local_path);
@@ -34,11 +34,9 @@ class Watermark extends ImagemagickImageToolkitOperationBase {
       throw new \InvalidArgumentException("Missing local path for image at {$source_path}");
     }
 
-    // Set the dimensions of the overlay. Use of the scale option means that we
-    // need to change the dimensions: always set them, they don't harm when the
-    // scale option is not used.
-    $w = $arguments['watermark_image']->getWidth();
-    $h = $arguments['watermark_image']->getHeight();
+    // Set the dimensions of the overlay.
+    $w = $arguments['watermark_width'] ?: $arguments['watermark_image']->getToolkit()->getWidth();
+    $h = $arguments['watermark_height'] ?: $arguments['watermark_image']->getToolkit()->getHeight();
 
     // Set offset. Offset arguments require a sign in front.
     $x = $arguments['x_offset'] >= 0 ? ('+' . $arguments['x_offset']) : $arguments['x_offset'];
@@ -48,10 +46,10 @@ class Watermark extends ImagemagickImageToolkitOperationBase {
     switch ($this->getToolkit()->getPackage()) {
       case 'imagemagick':
         if ($arguments['opacity'] == 100) {
-          $op = "-gravity None {$image_path} -geometry {$w}x{$h}{$x}{$y} -compose src-over -composite";
+          $op = "-gravity None {$image_path} -geometry {$w}x{$h}!{$x}{$y} -compose src-over -composite";
         }
         else {
-          $op = "-gravity None {$image_path} -geometry {$w}x{$h}{$x}{$y} -compose blend -define compose:args={$arguments['opacity']} -composite";
+          $op = "-gravity None {$image_path} -geometry {$w}x{$h}!{$x}{$y} -compose blend -define compose:args={$arguments['opacity']} -composite";
         }
         break;
 

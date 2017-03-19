@@ -42,11 +42,13 @@ class WatermarkTest extends ImageEffectsTestBase {
     $effect = [
       'id' => 'image_effects_watermark',
       'data' => [
-        'placement' => 'left-top',
-        'x_offset' => 1,
-        'y_offset' => 1,
-        'opacity' => 100,
         'watermark_image' => $watermark_uri,
+        'placement' => 'left-top',
+        'x_offset][c0][c1][value' => 1,
+        'x_offset][c0][c1][uom' => 'px',
+        'y_offset][c0][c1][value' => 1,
+        'y_offset][c0][c1][uom' => 'px',
+        'opacity' => 100,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
@@ -74,12 +76,13 @@ class WatermarkTest extends ImageEffectsTestBase {
     $effect = [
       'id' => 'image_effects_watermark',
       'data' => [
-        'placement' => 'left-top',
-        'x_offset' => 0,
-        'y_offset' => 0,
-        'opacity' => 100,
         'watermark_image' => $watermark_uri,
-        'watermark_scale' => 5,
+        'placement' => 'left-top',
+        'x_offset][c0][c1][value' => NULL,
+        'y_offset][c0][c1][value' => NULL,
+        'opacity' => 100,
+        'watermark_resize][watermark_width][c0][c1][value' => 5,
+        'watermark_resize][watermark_width][c0][c1][uom' => 'perc',
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
@@ -107,11 +110,11 @@ class WatermarkTest extends ImageEffectsTestBase {
     $effect = [
       'id' => 'image_effects_watermark',
       'data' => [
-        'placement' => 'left-top',
-        'x_offset' => 0,
-        'y_offset' => 0,
-        'opacity' => 100,
         'watermark_image' => $watermark_uri,
+        'placement' => 'left-top',
+        'x_offset][c0][c1][value' => NULL,
+        'y_offset][c0][c1][value' => NULL,
+        'opacity' => 100,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
@@ -141,11 +144,11 @@ class WatermarkTest extends ImageEffectsTestBase {
     $effect = [
       'id' => 'image_effects_watermark',
       'data' => [
-        'placement' => 'left-top',
-        'x_offset' => 0,
-        'y_offset' => 0,
-        'opacity' => 50,
         'watermark_image' => $watermark_uri,
+        'placement' => 'left-top',
+        'x_offset][c0][c1][value' => NULL,
+        'y_offset][c0][c1][value' => NULL,
+        'opacity' => 50,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);
