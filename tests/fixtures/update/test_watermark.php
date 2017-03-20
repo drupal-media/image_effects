@@ -12,10 +12,10 @@ $connection = Database::getConnection();
 
 foreach (['image.style.test_watermark_scale', 'image.style.test_watermark_no_scale'] as $style) {
   $connection->insert('config')
-    ->fields(array(
+    ->fields([
       'collection' => '',
       'name' => $style,
       'data' => serialize(Yaml::decode(file_get_contents('modules/contrib/image_effects/tests/fixtures/update/' . $style . '.yml'))),
-    ))
+    ])
     ->execute();
 }

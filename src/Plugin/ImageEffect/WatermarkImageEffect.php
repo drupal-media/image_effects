@@ -122,22 +122,22 @@ class WatermarkImageEffect extends ConfigurableImageEffectBase implements Contai
       '#description' => $this->t('Select dimensions either in pixels or as percentage of the <strong>current canvas</strong>. Leaving one dimension empty will resize the watermark maintaing its aspect ratio. Leave both dimensions empty to apply the watermark in its original dimensions.'),
       '#open' => TRUE,
     ];
-    $form['watermark_resize']['watermark_width'] = array(
+    $form['watermark_resize']['watermark_width'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Watermark width'),
       '#default_value' => $this->configuration['watermark_width'],
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
-    $form['watermark_resize']['watermark_height'] = array(
+    ];
+    $form['watermark_resize']['watermark_height'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Watermark height'),
       '#default_value' => $this->configuration['watermark_height'],
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
+    ];
     $form['placement'] = [
       '#type' => 'radios',
       '#title' => $this->t('Placement'),

@@ -122,22 +122,22 @@ class MaskImageEffect extends ConfigurableImageEffectBase implements ContainerFa
       '#description' => $this->t('Select dimensions either in pixels or as percentage of the <strong>current canvas</strong>. Leaving one dimension empty will resize the mask maintaing its aspect ratio. Leave both dimensions empty to apply the mask in its original dimensions.'),
       '#open' => TRUE,
     ];
-    $form['mask_resize']['mask_width'] = array(
+    $form['mask_resize']['mask_width'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Mask width'),
       '#default_value' => $this->configuration['mask_width'],
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
-    $form['mask_resize']['mask_height'] = array(
+    ];
+    $form['mask_resize']['mask_height'] = [
       '#type' => 'image_effects_px_perc',
       '#title' => $this->t('Mask height'),
       '#default_value' => $this->configuration['mask_height'],
       '#size' => 5,
       '#maxlength' => 5,
       '#required' => FALSE,
-    );
+    ];
     $form['placement'] = [
       '#type' => 'radios',
       '#title' => $this->t('Placement'),
