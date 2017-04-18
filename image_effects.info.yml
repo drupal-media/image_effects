@@ -7,6 +7,8 @@ configure: image_effects.settings
 dependencies:
   - drupal:image
   - drupal:system (>=8.2.0)
+  - file_mdm:file_mdm_exif
+  - file_mdm:file_mdm_font
 test_dependencies:
   - imagemagick:imagemagick
   - jquery_colorpicker:jquery_colorpicker

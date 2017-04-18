@@ -14,6 +14,14 @@ class TextOverlayTest extends ImageEffectsTestBase {
   /**
    * {@inheritdoc}
    */
+  public function setUp() {
+    static::$modules = array_merge(static::$modules, ['file_mdm', 'file_mdm_font', 'file_test']);
+    parent::setUp();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function providerToolkits() {
     $toolkits = parent::providerToolkits();
     // @todo This effect does not work on GraphicsMagick.
@@ -43,13 +51,42 @@ class TextOverlayTest extends ImageEffectsTestBase {
    * @depends testOnToolkits
    */
   public function testTextOverlayEffect() {
-    // Add Text overlay effect to the test image style.
+    // Copy the font file to the test path.
+    file_unmanaged_copy(drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02/LinLibertine_Rah.ttf', 'dummy-remote://', FILE_EXISTS_REPLACE);
+
+    // Add Text overlay effects to the test image style.
+    // Different ways to access the same font file, via URI (local and remote),
+    // and local path.
     $effect_config = [
       'id' => 'image_effects_text_overlay',
       'data' => [
         'text_default][text_string' => 'the quick brown fox jumps over the lazy dog',
         'font][uri' => drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02/LinLibertine_Rah.ttf',
         'font][size' => 40,
+        'layout][position][extended_color][container][transparent' => FALSE,
+        'layout][position][extended_color][container][hex' => '#FF00FF',
+        'layout][position][extended_color][container][opacity' => 100,
+      ],
+    ];
+    $this->addEffectToTestStyle($effect_config);
+    $effect_config = [
+      'id' => 'image_effects_text_overlay',
+      'data' => [
+        'text_default][text_string' => 'the quick brown fox jumps over the lazy dog',
+        'font][uri' => 'public://LinLibertine_Rah.ttf',
+        'font][size' => 10,
+        'layout][position][extended_color][container][transparent' => FALSE,
+        'layout][position][extended_color][container][hex' => '#FF00FF',
+        'layout][position][extended_color][container][opacity' => 100,
+      ],
+    ];
+    $this->addEffectToTestStyle($effect_config);
+    $effect_config = [
+      'id' => 'image_effects_text_overlay',
+      'data' => [
+        'text_default][text_string' => 'the quick brown fox jumps over the lazy dog',
+        'font][uri' => 'dummy-remote://LinLibertine_Rah.ttf',
+        'font][size' => 10,
         'layout][position][extended_color][container][transparent' => FALSE,
         'layout][position][extended_color][container][hex' => '#FF00FF',
         'layout][position][extended_color][container][opacity' => 100,

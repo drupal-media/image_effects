@@ -16,7 +16,9 @@ class TextOverlayUpdateTest extends UpdatePathTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['image_effects'];
+  protected static $modules = [
+    'image_effects',
+  ];
 
   /**
    * {@inheritdoc}
@@ -40,6 +42,8 @@ class TextOverlayUpdateTest extends UpdatePathTestBase {
     $this->assertFalse(array_key_exists('decode_entities', $effect_data['text']));
 
     // Run updates.
+    $modules = ['file_mdm', 'file_mdm_exif', 'file_mdm_font'];
+    $this->container->get('module_installer')->install($modules, TRUE);
     $this->runUpdates();
 
     // Test that Text overlay effect has parameters introduced after

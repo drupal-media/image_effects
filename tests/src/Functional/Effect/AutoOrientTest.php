@@ -12,6 +12,14 @@ use Drupal\Tests\image_effects\Functional\ImageEffectsTestBase;
 class AutoOrientTest extends ImageEffectsTestBase {
 
   /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    static::$modules = array_merge(static::$modules, ['file_mdm', 'file_mdm_exif']);
+    parent::setUp();
+  }
+
+  /**
    * Test effect on required toolkits.
    *
    * @param string $toolkit_id

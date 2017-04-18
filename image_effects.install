@@ -11,25 +11,6 @@
 function image_effects_requirements($phase) {
   $requirements = [];
 
-  // Check PHP EXIF extension for the auto_rotate image effect.
-  $requirements['image_effects_exif_extension'] = [
-    'title' => t('PHP EXIF extension'),
-  ];
-  if (!extension_loaded('exif')) {
-    $requirements['image_effects_exif_extension'] += [
-      'value' => t('Not installed'),
-      'description' => t('The PHP EXIF extension is not installed. Automatic image orientation effects will not be available with the GD image toolkit.'),
-      'severity' => REQUIREMENT_WARNING,
-    ];
-  }
-  else {
-    $requirements['image_effects_exif_extension'] += [
-      'value' => t('Enabled'),
-      'severity' => REQUIREMENT_INFO,
-    ];
-
-  }
-
   // Check PHP GD2 FreeType support.
   if (function_exists('gd_info')) {
     $info = gd_info();

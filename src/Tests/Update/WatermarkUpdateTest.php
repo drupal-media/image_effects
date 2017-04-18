@@ -49,6 +49,8 @@ class WatermarkUpdateTest extends UpdatePathTestBase {
     $this->assertNull($effect_data['watermark_scale']);
 
     // Run updates.
+    $modules = ['file_mdm', 'file_mdm_exif', 'file_mdm_font'];
+    $this->container->get('module_installer')->install($modules, TRUE);
     $this->runUpdates();
 
     // Test that Watermark effect has parameters as introduced in

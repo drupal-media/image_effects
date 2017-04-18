@@ -9,11 +9,19 @@ namespace Drupal\Tests\image_effects\Functional;
  */
 class SelectorPluginTest extends ImageEffectsTestBase {
 
+  /**
+   * Modules to install.
+   *
+   * @var array
+   */
   public static $modules = [
     'image',
     'image_effects',
     'simpletest',
     'image_effects_module_test',
+    'file_test',
+    'file_mdm',
+    'file_mdm_font',
   ];
 
   /**
@@ -64,16 +72,25 @@ class SelectorPluginTest extends ImageEffectsTestBase {
    * Image selector test.
    */
   public function testFontSelector() {
-    $font_path = drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02';
+    $font_path = 'dummy-remote://';
     $font_file = 'LinLibertine_Rah.ttf';
     $font_name = 'Linux Libertine';
+
+    // Copy all the font files to the test path.
+    $handle = opendir(drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02/');
+    while ($file = readdir($handle)) {
+      if (preg_match("/\.[ot]tf$/i", $file) == 1) {
+        file_unmanaged_copy(drupal_get_path('module', 'image_effects') . '/tests/fonts/LinLibertineTTF_5.3.0_2012_07_02/' . $file, $font_path, FILE_EXISTS_REPLACE);
+      }
+    }
+    closedir($handle);
 
     // Test the Basic plugin.
     // Add an effect with the font selector.
     $effect = [
       'id' => 'image_effects_module_test_font_selection',
       'data' => [
-        'font_uri' => $font_path . '/' . $font_file,
+        'font_uri' => $font_path . $font_file,
       ],
     ];
     $uuid = $this->addEffectToTestStyle($effect);

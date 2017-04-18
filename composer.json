@@ -1,0 +1,10 @@
+{
+    "name": "drupal/image_effects",
+    "type": "drupal-module",
+    "description": "Provides effects and operations for the Image API.",
+    "require": {
+        "drupal/core": ">=8.2.0",
+        "drupal/file_mdm_exif": "^1",
+        "drupal/file_mdm_font": "^1"
+    }
+}
