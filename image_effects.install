@@ -29,38 +29,19 @@ function image_effects_requirements($phase) {
 }
 
 /**
- * @addtogroup updates-8.x-1.0-alpha
- * @{
+ * Minimum 1.x schema version to allow upgrading from.
  */
-
-/**
- * Clear caches due to added image_effects_text_overlay_text alter hook.
- */
-function image_effects_update_8001() {
-  // Empty update to cause a cache rebuild.
+function image_effects_update_last_removed() {
+  return 8004;
 }
 
 /**
- * Clear caches to discover added image effects.
+ * Enable file_mdm module and required submodules.
  */
-function image_effects_update_8002() {
-  // Empty update to cause a cache rebuild.
+function image_effects_update_8201() {
+  \Drupal::service('module_installer')->install([
+    'file_mdm',
+    'file_mdm_exif',
+    'file_mdm_font',
+  ]);
 }
-
-/**
- * Clear caches to discover newly added image effects.
- */
-function image_effects_update_8003() {
-  // Empty update to cause a cache rebuild.
-}
-
-/**
- * Clear caches to discover newly added image effects.
- */
-function image_effects_update_8004() {
-  // Empty update to cause a cache rebuild.
-}
-
-/**
- * @} End of "addtogroup updates-8.x-1.0-alpha".
- */
