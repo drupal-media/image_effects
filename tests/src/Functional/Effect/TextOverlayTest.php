@@ -15,7 +15,11 @@ class TextOverlayTest extends ImageEffectsTestBase {
    * {@inheritdoc}
    */
   public function setUp() {
-    static::$modules = array_merge(static::$modules, ['file_mdm', 'file_mdm_font', 'file_test']);
+    static::$modules = array_merge(static::$modules, [
+      'file_mdm',
+      'file_mdm_font',
+      'file_test',
+    ]);
     parent::setUp();
   }
 

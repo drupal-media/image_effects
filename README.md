@@ -77,8 +77,11 @@ information.
 
 ## Installing
 
-Install as usual, see the [official documentation](https://www.drupal.org/documentation/install/modules-themes/modules-8)
+__Versions 8.x-1.x:__ Install as usual, see the [official documentation](https://www.drupal.org/documentation/install/modules-themes/modules-8)
 for further information.
+
+__Versions 8.x-2.x:__ The module requires [using Composer to manage Drupal site dependencies](https://www.drupal.org/node/2718229). Require the module via
+```composer require drupal/image_effects:~2.0```, then enable the module as usual.
 
 
 ## Configuration
