@@ -149,6 +149,11 @@ Please also note that effects may give different results depending on the
 toolkit used.
 
 
+## Developing
+
+Contributions to the module are welcome! Please read carefully the [DEVELOPING.md](DEVELOPING.md) file for developers' instructions.
+
+
 ## Maintainers
 
 Current and past maintainers for Image Effects:
